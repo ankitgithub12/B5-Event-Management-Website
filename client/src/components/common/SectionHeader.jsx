@@ -12,14 +12,14 @@ export default function SectionHeader({ tag, title, subtitle, light = false, cen
         </p>
       )}
       <h2 className={`font-heading text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 ${
-        light ? 'text-white' : 'text-white'
+        light ? 'text-white' : 'text-gray-900'
       }`}>
         {title}
       </h2>
       {center && <div className="section-divider mx-auto mb-4" />}
       {!center && <div className="section-divider mb-4" style={{ margin: '0 0 1rem 0' }} />}
       {subtitle && (
-        <p className="text-[#A89BC2] text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+        <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
           {subtitle}
         </p>
       )}

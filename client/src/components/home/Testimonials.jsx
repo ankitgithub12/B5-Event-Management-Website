@@ -58,10 +58,10 @@ export default function Testimonials() {
                   <Star key={j} size={14} className="text-[#D4AF37] fill-[#D4AF37]" />
                 ))}
               </div>
-              <p className="text-[#A89BC2] text-sm leading-relaxed flex-1">"{content}"</p>
+              <p className="text-gray-600 text-sm leading-relaxed flex-1">"{content}"</p>
               <div>
-                <p className="text-white font-semibold text-sm">{name}</p>
-                <p className="text-[#A89BC2] text-xs">{role}</p>
+                <p className="text-gray-900 font-semibold text-sm">{name}</p>
+                <p className="text-gray-600 text-xs">{role}</p>
               </div>
             </div>
           ))}
@@ -76,22 +76,22 @@ export default function Testimonials() {
                 <Star key={j} size={14} className="text-[#D4AF37] fill-[#D4AF37]" />
               ))}
             </div>
-            <p className="text-[#A89BC2] text-sm leading-relaxed mb-4">"{TESTIMONIALS[active].content}"</p>
-            <p className="text-white font-semibold text-sm">{TESTIMONIALS[active].name}</p>
-            <p className="text-[#A89BC2] text-xs">{TESTIMONIALS[active].role}</p>
+            <p className="text-gray-600 text-sm leading-relaxed mb-4">"{TESTIMONIALS[active].content}"</p>
+            <p className="text-gray-900 font-semibold text-sm">{TESTIMONIALS[active].name}</p>
+            <p className="text-gray-600 text-xs">{TESTIMONIALS[active].role}</p>
           </div>
 
           <div className="flex items-center justify-center gap-4 mt-6">
-            <button onClick={prev} className="w-10 h-10 rounded-full glass-card flex items-center justify-center text-[#A89BC2] hover:text-white transition-colors">
+            <button onClick={prev} className="w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-600 hover:text-gray-900 transition-colors">
               <ChevronLeft size={18} />
             </button>
             <div className="flex gap-2">
               {TESTIMONIALS.map((_, i) => (
                 <button key={i} onClick={() => setActive(i)}
-                  className={`w-2 h-2 rounded-full transition-all duration-200 ${i === active ? 'bg-violet-500 w-6' : 'bg-white/20'}`} />
+                  className={`w-2 h-2 rounded-full transition-all duration-200 ${i === active ? 'bg-violet-500 w-6' : 'bg-gray-300'}`} />
               ))}
             </div>
-            <button onClick={next} className="w-10 h-10 rounded-full glass-card flex items-center justify-center text-[#A89BC2] hover:text-white transition-colors">
+            <button onClick={next} className="w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-600 hover:text-gray-900 transition-colors">
               <ChevronRight size={18} />
             </button>
           </div>

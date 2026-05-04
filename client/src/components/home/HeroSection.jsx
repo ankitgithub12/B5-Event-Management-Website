@@ -44,12 +44,12 @@ export default function HeroSection() {
             We Design, You Celebrate
           </p>
 
-          <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 text-white">
+          <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 text-gray-900">
             Where Every Event{' '}
             <span className="font-heading italic text-gradient-gold">Becomes a Story</span>
           </h1>
 
-          <p className="text-[#A89BC2] text-lg leading-relaxed mb-10 max-w-lg">
+          <p className="text-gray-600 text-lg leading-relaxed mb-10 max-w-lg">
             BE5 Events turns your ideas into unforgettable experiences. From college fests to corporate galas and private parties — we handle it all with creativity and perfection.
           </p>
 
@@ -65,7 +65,7 @@ export default function HeroSection() {
             </Link>
             <Link
               to="/packages"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-white glass-card border border-white/10 hover:border-violet-500/50 transition-all duration-300"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-gray-800 glass-card border border-gray-200 hover:border-violet-500/50 transition-all duration-300"
             >
               View Packages
             </Link>
@@ -79,8 +79,8 @@ export default function HeroSection() {
                   <Icon size={18} className="text-violet-400" />
                 </div>
                 <div>
-                  <p className="text-white font-bold text-lg leading-none">{value}</p>
-                  <p className="text-[#A89BC2] text-xs mt-0.5">{label}</p>
+                  <p className="text-gray-900 font-bold text-lg leading-none">{value}</p>
+                  <p className="text-gray-600 text-xs mt-0.5">{label}</p>
                 </div>
               </div>
             ))}
@@ -101,8 +101,8 @@ export default function HeroSection() {
               <div className="w-full h-full flex items-center justify-center">
                 <div className="text-center">
                   <div className="text-8xl mb-4">💍</div>
-                  <p className="font-heading text-2xl text-white font-bold">Your Dream Event</p>
-                  <p className="text-[#A89BC2] text-sm mt-2">Awaits You</p>
+                  <p className="font-heading text-2xl text-gray-900 font-bold">Your Dream Event</p>
+                  <p className="text-gray-600 text-sm mt-2">Awaits You</p>
                 </div>
               </div>
             </div>
@@ -116,8 +116,8 @@ export default function HeroSection() {
                   ))}
                 </div>
               </div>
-              <p className="text-white font-bold text-xl mt-1">4.9 / 5.0</p>
-              <p className="text-[#A89BC2] text-xs">Based on 100+ reviews</p>
+              <p className="text-gray-900 font-bold text-xl mt-1">4.9 / 5.0</p>
+              <p className="text-gray-600 text-xs">Based on 100+ reviews</p>
             </div>
             {/* Floating tag */}
             <div className="absolute -top-4 -right-4 glass-card px-4 py-2 rounded-full border border-violet-500/30">
@@ -129,7 +129,7 @@ export default function HeroSection() {
 
       {/* Bottom wave */}
       <div className="absolute bottom-0 inset-x-0 h-24 pointer-events-none"
-        style={{ background: 'linear-gradient(to top, #0A0A18, transparent)' }} />
+        style={{ background: 'linear-gradient(to top, #FDFBF7, transparent)' }} />
     </section>
   )
 }

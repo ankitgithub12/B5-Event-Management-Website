@@ -3,22 +3,22 @@
 
 /* ── Custom Design Tokens ─────────────────────────────────── */
 :root {
-  --color-primary:        #7C3AED;
-  --color-primary-light:  #9333EA;
-  --color-primary-dark:   #5B21B6;
+  --color-primary:        #8B5CF6;
+  --color-primary-light:  #A855F7;
+  --color-primary-dark:   #7E22CE;
   --color-accent:         #D4AF37;
   --color-accent-light:   #F0D060;
-  --color-bg:             #0A0A18;
-  --color-bg-card:        rgba(255,255,255,0.05);
-  --color-text:           #F5F0FF;
-  --color-text-muted:     #A89BC2;
-  --gradient-hero:        radial-gradient(ellipse at 60% 0%, #3b0764 0%, #0A0A18 60%);
-  --gradient-primary:     linear-gradient(135deg, #7C3AED 0%, #9333EA 100%);
+  --color-bg:             #FDFBF7;
+  --color-bg-card:        rgba(255, 255, 255, 0.9);
+  --color-text:           #1F2937;
+  --color-text-muted:     #4B5563;
+  --gradient-hero:        linear-gradient(135deg, #FDFBF7 0%, #F3E8FF 100%);
+  --gradient-primary:     linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
   --gradient-gold:        linear-gradient(135deg, #D4AF37 0%, #F0D060 100%);
   --font-heading:         'Playfair Display', Georgia, serif;
   --font-body:            'Inter', system-ui, sans-serif;
-  --shadow-glow:          0 0 40px rgba(124,58,237,0.35);
-  --shadow-gold-glow:     0 0 30px rgba(212,175,55,0.3);
+  --shadow-glow:          0 0 40px rgba(139, 92, 246, 0.15);
+  --shadow-gold-glow:     0 0 30px rgba(212, 175, 55, 0.15);
   --radius-card:          1rem;
   --transition-smooth:    all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -58,11 +58,12 @@ body {
 
 /* ── Glass Card ───────────────────────────────────────────── */
 .glass-card {
-  background: rgba(255,255,255,0.05);
+  background: var(--color-bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: var(--radius-card);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 /* ── Glow Effects ─────────────────────────────────────────── */
@@ -106,8 +107,8 @@ body {
 /* ── Input styling ───────────────────────────────────────── */
 .input-field {
   width: 100%;
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
   color: var(--color-text);
@@ -119,8 +120,8 @@ body {
 .input-field::placeholder { color: var(--color-text-muted); }
 .input-field:focus {
   border-color: var(--color-primary-light);
-  background: rgba(124,58,237,0.1);
-  box-shadow: 0 0 0 3px rgba(124,58,237,0.2);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
 }
 
 /* ── Range slider ────────────────────────────────────────── */

@@ -29,12 +29,12 @@ export default function PortfolioGrid() {
             >
               <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
                 <span className="text-4xl mb-2 group-hover:scale-125 transition-transform duration-300">{emoji}</span>
-                <p className="text-white text-xs font-medium text-center">{label}</p>
+                <p className="text-gray-900 text-xs font-medium text-center">{label}</p>
               </div>
               {/* Overlay on hover */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
                 style={{ background: `${color}22` }}>
-                <span className="text-white text-xs font-semibold tracking-wider uppercase">View</span>
+                <span className="text-gray-900 text-xs font-semibold tracking-wider uppercase">View</span>
               </div>
             </div>
           ))}
@@ -43,7 +43,7 @@ export default function PortfolioGrid() {
         <div className="text-center mt-10">
           <Link
             to="/services"
-            className="inline-flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold glass-card border border-white/10 hover:border-violet-500/40 text-white transition-all duration-300"
+            className="inline-flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold glass-card border border-gray-200 hover:border-violet-500/40 text-gray-800 transition-all duration-300"
           >
             View All Work
           </Link>

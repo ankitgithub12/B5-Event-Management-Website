@@ -30,7 +30,7 @@ const REASONS = [
 export default function WhyChooseUs() {
   return (
     <section className="py-24 px-4 md:px-8 relative overflow-hidden"
-      style={{ background: 'linear-gradient(180deg, #0A0A18 0%, #12082A 50%, #0A0A18 100%)' }}
+      style={{ background: 'linear-gradient(180deg, #FDFBF7 0%, #F5F3FF 50%, #FDFBF7 100%)' }}
     >
       {/* bg glow */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -51,8 +51,8 @@ export default function WhyChooseUs() {
                 style={{ background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.3)' }}>
                 {icon}
               </div>
-              <h3 className="font-heading text-lg font-bold text-white mb-3">{title}</h3>
-              <p className="text-[#A89BC2] text-sm leading-relaxed">{desc}</p>
+              <h3 className="font-heading text-lg font-bold text-gray-900 mb-3">{title}</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">{desc}</p>
             </div>
           ))}
         </div>
