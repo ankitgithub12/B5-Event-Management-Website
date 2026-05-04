@@ -3,7 +3,7 @@
 //  Multi-step form for the Custom Planner page.
 // ============================================================
 
-import { SERVICE_COSTS } from '../../models/pricing.model'
+
 
 const EVENT_TYPES = [
   { value: 'wedding',     label: 'Wedding',        icon: '💍' },

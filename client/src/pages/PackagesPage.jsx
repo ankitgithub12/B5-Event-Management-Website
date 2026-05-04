@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import PackageCard from '../components/packages/PackageCard'
 import SectionHeader from '../components/common/SectionHeader'
-import { PACKAGES, PACKAGE_COMPARISON_FEATURES, PACKAGE_FEATURE_MATRIX } from '../models/packages.model'
+import { PACKAGES, PACKAGE_COMPARISON_FEATURES, PACKAGE_FEATURE_MATRIX } from '../data/constants'
 
 export default function PackagesPage() {
   const [showComparison, setShowComparison] = useState(false)

@@ -5,7 +5,7 @@
 
 import { Link } from 'react-router-dom'
 import { CheckCircle, RefreshCw } from 'lucide-react'
-import { PACKAGES } from '../../models/packages.model'
+import { PACKAGES } from '../../data/constants'
 
 function formatINR(n) {
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(n)

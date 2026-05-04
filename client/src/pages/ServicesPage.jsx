@@ -5,7 +5,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, Check } from 'lucide-react'
 import SectionHeader from '../components/common/SectionHeader'
-import { SERVICES, PRE_WEDDING_LEVELS } from '../models/services.model'
+import { SERVICES, PRE_WEDDING_LEVELS } from '../data/constants'
 
 export default function ServicesPage() {
   return (

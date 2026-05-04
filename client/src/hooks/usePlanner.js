@@ -1,12 +1,4 @@
-// ============================================================
-//  HOOK: usePlanner.js
-//  Manages state and calls plannerController for the
-//  Custom Planner page.
-// ============================================================
-
 import { useState, useCallback } from 'react'
-import { calculateEstimate } from '../controllers/plannerController'
-import { SERVICE_COSTS } from '../models/pricing.model'
 
 const INITIAL_FORM = {
   eventType:    'wedding',
@@ -25,6 +17,8 @@ export function usePlanner() {
   const [step, setStep]           = useState(1)   // 1-3 multi-step
   const [result, setResult]       = useState(null)
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading]     = useState(false)
+  const [error, setError]         = useState(null)
 
   const updateField = useCallback((field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -42,10 +36,28 @@ export function usePlanner() {
     })
   }, [])
 
-  const estimate = useCallback(() => {
-    const res = calculateEstimate(form, SERVICE_COSTS)
-    setResult(res)
-    setStep(3)
+  const estimate = useCallback(async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      const response = await fetch('http://localhost:5000/api/planner/estimate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to calculate estimate.')
+      }
+
+      const resData = await response.json()
+      setResult(resData)
+      setStep(3)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
   }, [form])
 
   const reset = useCallback(() => {
@@ -53,6 +65,7 @@ export function usePlanner() {
     setStep(1)
     setResult(null)
     setSubmitted(false)
+    setError(null)
   }, [])
 
   const handleSubmitEnquiry = useCallback((e) => {
@@ -66,6 +79,8 @@ export function usePlanner() {
     step,
     result,
     submitted,
+    loading,
+    error,
     updateField,
     toggleAddon,
     estimate,
