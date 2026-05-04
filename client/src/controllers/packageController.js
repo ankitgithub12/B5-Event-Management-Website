@@ -3,7 +3,8 @@
 //  Logic for filtering and matching packages to user needs.
 // ============================================================
 
-import { PACKAGES, PACKAGE_THRESHOLDS } from '../models/packages.model'
+import { PACKAGES } from '../models/packages.model'
+import { PACKAGE_THRESHOLDS } from '../models/pricing.model'
 
 /**
  * Get a package by its id.

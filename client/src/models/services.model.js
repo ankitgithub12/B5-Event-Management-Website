@@ -76,7 +76,7 @@ export const SERVICES = [
     id: 'birthday',
     title: 'Birthday Parties',
     description:
-      'From kids' magical parties to milestone adult celebrations — creative themes, fun setups, and unforgettable memories.',
+      "From kids' magical parties to milestone adult celebrations — creative themes, fun setups, and unforgettable memories.",
     icon: '🎂',
     color: '#EC4899',
     features: [
