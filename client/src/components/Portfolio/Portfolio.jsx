@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const Portfolio = () => {
   const projects = [
     { title: 'College Fest', image: 'https://i.pinimg.com/1200x/0f/e9/84/0fe984a1e10c7394f44b6b396cea17a5.jpg' },
@@ -42,9 +44,9 @@ const Portfolio = () => {
 
         {/* View All Button */}
         <div className="text-center">
-          <a href="#" className="btn btn-outline">
+          <Link to="/portfolio" className="btn btn-outline px-8 py-3 rounded-full hover:bg-primary hover:text-white transition-all duration-300">
             VIEW ALL WORK
-          </a>
+          </Link>
         </div>
         
       </div>

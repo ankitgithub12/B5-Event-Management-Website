@@ -20,7 +20,7 @@ const Navbar = () => {
     { name: 'SERVICES', path: '/services' },
     { name: 'PACKAGES', path: '/packages' },
     { name: 'CUSTOM PLANNER', path: '/planner' },
-    { name: 'PORTFOLIO', path: '/#portfolio' },
+    { name: 'PORTFOLIO', path: '/portfolio' },
     { name: 'CONTACT', path: '/contact' },
   ];
 
@@ -34,7 +34,11 @@ const Navbar = () => {
         
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3 text-primary">
-          <img src={logo} alt="BE5 Eventory Logo" className="h-12 md:h-14 w-auto object-contain rounded" />
+          <img 
+            src={logo} 
+            alt="BE5 Eventory Logo" 
+            className="h-12 w-12 md:h-16 md:w-16 object-cover rounded-xl shadow-lg border-2 border-white" 
+          />
           <div className="hidden sm:block">
             <p className="text-[0.6rem] tracking-[1px] text-gray-500 uppercase m-0 leading-tight">WHERE EVERY EVENT<br/>BECOMES A STORY</p>
           </div>

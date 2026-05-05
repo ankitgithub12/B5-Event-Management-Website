@@ -11,7 +11,11 @@ const Footer = () => {
         {/* Brand & Socials */}
         <div className="lg:col-span-5">
           <Link to="/" className="flex items-center gap-4 mb-6">
-            <img src={logo} alt="BE5 Eventory Logo" className="h-16 w-auto object-contain rounded" />
+            <img 
+              src={logo} 
+              alt="BE5 Eventory Logo" 
+              className="h-16 w-16 md:h-20 md:w-20 object-cover rounded-2xl shadow-xl border-2 border-white/20" 
+            />
             <div>
               <p className="text-[0.6rem] tracking-[1px] text-accent uppercase m-0 mt-1">WHERE EVERY EVENT<br/>BECOMES A STORY</p>
             </div>
