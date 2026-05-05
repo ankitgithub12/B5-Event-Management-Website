@@ -21,7 +21,7 @@ const Navbar = () => {
     { name: 'PACKAGES', path: '/packages' },
     { name: 'CUSTOM PLANNER', path: '/planner' },
     { name: 'PORTFOLIO', path: '/#portfolio' },
-    { name: 'CONTACT', path: '/#contact' },
+    { name: 'CONTACT', path: '/contact' },
   ];
 
   return (
