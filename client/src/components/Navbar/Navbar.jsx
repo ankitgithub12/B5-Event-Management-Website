@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import logo from '../../assets/BE5 logo.jpeg';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,10 +17,10 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'HOME', path: '/' },
-    { name: 'ABOUT US', path: '/#about' },
-    { name: 'SERVICES', path: '/#services' },
+    { name: 'SERVICES', path: '/services' },
+    { name: 'PACKAGES', path: '/packages' },
+    { name: 'CUSTOM PLANNER', path: '/planner' },
     { name: 'PORTFOLIO', path: '/#portfolio' },
-    { name: 'TESTIMONIALS', path: '/#testimonials' },
     { name: 'CONTACT', path: '/#contact' },
   ];
 
@@ -32,11 +33,10 @@ const Navbar = () => {
       <div className="container mx-auto px-4 md:px-8 max-w-7xl flex justify-between items-center">
         
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 text-primary">
-          <span className="font-heading text-4xl font-bold leading-none text-primary">B5</span>
-          <div>
-            <h1 className="font-heading text-2xl m-0 leading-none">Eventory</h1>
-            <p className="text-[0.5rem] tracking-[1px] text-gray-500 uppercase m-0">WHERE EVERY EVENT BECOMES A STORY</p>
+        <Link to="/" className="flex items-center gap-3 text-primary">
+          <img src={logo} alt="BE5 Eventory Logo" className="h-12 md:h-14 w-auto object-contain rounded" />
+          <div className="hidden sm:block">
+            <p className="text-[0.6rem] tracking-[1px] text-gray-500 uppercase m-0 leading-tight">WHERE EVERY EVENT<br/>BECOMES A STORY</p>
           </div>
         </Link>
 

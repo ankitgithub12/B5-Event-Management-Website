@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { MessageCircle, Phone, Mail, MapPin } from 'lucide-react';
 import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa';
+import logo from '../../assets/BE5 logo.jpeg';
 
 const Footer = () => {
   return (
@@ -9,11 +10,10 @@ const Footer = () => {
         
         {/* Brand & Socials */}
         <div className="lg:col-span-5">
-          <Link to="/" className="flex items-center gap-2 mb-6">
-            <span className="font-heading text-5xl font-bold text-white leading-none">B5</span>
+          <Link to="/" className="flex items-center gap-4 mb-6">
+            <img src={logo} alt="BE5 Eventory Logo" className="h-16 w-auto object-contain rounded" />
             <div>
-              <h2 className="font-heading text-3xl text-white m-0 leading-none">Eventory</h2>
-              <p className="text-[0.6rem] tracking-[1px] text-accent uppercase m-0 mt-1">WHERE EVERY EVENT BECOMES A STORY</p>
+              <p className="text-[0.6rem] tracking-[1px] text-accent uppercase m-0 mt-1">WHERE EVERY EVENT<br/>BECOMES A STORY</p>
             </div>
           </Link>
           <div className="flex gap-4">
@@ -38,10 +38,10 @@ const Footer = () => {
           <ul className="flex flex-col gap-3">
             {[
               { name: 'Home', path: '/' },
-              { name: 'About Us', path: '/#about' },
-              { name: 'Services', path: '/#services' },
+              { name: 'Services', path: '/services' },
+              { name: 'Packages', path: '/packages' },
+              { name: 'Custom Planner', path: '/planner' },
               { name: 'Portfolio', path: '/#portfolio' },
-              { name: 'Testimonials', path: '/#testimonials' },
               { name: 'Contact', path: '/#contact' }
             ].map((link, i) => (
               <li key={i}>
