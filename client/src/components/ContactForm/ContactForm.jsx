@@ -119,6 +119,7 @@ const ContactForm = () => {
                   <input 
                     type="date" 
                     id="date" 
+                    min={new Date().toISOString().split('T')[0]}
                     className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors text-gray-500"
                   />
                 </div>
