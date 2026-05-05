@@ -1,10 +1,10 @@
 const Portfolio = () => {
   const projects = [
-    { title: 'College Fest', image: 'https://images.unsplash.com/photo-1540039155732-d674140af310?auto=format&fit=crop&w=800&q=80' },
+    { title: 'College Fest', image: 'https://i.pinimg.com/1200x/0f/e9/84/0fe984a1e10c7394f44b6b396cea17a5.jpg' },
     { title: 'Corporate Gala', image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80' },
     { title: 'Wedding Setup', image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80' },
     { title: 'Product Launch', image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Birthday Party', image: 'https://images.unsplash.com/photo-1530103862676-de8892bf30b5?auto=format&fit=crop&w=800&q=80' },
+    { title: 'Birthday Party', image: 'https://i.pinimg.com/1200x/9d/5b/e4/9d5be4eb8bea1c525e7a1868ef731a95.jpg' },
     { title: 'Engagement', image: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80' },
   ];
 
