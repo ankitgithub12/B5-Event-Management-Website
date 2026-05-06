@@ -6,10 +6,12 @@ BE5 Eventory is a modern, high-end event management platform designed to provide
 
 - **Dynamic Landing Page**: A stunning, responsive home page with multiple specialized sections.
 - **Service Showcases**: Detailed views for various event categories including College Events, Corporate Events, Weddings, and more.
-- **Interactive Portfolio**: A beautiful gallery showcasing past successful events.
+- **Interactive Motion Portfolio**: A beautiful gallery with staggered "left-to-right" slide animations and interactive horizontal hover effects.
+- **Premium Testimonials**: Dynamic ratings with staggered entrance motion and interactive hover feedback using Framer Motion.
+- **Interactive UI Components**: Subtle micro-interactions like card lift effects, scale feedback, and polished spring-based transitions.
 - **Custom Planner**: A dedicated section for users to plan their custom events.
 - **Advanced Contact Form**: A user-friendly consultation form with integrated date validation (restricts past date selection).
-- **Premium Design**: Modern aesthetics using a sophisticated color palette, glassmorphism effects, and smooth animations.
+- **Premium Design**: Modern aesthetics using a sophisticated color palette, glassmorphism effects, and a custom animation system.
 
 ## 🛠️ Tech Stack
 
