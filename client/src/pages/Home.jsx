@@ -1,6 +1,8 @@
 import Navbar from '../components/Navbar/Navbar';
 import Hero from '../components/Hero/Hero';
+import StatsRibbon from '../components/Hero/StatsRibbon';
 import Services from '../components/Services/Services';
+import PackagesPreview from '../components/Packages/PackagesPreview';
 import Portfolio from '../components/Portfolio/Portfolio';
 import WhyChooseUs from '../components/WhyChooseUs/WhyChooseUs';
 import Testimonials from '../components/Testimonials/Testimonials';
@@ -14,7 +16,9 @@ const Home = () => {
       <Navbar />
       <main className="flex-grow">
         <Hero />
+        <StatsRibbon />
         <Services />
+        <PackagesPreview />
         <Portfolio />
         <WhyChooseUs />
         <Testimonials />
@@ -27,3 +31,4 @@ const Home = () => {
 };
 
 export default Home;
+

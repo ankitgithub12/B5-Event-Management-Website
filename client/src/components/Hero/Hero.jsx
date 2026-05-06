@@ -1,70 +1,60 @@
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   return (
-    <section className="relative pt-36 pb-20 min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-white to-primary/[0.03]">
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-        
-        {/* Left Content */}
-        <div className="max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
-          <div className="flex items-center justify-center lg:justify-start gap-2 text-accent font-semibold text-sm tracking-[2px] uppercase mb-6">
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Split Background */}
+      <div className="absolute inset-0 flex flex-col lg:flex-row">
+        <div className="flex-1 relative group overflow-hidden">
+          <img 
+            src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1500&q=80" 
+            alt="Wedding Celebration" 
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3000ms] group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-primary/40 group-hover:bg-primary/30 transition-colors duration-500"></div>
+        </div>
+        <div className="flex-1 relative group overflow-hidden">
+          <img 
+            src="https://images.unsplash.com/photo-1530103043960-ef38714abb15?auto=format&fit=crop&w=1500&q=80" 
+            alt="Birthday Party" 
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3000ms] group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-primary/40 group-hover:bg-primary/30 transition-colors duration-500"></div>
+        </div>
+      </div>
+
+      {/* Content Overlay */}
+      <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10 py-32">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-accent font-semibold text-xs md:text-sm tracking-[3px] uppercase mb-8 animate-fade-in">
             <span>✨</span> WE DESIGN. YOU CELEBRATE.
           </div>
           
-          <h1 className="text-5xl md:text-6xl lg:text-[4.5rem] text-primary mb-6">
-            Where Every Event <br/> Becomes a <span className="text-primary-light italic relative">Story</span>
+          <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] text-white mb-8 leading-tight drop-shadow-2xl">
+            Every Celebration <br/> Deserves a <span className="text-accent italic font-serif">Blueprint</span>
           </h1>
           
-          <p className="text-lg text-gray-600 mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0">
-            B5 Eventory turns your ideas into unforgettable experiences. From college fests to corporate galas and private parties, we handle it all with creativity and perfection.
+          <p className="text-lg md:text-xl text-white/90 mb-12 leading-relaxed max-w-2xl mx-auto font-light tracking-wide">
+            Weddings • Engagements • Birthdays • Anniversaries • Corporate Events
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 mb-12 justify-center lg:justify-start">
-            <a href="/#contact" className="btn btn-primary">
-              PLAN YOUR EVENT <ArrowRight size={18} />
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <a href="#contact" className="btn bg-accent text-white hover:bg-accent-hover px-10 py-4 text-lg shadow-gold transition-all duration-300 group">
+              Start Planning <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </a>
-            <a href="/#portfolio" className="btn btn-outline">
-              VIEW PORTFOLIO <ArrowRight size={18} />
-            </a>
-          </div>
-
-          <div className="flex items-center justify-center lg:justify-start gap-4">
-            <div className="flex">
-              <div className="w-10 h-10 rounded-full border-2 border-white bg-primary-light bg-cover bg-center" style={{backgroundImage: "url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80')"}}></div>
-              <div className="w-10 h-10 rounded-full border-2 border-white bg-primary-light -ml-3 bg-cover bg-center" style={{backgroundImage: "url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80')"}}></div>
-              <div className="w-10 h-10 rounded-full border-2 border-white bg-primary-light -ml-3 bg-cover bg-center" style={{backgroundImage: "url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80')"}}></div>
-              <div className="w-10 h-10 rounded-full border-2 border-white bg-primary-light -ml-3 bg-cover bg-center" style={{backgroundImage: "url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80')"}}></div>
-            </div>
-            <div>
-              <p className="m-0 text-sm text-gray-800"><strong className="text-primary font-bold">100+</strong> Happy Clients</p>
-              <div className="flex items-center gap-2 text-sm font-semibold mt-0.5">
-                <span>4.9</span>
-                <span className="text-accent tracking-widest text-xs">★★★★★</span>
-              </div>
-            </div>
+            <Link to="/packages" className="btn border-2 border-white text-white hover:bg-white hover:text-primary px-10 py-4 text-lg backdrop-blur-sm transition-all duration-300">
+              View Packages
+            </Link>
           </div>
         </div>
-
-        {/* Right Image */}
-        <div className="relative h-[400px] lg:h-[600px] flex justify-center lg:justify-end mt-12 lg:mt-0">
-          <div className="w-full sm:w-[90%] h-full relative rounded-[20px] lg:rounded-[200px_20px_20px_200px] overflow-hidden shadow-[0_30px_60px_rgba(41,26,57,0.2)] border-[8px] lg:border-[10px] border-white group">
-            <img 
-              src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2000&q=80" 
-              alt="Beautiful Wedding Stage Decoration" 
-              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-            />
-            {/* Decorative border behind image */}
-            <div className="absolute inset-[-20px] border-2 border-accent rounded-[220px_40px_40px_220px] -z-10 pointer-events-none hidden lg:block"></div>
-          </div>
-        </div>
-        
       </div>
-      
-      {/* Background decorations */}
-      <div className="absolute rounded-full blur-[80px] z-0 opacity-50 w-[400px] h-[400px] bg-accent/20 -top-[100px] -left-[100px]"></div>
-      <div className="absolute rounded-full blur-[80px] z-0 opacity-50 w-[500px] h-[500px] bg-primary/10 -bottom-[200px] -right-[100px]"></div>
+
+      {/* Bottom Gradient for smoothness */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent"></div>
     </section>
   );
 };
 
 export default Hero;
+
