@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
+import { useState } from 'react';
 
 const Testimonials = () => {
+  const [isPaused, setIsPaused] = useState(false);
+
   const testimonials = [
     {
       text: "BE5 planned our daughter's wedding and my 50th birthday in the same year. Flawless both times.",
@@ -23,8 +26,32 @@ const Testimonials = () => {
       role: "TechCorp",
       rating: 4,
       image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80"
+    },
+    {
+      text: "They handled our destination wedding in Udaipur with such grace. Every detail was perfect.",
+      name: "Sanya Kapoor",
+      role: "Bride",
+      rating: 5,
+      image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80"
+    },
+    {
+      text: "The most creative team I've ever worked with. They turned our backyard into a fairy tale.",
+      name: "Rahul Verma",
+      role: "Groom",
+      rating: 5,
+      image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80"
+    },
+    {
+      text: "Exceptional service for our product launch. The stage design was world-class.",
+      name: "Priya Das",
+      role: "Marketing Head",
+      rating: 5,
+      image: "https://images.unsplash.com/photo-1531123897727-8f129e16fd3c?auto=format&fit=crop&w=150&q=80"
     }
   ];
+
+  // Double the testimonials for seamless loop
+  const duplicatedTestimonials = [...testimonials, ...testimonials];
 
   const starVariants = {
     hidden: { opacity: 0, scale: 0, rotate: -45 },
@@ -46,7 +73,7 @@ const Testimonials = () => {
   };
 
   return (
-    <section id="testimonials" className="py-24 bg-white">
+    <section id="testimonials" className="py-24 bg-white overflow-hidden">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
         
         {/* Section Header */}
@@ -71,69 +98,83 @@ const Testimonials = () => {
             What our families say
           </motion.h2>
         </div>
+      </div>
 
-        {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <motion.div 
-              key={index} 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -10 }}
-              transition={{ 
-                delay: index * 0.1,
-                y: { type: "spring", stiffness: 300, damping: 20 }
-              }}
-              className="bg-white rounded-3xl p-10 shadow-[0_10px_40px_rgba(41,26,57,0.06)] border border-gray-50 relative group hover:border-accent/30 transition-all duration-300 flex flex-col cursor-default"
-            >
-              <div className="text-6xl text-accent/10 font-heading leading-none absolute top-6 left-6 group-hover:text-accent/20 transition-colors">"</div>
-              
-              <motion.div 
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                className="flex mb-4 gap-1"
+      {/* Marquee Section */}
+      <div className="relative mt-8">
+        {/* Fading Gradients */}
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none hidden md:block"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none hidden md:block"></div>
+
+        <div className="flex overflow-hidden">
+          <div 
+            className={`flex gap-8 py-8 px-4 animate-marquee ${isPaused ? 'pause-marquee' : ''}`}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            style={{ width: "fit-content" }}
+          >
+            {duplicatedTestimonials.map((testimonial, index) => (
+              <div 
+                key={index} 
+                className="w-[350px] md:w-[450px] flex-shrink-0"
               >
-                {[...Array(5)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    variants={starVariants}
-                    whileHover={{ 
-                      scale: 1.3, 
-                      rotate: 15,
-                      transition: { duration: 0.2 }
-                    }}
+                <motion.div 
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -10 }}
+                  transition={{ 
+                    y: { type: "spring", stiffness: 300, damping: 20 }
+                  }}
+                  className="bg-white h-full rounded-3xl p-10 shadow-[0_10px_40px_rgba(41,26,57,0.06)] border border-gray-50 relative group hover:border-accent/30 transition-all duration-300 flex flex-col cursor-default"
+                >
+                  <div className="text-6xl text-accent/10 font-heading leading-none absolute top-6 left-6 group-hover:text-accent/20 transition-colors">"</div>
+                  
+                  <motion.div 
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    className="flex mb-4 gap-1"
                   >
-                    <Star 
-                      size={14} 
-                      className={`${i < testimonial.rating ? 'fill-accent text-accent' : 'text-gray-300'}`} 
-                    />
+                    {[...Array(5)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        variants={starVariants}
+                        whileHover={{ 
+                          scale: 1.3, 
+                          rotate: 15,
+                          transition: { duration: 0.2 }
+                        }}
+                      >
+                        <Star 
+                          size={14} 
+                          className={`${i < testimonial.rating ? 'fill-accent text-accent' : 'text-gray-300'}`} 
+                        />
+                      </motion.div>
+                    ))}
                   </motion.div>
-                ))}
-              </motion.div>
 
-              <p className="text-gray-600 mb-8 relative z-10 pt-2 italic leading-relaxed">
-                {testimonial.text}
-              </p>
-              
-              <div className="flex items-center gap-4 mt-auto">
-                <img 
-                  src={testimonial.image} 
-                  alt={testimonial.name} 
-                  className="w-12 h-12 rounded-full object-cover border-2 border-accent/20"
-                />
-                <div>
-                  <h4 className="font-bold text-primary text-sm">{testimonial.name}</h4>
-                  <p className="text-xs text-gray-500 font-medium">{testimonial.role}</p>
-                </div>
+                  <p className="text-gray-600 mb-8 relative z-10 pt-2 italic leading-relaxed">
+                    {testimonial.text}
+                  </p>
+                  
+                  <div className="flex items-center gap-4 mt-auto">
+                    <img 
+                      src={testimonial.image} 
+                      alt={testimonial.name} 
+                      className="w-12 h-12 rounded-full object-cover border-2 border-accent/20"
+                    />
+                    <div>
+                      <h4 className="font-bold text-primary text-sm">{testimonial.name}</h4>
+                      <p className="text-xs text-gray-500 font-medium">{testimonial.role}</p>
+                    </div>
+                  </div>
+                </motion.div>
               </div>
-            </motion.div>
-            
-          ))}
+            ))}
+          </div>
         </div>
-
       </div>
     </section>
   );

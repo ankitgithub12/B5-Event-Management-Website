@@ -40,4 +40,18 @@
   .btn-outline-light {
     @apply bg-transparent border border-white text-white hover:bg-white hover:text-primary;
   }
+
+  /* Marquee Animation */
+  @keyframes marquee {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
+  }
+
+  .animate-marquee {
+    animation: marquee 40s linear infinite;
+  }
+
+  .pause-marquee {
+    animation-play-state: paused;
+  }
 }
