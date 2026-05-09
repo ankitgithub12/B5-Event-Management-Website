@@ -44,8 +44,8 @@ const Navbar = () => {
               className="h-10 w-10 md:h-14 md:w-14 object-cover rounded-xl shadow-md border-2 border-white" 
             />
             <div className="hidden sm:block">
-              <span className="block text-primary font-bold text-lg leading-none tracking-tight">BE5 EVENTORY</span>
-              <span className="text-[0.6rem] tracking-[1px] text-gray-500 uppercase leading-tight">PREMIUM EVENT PLANNERS</span>
+              <span className="block text-primary font-bold text-lg leading-none tracking-tight font-serif">BE5 EVENTORY</span>
+              <span className="text-[0.6rem] tracking-[1px] text-gray-500 uppercase leading-tight font-sans">PREMIUM EVENT PLANNERS</span>
             </div>
           </Link>
 
@@ -56,18 +56,18 @@ const Navbar = () => {
                 key={index} 
                 to={link.path} 
                 className={`text-sm font-bold tracking-wide transition-all duration-300 relative group ${
-                  isActive(link.path) ? 'text-accent' : 'text-primary hover:text-accent'
+                  isActive(link.path) ? 'text-[#C5A06B]' : 'text-primary hover:text-[#C5A06B]'
                 }`}
               >
                 {link.name.toUpperCase()}
-                <span className={`absolute -bottom-1 left-0 h-[2px] bg-accent transition-all duration-300 ${isActive(link.path) ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                <span className={`absolute -bottom-1 left-0 h-[2px] bg-[#C5A06B] transition-all duration-300 ${isActive(link.path) ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
               </Link>
             ))}
           </nav>
 
           {/* CTA Button */}
           <div className="hidden lg:block">
-            <Link to="/contact" className="btn btn-primary px-8 py-2.5 text-sm shadow-gold">
+            <Link to="/contact" className="bg-[#C5A06B] text-white px-8 py-2.5 text-sm font-bold rounded-full shadow-lg hover:bg-[#B38F5A] transition-colors">
               BOOK CONSULTATION
             </Link>
           </div>
