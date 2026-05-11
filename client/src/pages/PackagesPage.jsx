@@ -15,7 +15,7 @@ const PackagesPage = () => {
       features: [
         { name: 'Basic Venue & Decoration', included: true },
         { name: 'Standard Photography', included: true },
-        { name: 'Limited Catering Menu', included: true },
+        { name: 'Limited Hospitality Menu', included: true },
         { name: 'Videography', included: false },
         { name: 'Pre-Wedding Shoot', included: false },
         { name: 'DJ Services', included: false },
@@ -33,7 +33,7 @@ const PackagesPage = () => {
       features: [
         { name: 'Themed Decoration', included: true },
         { name: 'Photography & Videography', included: true },
-        { name: 'Standard Catering', included: true },
+        { name: 'Standard Hospitality', included: true },
         { name: 'Pre-Wedding Shoot', included: true },
         { name: 'DJ Services', included: true },
         { name: 'Cinematic Drone Shoot', included: false },
@@ -50,7 +50,7 @@ const PackagesPage = () => {
       features: [
         { name: 'Luxury Venue & Premium Decor', included: true },
         { name: 'Cinematic Video & Drone', included: true },
-        { name: 'Premium Catering Spread', included: true },
+        { name: 'Premium Hospitality Spread', included: true },
         { name: 'Pre-Wedding (Outstation)', included: true },
         { name: 'Full Entertainment Setup', included: true },
         { name: 'Luxury Hospitality', included: false },
@@ -66,7 +66,7 @@ const PackagesPage = () => {
       features: [
         { name: 'Destination Wedding Venue', included: true },
         { name: 'Top-tier Cinematic Production', included: true },
-        { name: 'Exotic Catering & Mixology', included: true },
+        { name: 'Exotic Hospitality & Mixology', included: true },
         { name: 'Pre-Wedding (International)', included: true },
         { name: 'Celebrity Entertainment Ops', included: true },
         { name: 'Complete Guest Hospitality', included: true },
@@ -80,7 +80,7 @@ const PackagesPage = () => {
   const comparisonData = [
     { service: 'Venue', basic: 'Standard hall', medium: 'Themed venue', premium: 'Luxury resort', luxury: '5-star / Destination' },
     { service: 'Decor', basic: 'Basic flowers', medium: 'Themed decor', premium: 'Floral + lighting', luxury: 'Imported + lighting' },
-    { service: 'Catering', basic: '5 dishes', medium: '8 dishes + live counter', premium: '12 dishes + multiple counters', luxury: 'Unlimited + premium bar' },
+    { service: 'Hospitality', basic: '5 dishes', medium: '8 dishes + live counter', premium: '12 dishes + multiple counters', luxury: 'Unlimited + premium bar' },
     { service: 'Photography', basic: '4 hours', medium: '8 hours + album', premium: 'Full day + pre-wedding', luxury: 'Destination + cinematic film' },
     { service: 'DJ/Music', basic: 'No', medium: 'Yes (4 hours)', premium: 'Yes + sound', luxury: 'Live band + celebrity' },
     { service: 'Makeup', basic: 'No', medium: 'Basic', premium: 'Bridal premium', luxury: 'Celebrity MUA' },
