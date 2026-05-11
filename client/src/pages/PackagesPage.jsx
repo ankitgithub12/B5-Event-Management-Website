@@ -11,7 +11,7 @@ const PackagesPage = () => {
     {
       name: 'Basic Package',
       description: 'Perfect for intimate gatherings and simple, elegant setups.',
-      price: '₹4-6 Lakhs',
+      price: '₹5-10 Lakhs',
       features: [
         { name: 'Basic Venue & Decoration', included: true },
         { name: 'Standard Photography', included: true },
@@ -29,7 +29,7 @@ const PackagesPage = () => {
     {
       name: 'Medium Package',
       description: 'A well-rounded experience with themed decor and full coverage.',
-      price: '₹10-15 Lakhs',
+      price: '₹15-20 Lakhs',
       features: [
         { name: 'Themed Decoration', included: true },
         { name: 'Photography & Videography', included: true },
