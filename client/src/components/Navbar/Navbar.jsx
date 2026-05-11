@@ -29,35 +29,41 @@ const Navbar = () => {
   return (
     <>
       {/* Top Header - Desktop and Mobile (Logo only) */}
-      <header 
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-white/90 backdrop-blur-md py-3 shadow-sm' : 'bg-transparent py-5'
-        }`}
+      <header
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-md py-3 shadow-sm' : 'bg-transparent py-5'
+          }`}
       >
         <div className="container mx-auto px-4 md:px-8 max-w-7xl flex justify-between items-center">
-          
+
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
-            <img 
-              src={logo} 
-              alt="B5 Logo" 
-              className="h-10 w-10 md:h-14 md:w-14 object-cover rounded-xl shadow-md border-2 border-white" 
-            />
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="relative">
+              <img
+                src={logo}
+                alt="B5 Logo"
+                className="h-12 w-12 md:h-16 md:w-16 object-contain rounded-xl shadow-xl border-2 border-white bg-white"
+              />
+              <div className="absolute inset-0 rounded-xl shadow-[0_0_15px_rgba(255,255,255,0.3)] group-hover:shadow-[0_0_20px_rgba(200,158,98,0.5)] transition-shadow duration-300"></div>
+            </div>
             <div className="hidden sm:block">
-              <span className="block text-primary font-bold text-lg leading-none tracking-tight font-serif">B5 EVENTORY</span>
-              
+              <span className={`block font-bold text-xl md:text-2xl leading-none tracking-tighter font-serif transition-colors duration-300 ${isScrolled ? 'text-primary' : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]'
+                }`}>
+                B5 EVENTORY
+              </span>
+
             </div>
           </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-10">
             {navLinks.map((link, index) => (
-              <Link 
-                key={index} 
-                to={link.path} 
-                className={`text-sm font-bold tracking-wide transition-all duration-300 relative group ${
-                  isActive(link.path) ? 'text-[#C5A06B]' : 'text-primary hover:text-[#C5A06B]'
-                }`}
+              <Link
+                key={index}
+                to={link.path}
+                className={`text-sm font-bold tracking-wide transition-all duration-300 relative group ${isActive(link.path)
+                    ? 'text-accent'
+                    : (isScrolled ? 'text-primary hover:text-accent' : 'text-white hover:text-accent drop-shadow-md')
+                  }`}
               >
                 {link.name.toUpperCase()}
                 <span className={`absolute -bottom-1 left-0 h-[2px] bg-[#C5A06B] transition-all duration-300 ${isActive(link.path) ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
@@ -85,12 +91,11 @@ const Navbar = () => {
       <nav className="lg:hidden fixed bottom-0 left-0 w-full bg-white/80 backdrop-blur-xl border-t border-gray-100 z-50 pb-safe shadow-[0_-8px_30px_rgba(0,0,0,0.08)] rounded-t-[32px]">
         <div className="flex justify-around items-center h-20 px-2">
           {navLinks.map((link, index) => (
-            <Link 
-              key={index} 
-              to={link.path} 
-              className={`flex flex-col items-center justify-center gap-1.5 transition-all duration-300 flex-1 h-full relative ${
-                isActive(link.path) ? 'text-accent' : 'text-gray-400'
-              }`}
+            <Link
+              key={index}
+              to={link.path}
+              className={`flex flex-col items-center justify-center gap-1.5 transition-all duration-300 flex-1 h-full relative ${isActive(link.path) ? 'text-accent' : 'text-gray-400'
+                }`}
             >
               <div className={`transition-all duration-300 ${isActive(link.path) ? 'scale-110 -translate-y-1' : ''}`}>
                 {link.icon}

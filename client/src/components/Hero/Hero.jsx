@@ -32,7 +32,7 @@ const Hero = () => {
           </div>
           
           <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] text-white mb-8 leading-tight drop-shadow-2xl">
-            Every Celebration <br/> Deserves a <span className="text-accent italic font-serif">Blueprint</span>
+            Where Every  <br/>Event  Becomes a <span className="text-accent italic font-serif">Story</span>
           </h1>
           
           <p className="text-lg md:text-xl text-white/90 mb-12 leading-relaxed max-w-2xl mx-auto font-light tracking-wide">

@@ -7,17 +7,18 @@ const Footer = () => {
   return (
     <footer className="bg-primary-dark text-gray-200 pt-20">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-12">
-        
+
         {/* Brand & Socials */}
         <div className="lg:col-span-5">
-          <Link to="/" className="flex items-center gap-4 mb-6">
-            <img 
-              src={logo} 
-              alt="B5 Eventory Logo" 
-              className="h-16 w-16 md:h-20 md:w-20 object-cover rounded-2xl shadow-xl border-2 border-white/20" 
+          <Link to="/" className="flex items-center gap-4 mb-6 group">
+            <img
+              src={logo}
+              alt="B5 Eventory Logo"
+              className="h-16 w-16 md:h-20 md:w-20 object-contain rounded-2xl shadow-2xl border-2 border-white bg-white p-1"
             />
             <div>
-              <p className="text-[0.6rem] tracking-[1px] text-accent uppercase m-0 mt-1">WHERE EVERY EVENT<br/>BECOMES A STORY</p>
+              <span className="block text-white font-bold text-2xl tracking-tighter font-serif group-hover:text-accent transition-colors">B5 EVENTORY</span>
+              <p className="text-[0.6rem] tracking-[2px] text-accent uppercase m-0 mt-1 font-semibold">WHERE EVERY EVENT BECOMES A STORY</p>
             </div>
           </Link>
           <div className="flex gap-4">
@@ -93,7 +94,7 @@ const Footer = () => {
         </div>
 
       </div>
-      
+
       {/* Bottom Footer */}
       <div className="border-t border-white/10 py-6 text-center text-sm text-white/50">
         <p>&copy; {new Date().getFullYear()} B5 Eventory. All Rights Reserved.</p>
