@@ -45,7 +45,7 @@ const Navbar = () => {
             />
             <div className="hidden sm:block">
               <span className="block text-primary font-bold text-lg leading-none tracking-tight font-serif">B5 EVENTORY</span>
-              <span className="text-[0.6rem] tracking-[1px] text-gray-500 uppercase leading-tight font-sans">PREMIUM EVENT PLANNERS</span>
+              
             </div>
           </Link>
 
