@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, LayoutGrid, Briefcase, Image, MessageCircle, Calendar, Phone } from 'lucide-react';
-import logo from '../../assets/BE5 logo.jpeg';
+import logo from '../../assets/B5 logo.jpeg';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -40,11 +40,11 @@ const Navbar = () => {
           <Link to="/" className="flex items-center gap-3">
             <img 
               src={logo} 
-              alt="BE5 Logo" 
+              alt="B5 Logo" 
               className="h-10 w-10 md:h-14 md:w-14 object-cover rounded-xl shadow-md border-2 border-white" 
             />
             <div className="hidden sm:block">
-              <span className="block text-primary font-bold text-lg leading-none tracking-tight font-serif">BE5 EVENTORY</span>
+              <span className="block text-primary font-bold text-lg leading-none tracking-tight font-serif">B5 EVENTORY</span>
               <span className="text-[0.6rem] tracking-[1px] text-gray-500 uppercase leading-tight font-sans">PREMIUM EVENT PLANNERS</span>
             </div>
           </Link>

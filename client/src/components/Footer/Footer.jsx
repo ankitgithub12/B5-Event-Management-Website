@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { MessageCircle, Phone, Mail, MapPin } from 'lucide-react';
 import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa';
-import logo from '../../assets/BE5 logo.jpeg';
+import logo from '../../assets/B5 logo.jpeg';
 
 const Footer = () => {
   return (
@@ -13,7 +13,7 @@ const Footer = () => {
           <Link to="/" className="flex items-center gap-4 mb-6">
             <img 
               src={logo} 
-              alt="BE5 Eventory Logo" 
+              alt="B5 Eventory Logo" 
               className="h-16 w-16 md:h-20 md:w-20 object-cover rounded-2xl shadow-xl border-2 border-white/20" 
             />
             <div>

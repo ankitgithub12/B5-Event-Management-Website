@@ -6,14 +6,14 @@ const PackagesPreview = () => {
   const packages = [
     {
       name: 'Basic',
-      price: '₹4–6 Lakhs',
+      price: '₹5–10 Lakhs',
       bestFor: 'Intimate weddings & birthdays',
       features: ['Basic Decor', 'Photography', 'Standard Sound System', 'Event Coordination'],
       color: 'border-gray-200'
     },
     {
       name: 'Medium',
-      price: '₹10–15 Lakhs',
+      price: '₹15–20 Lakhs',
       bestFor: 'Engagement & family events',
       features: ['Premium Decor', 'Candid Photography', 'Professional Lighting', 'Hospitality Management', 'Catering Assistance'],
       color: 'border-accent shadow-gold scale-105 z-10'
