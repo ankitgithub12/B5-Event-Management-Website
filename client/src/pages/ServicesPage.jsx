@@ -67,7 +67,7 @@ const ServicesPage = () => {
         "Raj & Priya – 25th Ruby Anniversary (120 guests, ₹7.5L)",
         "Surprise 40th Birthday (70 guests, ₹4.5L)"
       ],
-      image: 'https://images.unsplash.com/photo-1530103862676-de8892bf30b5?auto=format&fit=crop&w=800&q=80'
+      image: 'https://media.istockphoto.com/id/583736396/photo/wedding-hall-or-other-function-facility-set-for-fine-dining.jpg?s=612x612&w=0&k=20&c=gPoRBCkB-wGxvb_BI1vUyjiVryaOjnHhB8RSS4EZmog='
     }
   ];
 

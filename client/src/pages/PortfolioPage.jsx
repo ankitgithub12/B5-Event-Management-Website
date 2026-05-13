@@ -13,7 +13,7 @@ const PortfolioPage = () => {
     { id: 4, title: 'Luxury Birthday Bash', category: 'party', image: 'https://i.pinimg.com/1200x/9d/5b/e4/9d5be4eb8bea1c525e7a1868ef731a95.jpg' },
     { id: 5, title: 'Smartphone Launch Event', category: 'product', image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800&q=80' },
     { id: 6, title: 'Elegant Engagement', category: 'wedding', image: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80' },
-    { id: 7, title: 'Annual Sports Meet', category: 'college', image: 'https://images.unsplash.com/photo-1502945015378-0e284ca1c5be?auto=format&fit=crop&w=800&q=80' },
+    { id: 7, title: 'Annual Sports Meet', category: 'college', image: 'https://www.nafl.in/img/2024-2025/events/annual-sports-day-2024-2025/annual-sports-day-2024-2025-1-lg.jpg' },
     { id: 8, title: 'Startup Networking Night', category: 'corporate', image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=800&q=80' },
     { id: 9, title: 'Theme Anniversary Party', category: 'party', image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80' },
   ];
