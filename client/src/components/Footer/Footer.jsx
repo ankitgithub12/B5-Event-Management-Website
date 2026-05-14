@@ -47,6 +47,7 @@ const Footer = () => {
               { name: 'Packages', path: '/packages' },
               { name: 'Custom Planner', path: '/planner' },
               { name: 'Portfolio', path: '/#portfolio' },
+              { name: 'Hospitality', path: '/hospitality' },
               { name: 'Contact', path: '/#contact' }
             ].map((link, i) => (
               <li key={i}>

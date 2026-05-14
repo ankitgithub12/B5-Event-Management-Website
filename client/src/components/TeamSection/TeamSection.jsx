@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { FaLinkedin, FaInstagram } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 
 const TeamSection = () => {
   const team = [
@@ -139,6 +141,23 @@ const TeamSection = () => {
               </div>
             </motion.div>
           ))}
+        </motion.div>
+
+        {/* Explore Full Hospitality Team CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="mt-16 text-center"
+        >
+          <Link 
+            to="/hospitality" 
+            className="inline-flex items-center gap-2 bg-primary text-white px-8 py-4 rounded-full font-bold hover:bg-accent hover:text-primary transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 group"
+          >
+            Meet Our Event Crews
+            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
         </motion.div>
 
       </div>
