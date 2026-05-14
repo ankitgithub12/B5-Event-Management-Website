@@ -103,7 +103,7 @@ const TeamSection = () => {
               className="group relative bg-white rounded-[2rem] overflow-hidden shadow-[0_10px_40px_rgba(41,26,57,0.07)] border border-gray-100 hover:border-accent/30 hover:shadow-[0_20px_50px_rgba(200,158,98,0.15)] transition-all duration-500 hover:-translate-y-2 flex flex-col"
             >
               {/* Image */}
-              <div className="relative h-64 overflow-hidden">
+              <div className="relative aspect-[4/5] sm:aspect-auto sm:h-64 lg:h-72 overflow-hidden">
                 <img
                   src={member.image}
                   alt={member.name}
