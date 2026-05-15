@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { MessageCircle, Phone, Mail, MapPin } from 'lucide-react';
 import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa';
-import logo from '../../assets/B5 logo.jpeg';
+import logo from '../../assets/B5_logo.jpeg';
 
 const Footer = () => {
   return (
@@ -97,8 +97,10 @@ const Footer = () => {
       </div>
 
       {/* Bottom Footer */}
-      <div className="border-t border-white/10 py-6 text-center text-sm text-white/50">
+      <div className="border-t border-white/10 py-6 text-center text-sm text-white/50 flex flex-col md:flex-row justify-center items-center gap-4">
         <p>&copy; {new Date().getFullYear()} B5 Eventory. All Rights Reserved.</p>
+        <span className="hidden md:inline">|</span>
+        <Link to="/admin/login" className="hover:text-accent transition-colors">Admin Login</Link>
       </div>
     </footer>
   );
