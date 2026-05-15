@@ -71,7 +71,7 @@ const HospitalityPage = () => {
       description: 'Safety and discipline handling for a secure and controlled event environment.',
       responsibilities: ['Entry management', 'Crowd control', 'Emergency response', 'VIP security', 'Bouncer services'],
       staff: [],
-      image: 'https://images.unsplash.com/photo-1534484050519-75a0210e7401?auto=format&fit=crop&w=800&q=80'
+      image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80'
     },
     {
       icon: <Settings size={40} className="text-primary" />,
