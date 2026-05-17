@@ -148,7 +148,7 @@ const ContactPage = () => {
                 <ul className="space-y-5 mb-8">
                   <li className="flex items-start gap-4 text-sm text-gray-700">
                     <MapPin size={18} className="text-accent shrink-0 mt-0.5" />
-                    <span>125, Heritage Manor, Palace Road<br/>Udaipur, Rajasthan – 313001</span>
+                    <span>125, Heritage Manor, Palace Road<br />Udaipur, Rajasthan – 313001</span>
                   </li>
                   <li className="flex items-center gap-4 text-sm text-gray-700">
                     <Phone size={18} className="text-accent shrink-0" />
@@ -209,13 +209,12 @@ const ContactPage = () => {
             {calendarDays.map((day, i) => (
               <div
                 key={i}
-                className={`rounded-2xl p-4 text-center border-2 transition-all duration-300 ${
-                  day.status === 'today'
+                className={`rounded-2xl p-4 text-center border-2 transition-all duration-300 ${day.status === 'today'
                     ? 'border-accent bg-white shadow-gold shadow-md'
                     : day.status === 'booked'
-                    ? 'border-red-200 bg-red-50'
-                    : 'border-gray-200 bg-white hover:border-accent hover:shadow-sm'
-                }`}
+                      ? 'border-red-200 bg-red-50'
+                      : 'border-gray-200 bg-white hover:border-accent hover:shadow-sm'
+                  }`}
               >
                 <p className="text-[10px] font-bold tracking-widest text-gray-400 mb-1">{day.month}</p>
                 <p className={`text-2xl font-heading font-bold ${day.status === 'today' ? 'text-accent' : 'text-primary'}`}>
@@ -242,33 +241,33 @@ const ContactPage = () => {
             <span className="text-accent font-bold text-xs tracking-[3px] uppercase mb-4 block">THE PEOPLE BEHIND THE MAGIC</span>
             <h2 className="text-4xl font-heading text-primary">Meet Our Lead Planners</h2>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {[
-              { 
-                name: "Anjali Sharma", 
-                role: "Senior Wedding Architect", 
+              {
+                name: "Anjali Sharma",
+                role: "Senior Wedding Architect",
                 desc: "With 8 years in luxury weddings, Anjali specializes in traditional Indian heritage events.",
                 image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80"
               },
-              { 
-                name: "Vikram Malhotra", 
-                role: "Corporate Experience Lead", 
+              {
+                name: "Vikram Malhotra",
+                role: "Corporate Experience Lead",
                 desc: "Expert in technical logistics and large-scale corporate gala productions.",
                 image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80"
               },
-              { 
-                name: "Priya Das", 
-                role: "Design & Decor Specialist", 
+              {
+                name: "Priya Das",
+                role: "Design & Decor Specialist",
                 desc: "Our creative visionary who turns vague moodboards into stunning visual realities.",
                 image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
               }
             ].map((lead, idx) => (
               <div key={idx} className="group">
                 <div className="aspect-[3/4] rounded-3xl overflow-hidden mb-6 relative">
-                  <img 
-                    src={lead.image} 
-                    alt={lead.name} 
+                  <img
+                    src={lead.image}
+                    alt={lead.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

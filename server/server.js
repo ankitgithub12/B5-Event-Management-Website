@@ -4,6 +4,14 @@ import cors from 'cors';
 import connectDB from './config/db.js';
 import exampleRoutes from './routes/exampleRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import eventRoutes from './routes/eventRoutes.js';
+import bookingRoutes from './routes/bookingRoutes.js';
+import serviceRoutes from './routes/serviceRoutes.js';
+import galleryRoutes from './routes/galleryRoutes.js';
+import formRoutes from './routes/formRoutes.js';
+import dashboardRoutes from './routes/dashboardRoutes.js';
 import http from 'http';
 import { Server } from 'socket.io';
 
@@ -38,6 +46,15 @@ app.use(express.json());
 // Routes
 app.use('/api/examples', exampleRoutes);
 app.use('/api/admin', adminRoutes);
+
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/events', eventRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/services', serviceRoutes);
+app.use('/api/gallery', galleryRoutes);
+app.use('/api/forms', formRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

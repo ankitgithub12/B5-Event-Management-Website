@@ -24,13 +24,13 @@ const Portfolio = () => {
 
   const itemVariants = {
     hidden: { opacity: 0, x: -100 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       x: 0,
-      transition: { 
-        type: "spring", 
-        stiffness: 70, 
-        damping: 12 
+      transition: {
+        type: "spring",
+        stiffness: 70,
+        damping: 12
       }
     }
   };
@@ -38,10 +38,10 @@ const Portfolio = () => {
   return (
     <section id="portfolio" className="py-24 bg-gray-50 overflow-hidden">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-        
+
         {/* Section Header */}
         <div className="text-center mb-16">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -51,7 +51,7 @@ const Portfolio = () => {
             OUR WORK
             <span className="w-8 h-px bg-accent"></span>
           </motion.div>
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -63,7 +63,7 @@ const Portfolio = () => {
         </div>
 
         {/* Portfolio Grid */}
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -71,15 +71,15 @@ const Portfolio = () => {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
         >
           {projects.map((project, index) => (
-            <motion.div 
-              key={index} 
+            <motion.div
+              key={index}
               variants={itemVariants}
               whileHover={{ scale: 0.98 }}
               className="group relative rounded-3xl overflow-hidden aspect-[4/5] cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
             >
-              <img 
-                src={project.image} 
-                alt={project.title} 
+              <img
+                src={project.image}
+                alt={project.title}
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
@@ -100,7 +100,7 @@ const Portfolio = () => {
             View Full Portfolio <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
-        
+
       </div>
     </section>
   );

@@ -55,9 +55,9 @@ const Testimonials = () => {
 
   const starVariants = {
     hidden: { opacity: 0, scale: 0, rotate: -45 },
-    visible: { 
-      opacity: 1, 
-      scale: 1, 
+    visible: {
+      opacity: 1,
+      scale: 1,
       rotate: 0,
       transition: { type: "spring", stiffness: 300, damping: 15 }
     }
@@ -75,10 +75,10 @@ const Testimonials = () => {
   return (
     <section id="testimonials" className="py-24 bg-white overflow-hidden">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-        
+
         {/* Section Header */}
         <div className="text-center mb-16">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -88,7 +88,7 @@ const Testimonials = () => {
             LOVE NOTES
             <span className="w-8 h-px bg-accent"></span>
           </motion.div>
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -107,30 +107,30 @@ const Testimonials = () => {
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none hidden md:block"></div>
 
         <div className="flex overflow-hidden">
-          <div 
+          <div
             className={`flex gap-8 py-8 px-4 animate-marquee ${isPaused ? 'pause-marquee' : ''}`}
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             style={{ width: "fit-content" }}
           >
             {duplicatedTestimonials.map((testimonial, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="w-[350px] md:w-[450px] flex-shrink-0"
               >
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   whileHover={{ y: -10 }}
-                  transition={{ 
+                  transition={{
                     y: { type: "spring", stiffness: 300, damping: 20 }
                   }}
                   className="bg-white h-full rounded-3xl p-10 shadow-[0_10px_40px_rgba(41,26,57,0.06)] border border-gray-50 relative group hover:border-accent/30 transition-all duration-300 flex flex-col cursor-default"
                 >
                   <div className="text-6xl text-accent/10 font-heading leading-none absolute top-6 left-6 group-hover:text-accent/20 transition-colors">"</div>
-                  
-                  <motion.div 
+
+                  <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
@@ -141,15 +141,15 @@ const Testimonials = () => {
                       <motion.div
                         key={i}
                         variants={starVariants}
-                        whileHover={{ 
-                          scale: 1.3, 
+                        whileHover={{
+                          scale: 1.3,
                           rotate: 15,
                           transition: { duration: 0.2 }
                         }}
                       >
-                        <Star 
-                          size={14} 
-                          className={`${i < testimonial.rating ? 'fill-accent text-accent' : 'text-gray-300'}`} 
+                        <Star
+                          size={14}
+                          className={`${i < testimonial.rating ? 'fill-accent text-accent' : 'text-gray-300'}`}
                         />
                       </motion.div>
                     ))}
@@ -158,11 +158,11 @@ const Testimonials = () => {
                   <p className="text-gray-600 mb-8 relative z-10 pt-2 italic leading-relaxed">
                     {testimonial.text}
                   </p>
-                  
+
                   <div className="flex items-center gap-4 mt-auto">
-                    <img 
-                      src={testimonial.image} 
-                      alt={testimonial.name} 
+                    <img
+                      src={testimonial.image}
+                      alt={testimonial.name}
                       className="w-12 h-12 rounded-full object-cover border-2 border-accent/20"
                     />
                     <div>

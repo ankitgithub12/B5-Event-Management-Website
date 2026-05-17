@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   TrendingUp, 
   Users, 
   Calendar, 
   DollarSign,
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  Loader,
+  Sparkles
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -18,47 +21,114 @@ import {
   AreaChart,
   Area
 } from 'recharts';
+import api from '../../utils/api';
 
 const AdminDashboard = () => {
-  const stats = [
-    { name: 'Total Revenue', value: '$45,231.89', change: '+20.1%', icon: DollarSign, isUp: true },
-    { name: 'Total Bookings', value: '235', change: '+12.5%', icon: Calendar, isUp: true },
-    { name: 'Active Users', value: '1,203', change: '+4.3%', icon: Users, isUp: true },
-    { name: 'Sales Growth', value: '15.2%', change: '-2.1%', icon: TrendingUp, isUp: false },
-  ];
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const data = [
-    { name: 'Jan', revenue: 4000, bookings: 24 },
-    { name: 'Feb', revenue: 3000, bookings: 18 },
-    { name: 'Mar', revenue: 2000, bookings: 29 },
-    { name: 'Apr', revenue: 2780, bookings: 23 },
-    { name: 'May', revenue: 1890, bookings: 12 },
-    { name: 'Jun', revenue: 2390, bookings: 35 },
-    { name: 'Jul', revenue: 3490, bookings: 28 },
+  useEffect(() => {
+    const fetchDashboardStats = async () => {
+      setLoading(true);
+      setError('');
+      try {
+        const response = await api.get('/dashboard/stats');
+        setData(response.data);
+      } catch (err) {
+        setError(err.response?.data?.message || 'Failed to fetch dashboard metrics');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardStats();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-40">
+        <Loader className="animate-spin text-accent" size={40} />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-red-50 border border-red-200 text-red-600 p-4 rounded-xl text-center font-semibold">
+        {error}
+      </div>
+    );
+  }
+
+  const {
+    totalRevenue,
+    revenueGrowth,
+    totalBookings,
+    bookingsGrowth,
+    activeUsers,
+    usersGrowth,
+    completedEvents,
+    eventsGrowth,
+    recentBookings,
+    monthlyStats
+  } = data;
+
+  const statCards = [
+    { 
+      name: 'Total Revenue', 
+      value: `$${totalRevenue.toLocaleString()}`, 
+      change: `${revenueGrowth >= 0 ? '+' : ''}${revenueGrowth.toFixed(1)}%`, 
+      icon: DollarSign, 
+      isUp: revenueGrowth >= 0 
+    },
+    { 
+      name: 'Total Bookings', 
+      value: totalBookings.toString(), 
+      change: `${bookingsGrowth >= 0 ? '+' : ''}${bookingsGrowth.toFixed(1)}%`, 
+      icon: Calendar, 
+      isUp: bookingsGrowth >= 0 
+    },
+    { 
+      name: 'Active Staff/Users', 
+      value: activeUsers.toString(), 
+      change: `${usersGrowth >= 0 ? '+' : ''}${usersGrowth.toFixed(1)}%`, 
+      icon: Users, 
+      isUp: usersGrowth >= 0 
+    },
+    { 
+      name: 'Completed Events', 
+      value: completedEvents.toString(), 
+      change: `${eventsGrowth >= 0 ? '+' : ''}${eventsGrowth.toFixed(1)}%`, 
+      icon: TrendingUp, 
+      isUp: eventsGrowth >= 0 
+    },
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 font-body">
       <div>
         <h1 className="text-3xl font-heading font-bold text-primary">Dashboard Overview</h1>
-        <p className="text-gray-500">Welcome back! Here's what's happening with your events today.</p>
+        <p className="text-gray-500">Welcome back! Here's a live summary of your BE5 event operations.</p>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat) => (
-          <div key={stat.name} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        {statCards.map((stat) => (
+          <div key={stat.name} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
             <div className="flex justify-between items-start mb-4">
-              <div className="p-3 bg-primary-light/5 text-primary rounded-xl">
+              <div className="p-3 bg-accent/10 text-accent rounded-xl">
                 <stat.icon size={24} />
               </div>
-              <div className={`flex items-center gap-1 text-sm font-medium ${stat.isUp ? 'text-green-600' : 'text-red-600'}`}>
-                {stat.change}
-                {stat.isUp ? <ArrowUpRight size={16} /> : <ArrowDownRight size={16} />}
+              <div className={`flex items-center gap-0.5 text-xs font-semibold px-2 py-0.5 rounded-full ${
+                stat.isUp ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+              }`}>
+                <span>{stat.change}</span>
+                {stat.isUp ? <ArrowUpRight size={13} /> : <ArrowDownRight size={13} />}
               </div>
             </div>
-            <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">{stat.name}</p>
-            <h3 className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</h3>
+            <p className="text-gray-400 text-xs font-semibold uppercase tracking-wider">{stat.name}</p>
+            <h3 className="text-2xl font-bold text-primary mt-1">{stat.value}</h3>
           </div>
         ))}
       </div>
@@ -66,41 +136,42 @@ const AdminDashboard = () => {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <h3 className="text-lg font-bold text-primary mb-6">Revenue Overview</h3>
+          <h3 className="text-lg font-bold text-primary mb-6">Revenue Performance Overview</h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={data}>
+              <AreaChart data={monthlyStats}>
                 <defs>
                   <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#3B1E54" stopOpacity={0.1}/>
-                    <stop offset="95%" stopColor="#3B1E54" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#C89E62" stopOpacity={0.25}/>
+                    <stop offset="95%" stopColor="#C89E62" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} dy={10} />
                 <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} />
                 <Tooltip 
-                  contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)'}}
+                  contentStyle={{borderRadius: '16px', border: 'none', boxShadow: '0 10px 25px -5px rgb(0 0 0 / 0.05)'}}
+                  formatter={(value) => [`$${value.toLocaleString()}`, 'Revenue']}
                 />
-                <Area type="monotone" dataKey="revenue" stroke="#3B1E54" strokeWidth={3} fillOpacity={1} fill="url(#colorRevenue)" />
+                <Area type="monotone" dataKey="revenue" stroke="#C89E62" strokeWidth={3} fillOpacity={1} fill="url(#colorRevenue)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <h3 className="text-lg font-bold text-primary mb-6">Bookings by Month</h3>
+          <h3 className="text-lg font-bold text-primary mb-6">Bookings Distribution By Month</h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data}>
+              <BarChart data={monthlyStats}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} dy={10} />
                 <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} />
                 <Tooltip 
                   cursor={{fill: '#f8fafc'}}
-                  contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)'}}
+                  contentStyle={{borderRadius: '16px', border: 'none', boxShadow: '0 10px 25px -5px rgb(0 0 0 / 0.05)'}}
                 />
-                <Bar dataKey="bookings" fill="#C89E62" radius={[4, 4, 0, 0]} barSize={40} />
+                <Bar dataKey="bookings" fill="#3B1E54" radius={[6, 6, 0, 0]} barSize={36} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -109,46 +180,55 @@ const AdminDashboard = () => {
 
       {/* Recent Activity Table */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-6 border-b flex justify-between items-center">
-          <h3 className="text-lg font-bold text-primary">Recent Bookings</h3>
-          <button className="text-sm font-semibold text-accent hover:underline">View All</button>
+        <div className="p-6 border-b border-gray-100 flex justify-between items-center">
+          <h3 className="text-lg font-bold text-primary">Recent Client Bookings</h3>
+          <Link to="/admin/bookings" className="text-sm font-semibold text-accent hover:underline">
+            View All Bookings
+          </Link>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="bg-gray-50">
-                <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Client</th>
-                <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Event Type</th>
-                <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Date</th>
-                <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Amount</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {[
-                { client: 'Sarah Johnson', event: 'Wedding', date: 'Oct 24, 2026', status: 'Confirmed', amount: '$4,500' },
-                { client: 'Michael Chen', event: 'Corporate Gala', date: 'Nov 12, 2026', status: 'Pending', amount: '$7,200' },
-                { client: 'Emma Wilson', event: 'Birthday Party', date: 'Oct 30, 2026', status: 'Completed', amount: '$1,800' },
-                { client: 'David Smith', event: 'Conference', date: 'Dec 05, 2026', status: 'Confirmed', amount: '$12,400' },
-              ].map((booking, i) => (
-                <tr key={i} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 font-medium text-gray-900">{booking.client}</td>
-                  <td className="px-6 py-4 text-gray-600">{booking.event}</td>
-                  <td className="px-6 py-4 text-gray-600">{booking.date}</td>
-                  <td className="px-6 py-4">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      booking.status === 'Confirmed' ? 'bg-green-100 text-green-800' :
-                      booking.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-blue-100 text-blue-800'
-                    }`}>
-                      {booking.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-gray-900 font-semibold text-right">{booking.amount}</td>
+          {recentBookings.length === 0 ? (
+            <div className="p-12 text-center text-gray-400">
+              <Sparkles size={36} className="mx-auto mb-2 opacity-20" />
+              <p className="text-sm">No bookings recorded yet.</p>
+            </div>
+          ) : (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-gray-50 border-b border-gray-100">
+                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Client Name</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Event Type</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Event Date</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Invoice Quote</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {recentBookings.map((booking) => (
+                  <tr key={booking._id} className="hover:bg-gray-50/50 transition-colors">
+                    <td className="px-6 py-4 font-bold text-gray-900 text-sm">{booking.clientName}</td>
+                    <td className="px-6 py-4 text-gray-600 text-sm">{booking.eventType}</td>
+                    <td className="px-6 py-4 text-gray-500 text-xs">
+                      {new Date(booking.eventDate).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                        booking.status === 'Confirmed' ? 'bg-green-100 text-green-800' :
+                        booking.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                        booking.status === 'Completed' ? 'bg-blue-100 text-blue-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {booking.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-primary font-bold text-sm text-right">
+                      {booking.amount ? `$${booking.amount.toLocaleString()}` : <span className="text-gray-400 italic text-xs">Quote pending</span>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>

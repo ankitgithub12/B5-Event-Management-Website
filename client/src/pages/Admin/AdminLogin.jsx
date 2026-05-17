@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import logo from '../../assets/B5_logo.jpeg';
+import api from '../../utils/api';
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -18,22 +19,12 @@ const AdminLogin = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem('adminToken', data.token);
-        navigate('/admin');
-      } else {
-        setError(data.message || 'Login failed');
-      }
+      const response = await api.post('/auth/login', { email, password });
+      
+      localStorage.setItem('userInfo', JSON.stringify(response.data));
+      navigate('/admin');
     } catch (err) {
-      setError('Connection error. Is the server running?');
+      setError(err.response?.data?.message || 'Login failed. Connection error.');
     } finally {
       setIsLoading(false);
     }

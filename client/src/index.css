@@ -18,7 +18,12 @@
     @apply font-body bg-white text-gray-800 antialiased overflow-x-hidden;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-heading font-semibold leading-tight;
   }
 }
@@ -27,7 +32,7 @@
   .btn {
     @apply inline-flex items-center justify-center px-7 py-3 rounded-full font-medium text-base gap-2 transition-all duration-300 cursor-pointer;
   }
-  
+
   .btn-primary {
     @apply bg-accent text-white shadow-[var(--shadow-gold)] hover:bg-accent-hover hover:-translate-y-0.5 hover:shadow-[0_15px_30px_-5px_rgba(200,158,98,0.4)];
   }
@@ -42,8 +47,13 @@
 
   /* Marquee Animation */
   @keyframes marquee {
-    from { transform: translateX(-50%); }
-    to { transform: translateX(0); }
+    from {
+      transform: translateX(-50%);
+    }
+
+    to {
+      transform: translateX(0);
+    }
   }
 
   .animate-marquee {

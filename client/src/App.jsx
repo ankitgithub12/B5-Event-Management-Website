@@ -13,6 +13,11 @@ import AdminDashboard from './pages/Admin/AdminDashboard';
 import EventsManagement from './pages/Admin/EventsManagement';
 import BookingsManagement from './pages/Admin/BookingsManagement';
 import AdminLogin from './pages/Admin/AdminLogin';
+import ProtectedRoute from './components/Admin/ProtectedRoute';
+import UsersManagement from './pages/Admin/UsersManagement';
+import ServicesManagement from './pages/Admin/ServicesManagement';
+import GalleryManagement from './pages/Admin/GalleryManagement';
+import FormsManagement from './pages/Admin/FormsManagement';
 
 function App() {
   return (
@@ -29,12 +34,42 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/admin/login" element={<AdminLogin />} />
 
-        {/* Admin Routes */}
-        <Route path="/admin" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
-        <Route path="/admin/events" element={<AdminLayout><EventsManagement /></AdminLayout>} />
-        <Route path="/admin/bookings" element={<AdminLayout><BookingsManagement /></AdminLayout>} />
-        <Route path="/admin/users" element={<AdminLayout><div className="p-8"><h1 className="text-3xl font-heading font-bold text-primary">Users Management</h1><p className="mt-4 text-gray-500">Coming soon...</p></div></AdminLayout>} />
-        <Route path="/admin/settings" element={<AdminLayout><div className="p-8"><h1 className="text-3xl font-heading font-bold text-primary">Settings</h1><p className="mt-4 text-gray-500">Coming soon...</p></div></AdminLayout>} />
+        {/* Admin Routes wrapped in ProtectedRoute */}
+        <Route path="/admin" element={
+          <ProtectedRoute>
+            <AdminLayout><AdminDashboard /></AdminLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/events" element={
+          <ProtectedRoute>
+            <AdminLayout><EventsManagement /></AdminLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/bookings" element={
+          <ProtectedRoute>
+            <AdminLayout><BookingsManagement /></AdminLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/users" element={
+          <ProtectedRoute>
+            <AdminLayout><UsersManagement /></AdminLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/services" element={
+          <ProtectedRoute>
+            <AdminLayout><ServicesManagement /></AdminLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/gallery" element={
+          <ProtectedRoute>
+            <AdminLayout><GalleryManagement /></AdminLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/forms" element={
+          <ProtectedRoute>
+            <AdminLayout><FormsManagement /></AdminLayout>
+          </ProtectedRoute>
+        } />
       </Routes>
     </Router>
   );

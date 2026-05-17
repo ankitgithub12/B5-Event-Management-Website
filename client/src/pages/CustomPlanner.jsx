@@ -38,7 +38,7 @@ const CustomPlanner = () => {
     e.preventDefault();
     // Mock Calculation Logic
     let baseCost = parseInt(formData.guests) * 1500; // Base per guest
-    
+
     if (formData.location === 'outstation') baseCost *= 1.5;
     if (formData.location === 'destination') baseCost *= 2.5;
 
@@ -51,7 +51,7 @@ const CustomPlanner = () => {
     if (formData.services.entertainment) serviceCost += 80000;
 
     const total = baseCost + serviceCost;
-    
+
     // Determine Suggested Package
     let suggested = "Basic Package";
     if (total > 600000 && total <= 1500000) suggested = "Medium Package";
@@ -76,10 +76,10 @@ const CustomPlanner = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar />
-      
+
       <main className="flex-grow pt-32 pb-20">
         <div className="container mx-auto px-4 max-w-7xl">
-          
+
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-heading text-primary mb-4">Custom Event Planner</h1>
             <p className="text-gray-600 max-w-2xl mx-auto">
@@ -88,11 +88,11 @@ const CustomPlanner = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
+
             {/* Form Section */}
             <div className="lg:col-span-8 bg-white rounded-3xl p-8 shadow-[0_10px_40px_rgba(41,26,57,0.05)] border border-gray-100">
               <form onSubmit={calculateEstimate}>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                   {/* Event Type */}
                   <div>
@@ -104,7 +104,7 @@ const CustomPlanner = () => {
                       <option value="party">Private Party</option>
                     </select>
                   </div>
-                  
+
                   {/* Location */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Location Type</label>
@@ -167,13 +167,13 @@ const CustomPlanner = () => {
             <div className="lg:col-span-4">
               <div className="bg-primary-dark text-white rounded-3xl p-8 sticky top-32 shadow-2xl">
                 <h3 className="text-xl font-heading mb-6 border-b border-white/10 pb-4">Estimation Dashboard</h3>
-                
+
                 {estimate ? (
                   <div className="animate-fade-in">
                     <div className="mb-6">
                       <p className="text-sm text-gray-400 mb-1">Estimated Range</p>
                       <p className="text-3xl font-bold text-accent">
-                        {formatCurrency(estimate.min)} <br/><span className="text-lg text-white font-normal">to</span> {formatCurrency(estimate.max)}
+                        {formatCurrency(estimate.min)} <br /><span className="text-lg text-white font-normal">to</span> {formatCurrency(estimate.max)}
                       </p>
                       <p className="text-xs text-gray-500 mt-2">*This is a rough estimate. Actual costs may vary based on exact selections.</p>
                     </div>

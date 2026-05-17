@@ -64,8 +64,8 @@ const Navbar = () => {
                 key={index}
                 to={link.path}
                 className={`text-sm font-bold tracking-wide transition-all duration-300 relative group ${isActive(link.path)
-                    ? 'text-accent'
-                    : (isSolid ? 'text-primary hover:text-accent' : 'text-white hover:text-accent drop-shadow-md')
+                  ? 'text-accent'
+                  : (isSolid ? 'text-primary hover:text-accent' : 'text-white hover:text-accent drop-shadow-md')
                   }`}
               >
                 {link.name.toUpperCase()}
