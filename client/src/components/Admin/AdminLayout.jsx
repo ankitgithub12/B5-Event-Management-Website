@@ -58,7 +58,7 @@ const AdminLayout = ({ children }) => {
     fetchLeadNotifications();
 
     // Socket.io client setup
-    const socket = io('http://localhost:5000');
+    const socket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000');
     
     socket.on('notification', (newNotification) => {
       setNotifications(prev => [newNotification, ...prev]);
