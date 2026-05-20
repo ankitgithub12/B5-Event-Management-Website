@@ -1,4 +1,5 @@
 import { PiggyBank, Palette, Clock, Handshake } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const WhyChooseUs = () => {
   const features = [
@@ -24,35 +25,61 @@ const WhyChooseUs = () => {
     }
   ];
 
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.12
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: 'easeOut' }
+    }
+  };
+
   return (
     <section className="py-20 bg-primary-dark relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
         
-        <div className="text-center mb-12 hidden">
-          <div className="flex items-center justify-center gap-2 text-accent font-semibold text-sm tracking-[2px] uppercase mb-4">
-            <span className="w-8 h-px bg-accent"></span>
-            WHY CHOOSE US?
-            <span className="w-8 h-px bg-accent"></span>
-          </div>
-        </div>
-
-        <h2 className="text-center text-white text-sm tracking-[2px] uppercase mb-12 font-semibold">
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center text-white text-sm tracking-[2px] uppercase mb-12 font-semibold"
+        >
           WHY CHOOSE US?
-        </h2>
+        </motion.h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 divide-y sm:divide-y-0 sm:divide-x divide-white/10">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 divide-y sm:divide-y-0 sm:divide-x divide-white/10"
+        >
           {features.map((feature, index) => (
-            <div key={index} className="flex flex-col sm:flex-row items-center sm:items-start gap-4 px-6 py-6 sm:py-0 text-center sm:text-left">
-              <div className="w-16 h-16 rounded-full border border-accent/30 flex items-center justify-center shrink-0 bg-accent/5">
+            <motion.div 
+              key={index} 
+              variants={itemVariants}
+              whileHover={{ scale: 1.02 }}
+              className="flex flex-col sm:flex-row items-center sm:items-start gap-4 px-6 py-6 sm:py-0 text-center sm:text-left group cursor-default transition-all duration-300"
+            >
+              <div className="w-16 h-16 rounded-full border border-accent/30 flex items-center justify-center shrink-0 bg-accent/5 group-hover:border-accent group-hover:bg-accent/15 transition-all duration-300">
                 {feature.icon}
               </div>
               <div>
-                <h3 className="text-white text-lg font-semibold mb-2">{feature.title}</h3>
+                <h3 className="text-white text-lg font-semibold mb-2 group-hover:text-accent transition-colors duration-300">{feature.title}</h3>
                 <p className="text-white/60 text-sm leading-relaxed">{feature.description}</p>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
       </div>
 
