@@ -3,16 +3,26 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
 import SocialGrid from '../components/SocialGrid/SocialGrid';
-import { X, ZoomIn } from 'lucide-react';
+import { X, ZoomIn, Loader2 } from 'lucide-react';
+import api from '../utils/api';
+
+const spanClasses = [
+  'col-span-1 md:col-span-2 row-span-2',
+  'col-span-1 row-span-1',
+  'col-span-1 row-span-1',
+  'col-span-1 md:col-span-2 row-span-1',
+  'col-span-1 row-span-2',
+  'col-span-1 row-span-1',
+  'col-span-1 row-span-1',
+  'col-span-1 md:col-span-3 row-span-2',
+];
 
 const GalleryPage = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const [selectedImage, setSelectedImage] = useState(null);
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const galleryImages = [
+  const fallbackImages = [
     { id: 1, src: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80', alt: 'Udaipur Gala 1', span: 'col-span-1 md:col-span-2 row-span-2' },
     { id: 2, src: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 2', span: 'col-span-1 row-span-1' },
     { id: 3, src: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 3', span: 'col-span-1 row-span-1' },
@@ -22,6 +32,34 @@ const GalleryPage = () => {
     { id: 7, src: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 7', span: 'col-span-1 row-span-1' },
     { id: 8, src: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1200&q=80', alt: 'Udaipur Gala 8', span: 'col-span-1 md:col-span-3 row-span-2' },
   ];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    
+    const fetchGallery = async () => {
+      try {
+        const { data } = await api.get('/gallery');
+        if (data && data.length > 0) {
+          const formatted = data.map((item, i) => ({
+            id: item._id,
+            src: item.imageUrl,
+            alt: item.title,
+            span: spanClasses[i % spanClasses.length],
+          }));
+          setImages(formatted);
+        } else {
+          setImages(fallbackImages);
+        }
+      } catch (err) {
+        console.error('Error fetching gallery:', err);
+        setImages(fallbackImages);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGallery();
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
@@ -47,42 +85,49 @@ const GalleryPage = () => {
           </div>
 
           {/* Gallery Grid */}
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 auto-rows-[250px] gap-4"
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: {
-                opacity: 1,
-                transition: { staggerChildren: 0.1 }
-              }
-            }}
-          >
-            {galleryImages.map((img) => (
-              <motion.div
-                key={img.id}
-                variants={{
-                  hidden: { opacity: 0, scale: 0.9 },
-                  visible: { opacity: 1, scale: 1 }
-                }}
-                whileHover={{ scale: 0.98 }}
-                className={`relative group overflow-hidden rounded-2xl cursor-pointer shadow-lg ${img.span}`}
-                onClick={() => setSelectedImage(img)}
-              >
-                <img 
-                  src={img.src} 
-                  alt={img.alt} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <div className="bg-white/20 backdrop-blur-md p-4 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                    <ZoomIn className="text-white w-6 h-6" />
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-20 gap-3">
+              <Loader2 size={40} className="text-accent animate-spin" />
+              <p className="text-gray-500 font-medium">Loading our dynamic event gallery...</p>
+            </div>
+          ) : (
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-3 auto-rows-[250px] gap-4"
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: { staggerChildren: 0.1 }
+                }
+              }}
+            >
+              {images.map((img) => (
+                <motion.div
+                  key={img.id}
+                  variants={{
+                    hidden: { opacity: 0, scale: 0.9 },
+                    visible: { opacity: 1, scale: 1 }
+                  }}
+                  whileHover={{ scale: 0.98 }}
+                  className={`relative group overflow-hidden rounded-2xl cursor-pointer shadow-lg ${img.span}`}
+                  onClick={() => setSelectedImage(img)}
+                >
+                  <img 
+                    src={img.src} 
+                    alt={img.alt} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <div className="bg-white/20 backdrop-blur-md p-4 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                      <ZoomIn className="text-white w-6 h-6" />
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
           
           {/* Back to Portfolio CTA */}
           <div className="mt-20 text-center">

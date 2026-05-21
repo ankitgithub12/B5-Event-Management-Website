@@ -4,7 +4,6 @@ import {
   LayoutDashboard, 
   Calendar, 
   Users, 
-  Settings, 
   Bell, 
   Menu, 
   X, 
@@ -19,16 +18,36 @@ import logo from '../../assets/B5_logo.jpeg';
 import api from '../../utils/api';
 
 const AdminLayout = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  // Sidebar is open by default on desktop, closed on mobile
+  const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 768);
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [adminUser, setAdminUser] = useState({ name: 'Admin User', role: 'Super Admin' });
-  
+
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Handle window resize to auto-open sidebar on desktop
   useEffect(() => {
-    // Read user from localStorage
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsSidebarOpen(true);
+      } else {
+        setIsSidebarOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Close sidebar when route changes on mobile
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setIsSidebarOpen(false);
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
     const userInfo = localStorage.getItem('userInfo');
     if (userInfo) {
       const parsed = JSON.parse(userInfo);
@@ -37,7 +56,6 @@ const AdminLayout = ({ children }) => {
       navigate('/admin/login');
     }
 
-    // Fetch initial notifications/forms or load mock for notifications
     const fetchLeadNotifications = async () => {
       try {
         const response = await api.get('/forms');
@@ -54,12 +72,10 @@ const AdminLayout = ({ children }) => {
         console.log('Failed to fetch lead alerts');
       }
     };
-    
+
     fetchLeadNotifications();
 
-    // Socket.io client setup
     const socket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000');
-    
     socket.on('notification', (newNotification) => {
       setNotifications(prev => [newNotification, ...prev]);
     });
@@ -82,28 +98,55 @@ const AdminLayout = ({ children }) => {
     { name: 'Users', path: '/admin/users', icon: Users },
   ];
 
+  const isMobile = () => window.innerWidth < 768;
+
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 flex relative">
+
+      {/* Mobile Overlay */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className={`bg-primary text-white w-64 fixed h-full transition-transform duration-300 z-50 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
-        <div className="p-6 border-b border-white/10 flex justify-between items-center">
+      <aside
+        className={`
+          bg-primary text-white fixed h-full z-50 flex flex-col
+          transition-transform duration-300 ease-in-out
+          w-64
+          ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        `}
+      >
+        {/* Sidebar Header */}
+        <div className="p-5 border-b border-white/10 flex justify-between items-center shrink-0">
           <Link to="/" className="flex items-center gap-3">
             <img src={logo} alt="BE5 Logo" className="w-8 h-8 rounded-lg border border-white/20 bg-white p-0.5 object-cover" />
             <span className="text-xl font-heading font-bold text-accent tracking-wider">BE5 ADMIN</span>
           </Link>
-          <button onClick={() => setIsSidebarOpen(false)} className="md:hidden cursor-pointer hover:text-accent">
+          <button
+            onClick={() => setIsSidebarOpen(false)}
+            className="md:hidden cursor-pointer hover:text-accent p-1 rounded-lg hover:bg-white/10 transition-colors"
+          >
             <X size={20} />
           </button>
         </div>
-        
-        <nav className="p-4 mt-2 space-y-1.5 overflow-y-auto max-h-[calc(100vh-160px)]">
+
+        {/* Nav Items */}
+        <nav className="flex-1 p-4 mt-2 space-y-1.5 overflow-y-auto">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
-              <Link 
-                key={item.name} 
+              <Link
+                key={item.name}
                 to={item.path}
-                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors text-sm ${isActive ? 'bg-accent text-white shadow-lg shadow-accent/20' : 'hover:bg-white/5 text-white/80 hover:text-white'}`}
+                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-sm ${
+                  isActive
+                    ? 'bg-accent text-white shadow-lg shadow-accent/20'
+                    : 'hover:bg-white/10 text-white/80 hover:text-white'
+                }`}
               >
                 <item.icon size={18} />
                 <span className="font-semibold">{item.name}</span>
@@ -112,8 +155,9 @@ const AdminLayout = ({ children }) => {
           })}
         </nav>
 
-        <div className="absolute bottom-4 left-0 w-full p-4 border-t border-white/5">
-          <button 
+        {/* Logout */}
+        <div className="p-4 border-t border-white/10 shrink-0">
+          <button
             onClick={handleLogout}
             className="flex items-center gap-3 px-4 py-2.5 w-full rounded-xl hover:bg-red-500/10 text-red-300 font-semibold text-sm transition-colors cursor-pointer"
           >
@@ -123,40 +167,45 @@ const AdminLayout = ({ children }) => {
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'md:ml-64' : ''}`}>
-        {/* Navbar */}
-        <header className="bg-white border-b h-16 flex items-center justify-between px-6 sticky top-0 z-40 shadow-sm shadow-black/[0.01]">
-          <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-gray-500 hover:text-primary cursor-pointer">
+      {/* Main Content — shifts right on md+ when sidebar is open */}
+      <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${isSidebarOpen ? 'md:ml-64' : 'ml-0'}`}>
+
+        {/* Top Header */}
+        <header className="bg-white border-b h-16 flex items-center justify-between px-4 md:px-6 sticky top-0 z-30 shadow-sm shadow-black/[0.01] shrink-0">
+          <button
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="text-gray-500 hover:text-primary cursor-pointer p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
             <Menu size={22} />
           </button>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 md:gap-6">
+            {/* Notifications */}
             <div className="relative">
-              <button 
+              <button
                 onClick={() => setShowNotifications(!showNotifications)}
-                className="text-gray-500 hover:text-primary relative p-2 cursor-pointer"
+                className="text-gray-500 hover:text-primary relative p-2 cursor-pointer rounded-lg hover:bg-gray-100 transition-colors"
               >
                 <Bell size={20} />
                 {notifications.length > 0 && (
                   <span className="absolute top-1.5 right-1.5 bg-red-500 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center border border-white font-bold">
-                    {notifications.length}
+                    {notifications.length > 9 ? '9+' : notifications.length}
                   </span>
                 )}
               </button>
 
               {showNotifications && (
-                <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+                <div className="absolute right-0 mt-2 w-72 md:w-80 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50">
                   <div className="p-4 border-b bg-gray-50 flex justify-between items-center">
                     <span className="font-bold text-sm text-primary">Inquiries Alert</span>
-                    <button 
+                    <button
                       onClick={() => setNotifications([])}
                       className="text-xs text-accent font-semibold hover:underline cursor-pointer"
                     >
                       Clear all
                     </button>
                   </div>
-                  <div className="max-h-80 overflow-y-auto">
+                  <div className="max-h-72 overflow-y-auto">
                     {notifications.length === 0 ? (
                       <div className="p-8 text-center text-gray-400">
                         <Bell size={28} className="mx-auto mb-2 opacity-20" />
@@ -175,22 +224,26 @@ const AdminLayout = ({ children }) => {
               )}
             </div>
 
-            <div className="flex items-center gap-3 border-l pl-4 border-gray-100">
+            {/* Admin Info */}
+            <div className="flex items-center gap-2 md:gap-3 border-l pl-3 md:pl-4 border-gray-100">
               <div className="text-right hidden sm:block">
-                <p className="text-sm font-bold text-gray-900">{adminUser.name}</p>
+                <p className="text-sm font-bold text-gray-900 truncate max-w-[120px]">{adminUser.name}</p>
                 <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">{adminUser.role}</p>
               </div>
-              <div className="w-9 h-9 rounded-xl bg-accent/15 text-accent flex items-center justify-center font-bold text-base shadow-sm">
+              <div className="w-9 h-9 rounded-xl bg-accent/15 text-accent flex items-center justify-center font-bold text-base shadow-sm shrink-0">
                 {adminUser.name.charAt(0).toUpperCase()}
               </div>
             </div>
           </div>
         </header>
 
-        <div className="p-6 md:p-8 max-w-7xl mx-auto">
-          {children}
-        </div>
-      </main>
+        {/* Page Content */}
+        <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-auto">
+          <div className="max-w-7xl mx-auto">
+            {children}
+          </div>
+        </main>
+      </div>
     </div>
   );
 };

@@ -1,9 +1,39 @@
+import { useState } from 'react';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
 import { Camera, Video, Music, Tent, Users, Briefcase, PartyPopper, CheckCircle, Check, ArrowRight, Heart, Star, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const ServicesPage = () => {
+  const [selectedServices, setSelectedServices] = useState({
+    'Exotic Floral & Decor': false,
+    'Gourmet Catering & Bar': false,
+    'Cinematic Photography': false,
+    'Celebrity Entertainment': false,
+    'Seamless Logistics': false
+  });
+
+  const handleServiceToggle = (label) => {
+    setSelectedServices(prev => ({
+      ...prev,
+      [label]: !prev[label]
+    }));
+  };
+
+  const getCustomizingLink = () => {
+    const active = Object.keys(selectedServices).filter(key => selectedServices[key]);
+    if (active.length === 0) return '/contact';
+    
+    const servicesStr = active.join(', ');
+    const message = `I would like to customize my event with: ${servicesStr}.`;
+    
+    const params = new URLSearchParams();
+    params.append('eventType', 'Custom Event');
+    params.append('message', message);
+    
+    return `/contact?${params.toString()}`;
+  };
+
   const mainServices = [
     {
       icon: <Heart size={40} className="text-primary" />,
@@ -190,14 +220,31 @@ const ServicesPage = () => {
                     { label: 'Cinematic Photography', icon: <Camera size={20} /> },
                     { label: 'Celebrity Entertainment', icon: <Music size={20} /> },
                     { label: 'Seamless Logistics', icon: <Briefcase size={20} /> },
-                  ].map((item, idx) => (
-                    <label key={idx} className="flex items-center gap-4 p-4 rounded-2xl border border-gray-100 hover:border-accent hover:bg-accent/5 transition-all cursor-pointer group">
-                      <input type="checkbox" className="w-5 h-5 accent-accent" />
-                      <span className="text-primary font-bold group-hover:text-accent flex items-center gap-2">
-                        {item.icon} {item.label}
-                      </span>
-                    </label>
-                  ))}
+                  ].map((item, idx) => {
+                    const isChecked = selectedServices[item.label];
+                    return (
+                      <label 
+                        key={idx} 
+                        className={`flex items-center gap-4 p-4 rounded-2xl border transition-all cursor-pointer group ${
+                          isChecked 
+                            ? 'border-accent bg-accent/5 shadow-md shadow-accent/5' 
+                            : 'border-gray-100 hover:border-accent hover:bg-accent/5'
+                        }`}
+                      >
+                        <input 
+                          type="checkbox" 
+                          checked={isChecked}
+                          onChange={() => handleServiceToggle(item.label)}
+                          className="w-5 h-5 accent-accent" 
+                        />
+                        <span className={`font-bold flex items-center gap-2 transition-colors ${
+                          isChecked ? 'text-accent' : 'text-primary group-hover:text-accent'
+                        }`}>
+                          {item.icon} {item.label}
+                        </span>
+                      </label>
+                    );
+                  })}
                 </div>
               </div>
               <div className="relative">
@@ -218,7 +265,7 @@ const ServicesPage = () => {
                       <span className="text-accent font-bold">Complimentary</span>
                     </div>
                   </div>
-                  <Link to="/contact" className="w-full bg-accent text-primary py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-white transition-all">
+                  <Link to={getCustomizingLink()} className="w-full bg-accent text-primary py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-white transition-all">
                     Start Customizing <ArrowRight size={18} />
                   </Link>
                 </div>

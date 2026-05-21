@@ -1,11 +1,104 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
 import { Link } from 'react-router-dom';
-import { Check, X, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
+import { Check, X, ChevronDown, ChevronUp, ArrowRight, Loader2, Calendar, Users, FileText, CheckCircle2, AlertCircle } from 'lucide-react';
+import api from '../utils/api';
 
 const PackagesPage = () => {
   const [isTableExpanded, setIsTableExpanded] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [selectedPackageForBooking, setSelectedPackageForBooking] = useState(null);
+  const [toast, setToast] = useState('');
+  
+  const [bookingForm, setBookingForm] = useState({
+    clientName: '',
+    email: '',
+    phone: '',
+    eventType: '',
+    eventDate: '',
+    guestCount: '',
+    notes: '',
+  });
+
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [bookingError, setBookingError] = useState('');
+
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(''), 5000);
+  };
+
+  const handleSelectPackage = (pkg) => {
+    setSelectedPackageForBooking(pkg);
+    setBookingForm(prev => ({
+      ...prev,
+      eventType: pkg.name,
+    }));
+    setIsBookingModalOpen(true);
+  };
+
+  const handleAddAddon = (addon) => {
+    setBookingForm(prev => ({
+      ...prev,
+      notes: prev.notes 
+        ? `${prev.notes}\n- Add-on requested: ${addon.name} (${addon.price})`
+        : `- Add-on requested: ${addon.name} (${addon.price})`
+    }));
+    showToast(`✨ Added "${addon.name}" to package notes. Complete your booking below!`);
+    setIsBookingModalOpen(true);
+    if (!bookingForm.eventType) {
+      setBookingForm(prev => ({ ...prev, eventType: 'Medium Package' }));
+    }
+  };
+
+  const handleDownloadBrochure = () => {
+    showToast("✨ Preparing your BE5 Eventory brochure... Download started!");
+  };
+
+  const handleBookingChange = (e) => {
+    setBookingForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleBookingSubmit = async (e) => {
+    e.preventDefault();
+    setBookingLoading(true);
+    setBookingError('');
+    setBookingSuccess(false);
+
+    try {
+      await api.post('/bookings', {
+        clientName: bookingForm.clientName,
+        email: bookingForm.email,
+        phone: bookingForm.phone,
+        eventType: bookingForm.eventType,
+        eventDate: bookingForm.eventDate,
+        guestCount: Number(bookingForm.guestCount),
+        notes: bookingForm.notes,
+      });
+
+      setBookingSuccess(true);
+      setBookingForm({
+        clientName: '',
+        email: '',
+        phone: '',
+        eventType: '',
+        eventDate: '',
+        guestCount: '',
+        notes: '',
+      });
+      setTimeout(() => {
+        setIsBookingModalOpen(false);
+        setBookingSuccess(false);
+      }, 3000);
+      showToast("✨ Booking submitted successfully!");
+    } catch (err) {
+      setBookingError(err.response?.data?.message || 'Failed to submit booking. Please try again.');
+    } finally {
+      setBookingLoading(false);
+    }
+  };
 
   const packages = [
     {
@@ -145,12 +238,12 @@ const PackagesPage = () => {
                   ))}
                 </ul>
                 
-                <Link 
-                  to="/planner" 
+                <button 
+                  onClick={() => handleSelectPackage(pkg)}
                   className={`w-full py-4 rounded-full font-bold text-sm transition-all duration-300 border-2 flex items-center justify-center cursor-pointer ${pkg.btn}`}
                 >
                   Select Package
-                </Link>
+                </button>
               </div>
             ))}
           </div>
@@ -222,7 +315,10 @@ const PackagesPage = () => {
                   <h4 className="text-lg font-bold text-primary mb-1 group-hover:text-[#C5A06B] transition-colors">{addon.name}</h4>
                   <div className="text-[#C5A06B] font-bold text-sm mb-4">{addon.price}</div>
                   <p className="text-gray-500 text-xs leading-relaxed flex-grow">{addon.desc}</p>
-                  <button className="mt-6 text-[10px] font-black tracking-widest uppercase text-primary/40 group-hover:text-primary transition-colors flex items-center gap-2">
+                  <button 
+                    onClick={() => handleAddAddon(addon)}
+                    className="mt-6 text-[10px] font-black tracking-widest uppercase text-primary/40 group-hover:text-[#C5A06B] hover:text-[#C5A06B] transition-colors flex items-center gap-2"
+                  >
                     ADD TO PACKAGE <ArrowRight size={12} />
                   </button>
                 </div>
@@ -276,12 +372,158 @@ const PackagesPage = () => {
               Our event experts are here to help you choose the perfect plan. Or try our custom planner to build a package from scratch.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
-              <a href="/contact" className="bg-[#C5A06B] text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-primary transition-colors shadow-lg">Talk to an Expert</a>
-              <a href="/planner" className="border-2 border-white/30 text-white hover:bg-white/10 px-10 py-4 rounded-full font-bold text-lg transition-colors">Use Custom Planner</a>
+              <a href="/contact" className="bg-[#C5A06B] text-white px-10 py-4 rounded-full font-bold text-base hover:bg-white hover:text-primary transition-colors shadow-lg flex items-center justify-center">Talk to an Expert</a>
+              <button 
+                onClick={handleDownloadBrochure}
+                className="border-2 border-white/30 text-white hover:bg-white/10 px-10 py-4 rounded-full font-bold text-base transition-colors flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <FileText size={18} /> Download Pricing Brochure
+              </button>
+              <a href="/planner" className="border-2 border-white/30 text-white hover:bg-white/10 px-10 py-4 rounded-full font-bold text-base transition-colors flex items-center justify-center">Use Custom Planner</a>
             </div>
           </div>
 
         </div>
+
+        {/* Booking Modal */}
+        {isBookingModalOpen && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-[100] transition-all duration-300">
+            <div className="bg-white rounded-3xl p-6 md:p-8 max-w-lg w-full shadow-2xl relative border border-gray-100 animate-in fade-in zoom-in-95 duration-200 text-left max-h-[90vh] overflow-y-auto">
+              <button
+                onClick={() => setIsBookingModalOpen(false)}
+                className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+              >
+                <X size={20} />
+              </button>
+              <div className="flex items-center gap-2 text-[#C5A06B] font-semibold text-xs tracking-wider uppercase mb-3">
+                <Calendar size={14} />
+                Book Your Event Package
+              </div>
+              <h3 className="text-2xl font-serif text-primary mb-6">
+                {bookingForm.eventType || 'Custom Event Package'}
+              </h3>
+
+              {bookingSuccess && (
+                <div className="mb-6 flex items-center gap-3 bg-green-50 border border-green-200 text-green-700 px-5 py-4 rounded-xl">
+                  <CheckCircle2 size={20} className="shrink-0 text-green-600" />
+                  <span className="font-medium">Booking requested successfully! We will contact you soon.</span>
+                </div>
+              )}
+
+              {bookingError && (
+                <div className="mb-6 flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 px-5 py-4 rounded-xl">
+                  <AlertCircle size={20} className="shrink-0 text-red-600" />
+                  <span className="font-medium">{bookingError}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleBookingSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-[10px] font-bold tracking-[1.5px] text-gray-400 uppercase mb-2">Your Name *</label>
+                  <input
+                    type="text"
+                    name="clientName"
+                    required
+                    value={bookingForm.clientName}
+                    onChange={handleBookingChange}
+                    placeholder="e.g. Elena Richards"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-[#C5A06B] focus:ring-1 focus:ring-[#C5A06B] text-sm text-gray-800"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-bold tracking-[1.5px] text-gray-400 uppercase mb-2">Email Address *</label>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      value={bookingForm.email}
+                      onChange={handleBookingChange}
+                      placeholder="you@example.com"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-[#C5A06B] focus:ring-1 focus:ring-[#C5A06B] text-sm text-gray-800"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold tracking-[1.5px] text-gray-400 uppercase mb-2">Phone Number *</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      required
+                      value={bookingForm.phone}
+                      onChange={handleBookingChange}
+                      placeholder="+91 98765-43210"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-[#C5A06B] focus:ring-1 focus:ring-[#C5A06B] text-sm text-gray-800"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-bold tracking-[1.5px] text-gray-400 uppercase mb-2">Event Date *</label>
+                    <input
+                      type="date"
+                      name="eventDate"
+                      required
+                      min={new Date().toISOString().split('T')[0]}
+                      value={bookingForm.eventDate}
+                      onChange={handleBookingChange}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-[#C5A06B] focus:ring-1 focus:ring-[#C5A06B] text-sm text-gray-700"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold tracking-[1.5px] text-gray-400 uppercase mb-2">Guest Count</label>
+                    <input
+                      type="number"
+                      name="guestCount"
+                      min="1"
+                      value={bookingForm.guestCount}
+                      onChange={handleBookingChange}
+                      placeholder="Estimated Guests"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-[#C5A06B] focus:ring-1 focus:ring-[#C5A06B] text-sm text-gray-800"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold tracking-[1.5px] text-gray-400 uppercase mb-2">Special Requests / Notes</label>
+                  <textarea
+                    name="notes"
+                    rows="3"
+                    value={bookingForm.notes}
+                    onChange={handleBookingChange}
+                    placeholder="Any customizations or requested add-ons..."
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-[#C5A06B] focus:ring-1 focus:ring-[#C5A06B] text-sm text-gray-800 resize-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={bookingLoading}
+                  className="w-full py-4 rounded-xl bg-[#C5A06B] text-white font-semibold text-base hover:bg-[#B38F5A] transition-colors disabled:opacity-60 flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  {bookingLoading ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      Submitting Booking...
+                    </>
+                  ) : 'Submit Booking Request'}
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* Toast Notification */}
+        {toast && (
+          <div className="fixed bottom-8 right-8 z-[110] bg-primary text-white border border-[#C5A06B]/20 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-5 duration-300 max-w-sm text-left">
+            <CheckCircle2 className="text-[#C5A06B] shrink-0" size={20} />
+            <span className="text-sm font-semibold">{toast}</span>
+            <button onClick={() => setToast('')} className="text-white/50 hover:text-white ml-auto shrink-0 cursor-pointer">
+              <X size={16} />
+            </button>
+          </div>
+        )}
       </main>
       <Footer />
     </div>

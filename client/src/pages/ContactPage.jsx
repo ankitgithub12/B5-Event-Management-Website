@@ -1,41 +1,121 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
 import SocialGrid from '../components/SocialGrid/SocialGrid';
-import { MapPin, Phone, Mail, MessageCircle, CalendarDays, CheckCircle2, X } from 'lucide-react';
+import { MapPin, Phone, Mail, MessageCircle, CalendarDays, CheckCircle2, X, Loader2, AlertCircle } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
+import api from '../utils/api';
 
 const ContactPage = () => {
+  const location = useLocation();
   const [formData, setFormData] = useState({
-    fullName: '',
+    name: '',
+    email: '',
     phone: '',
     eventType: '',
     budget: '',
     guests: '',
-    vision: '',
+    message: '',
   });
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const eventType = params.get('eventType') || '';
+    const message = params.get('message') || '';
+    const budget = params.get('budget') || '';
+    const guests = params.get('guests') || '';
+    
+    if (eventType || message || budget || guests) {
+      setFormData(prev => ({
+        ...prev,
+        eventType: eventType || prev.eventType,
+        message: message || prev.message,
+        budget: budget || prev.budget,
+        guests: guests || prev.guests,
+      }));
+    }
+  }, [location.search]);
+
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [events, setEvents] = useState([]);
+  const [selectedCalendarEvent, setSelectedCalendarEvent] = useState(null);
+  const [loadingEvents, setLoadingEvents] = useState(true);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const { data } = await api.get('/events');
+        setEvents(data);
+      } catch (err) {
+        console.error('Error fetching events:', err);
+      } finally {
+        setLoadingEvents(false);
+      }
+    };
+    fetchEvents();
+  }, []);
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
-    setFormData({ fullName: '', phone: '', eventType: '', budget: '', guests: '', vision: '' });
+    setLoading(true);
+    setError('');
+
+    // Build the message combining event details
+    const combinedMessage = [
+      formData.message,
+      formData.eventType ? `Event Type: ${formData.eventType}` : '',
+      formData.budget ? `Budget: ${formData.budget}` : '',
+      formData.guests ? `Guests: ${formData.guests}` : '',
+    ].filter(Boolean).join('\n');
+
+    try {
+      await api.post('/forms', {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        subject: formData.eventType ? `Inquiry: ${formData.eventType}` : 'General Inquiry',
+        message: combinedMessage || 'No message provided.',
+        formType: 'Contact',
+      });
+
+      setSubmitted(true);
+      setFormData({ name: '', email: '', phone: '', eventType: '', budget: '', guests: '', message: '' });
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to send inquiry. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const today = new Date();
-  const calendarDays = Array.from({ length: 7 }, (_, i) => {
+  const calendarDays = Array.from({ length: 30 }, (_, i) => {
     const d = new Date(today);
     d.setDate(today.getDate() + i);
+    
+    const eventOnDay = events.find(event => {
+      const eventDate = new Date(event.date);
+      return eventDate.getDate() === d.getDate() &&
+             eventDate.getMonth() === d.getMonth() &&
+             eventDate.getFullYear() === d.getFullYear();
+    });
+
+    const isToday = i === 0;
+
     return {
+      dateObj: d,
       date: d.getDate(),
       month: d.toLocaleString('en', { month: 'short' }).toUpperCase(),
-      status: i === 0 ? 'today' : [1, 4].includes(i) ? 'booked' : 'available',
+      year: d.getFullYear(),
+      status: isToday ? 'today' : eventOnDay ? 'booked' : 'available',
+      event: eventOnDay || null,
     };
   });
 
@@ -71,16 +151,34 @@ const ContactPage = () => {
                 </div>
               )}
 
+              {error && (
+                <div className="mb-6 flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 px-5 py-4 rounded-xl">
+                  <AlertCircle size={20} />
+                  <span className="font-medium">{error}</span>
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-[11px] font-semibold tracking-[1.5px] text-gray-500 uppercase mb-2">Full Name</label>
+                    <label className="block text-[11px] font-semibold tracking-[1.5px] text-gray-500 uppercase mb-2">Full Name *</label>
                     <input
-                      type="text" name="fullName" value={formData.fullName} onChange={handleChange}
+                      type="text" name="name" value={formData.name} onChange={handleChange}
                       placeholder="e.g. Elena Richards" required
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent text-sm text-gray-800 placeholder:text-gray-400"
                     />
                   </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold tracking-[1.5px] text-gray-500 uppercase mb-2">Email Address *</label>
+                    <input
+                      type="email" name="email" value={formData.email} onChange={handleChange}
+                      placeholder="you@example.com" required
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent text-sm text-gray-800 placeholder:text-gray-400"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-[11px] font-semibold tracking-[1.5px] text-gray-500 uppercase mb-2">Phone Number</label>
                     <input
@@ -89,52 +187,60 @@ const ContactPage = () => {
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent text-sm text-gray-800 placeholder:text-gray-400"
                     />
                   </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold tracking-[1.5px] text-gray-500 uppercase mb-2">Event Type</label>
+                    <select name="eventType" value={formData.eventType} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent text-sm text-gray-700">
+                      <option value="">Select Event Type</option>
+                      <option value="Wedding">Wedding</option>
+                      <option value="Engagement">Engagement</option>
+                      <option value="Corporate Event">Corporate Event</option>
+                      <option value="Birthday / Anniversary">Birthday / Anniversary</option>
+                      <option value="Pre-Wedding Shoot">Pre-Wedding Shoot</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-[11px] font-semibold tracking-[1.5px] text-gray-500 uppercase mb-2">Event Type</label>
-                    <select name="eventType" value={formData.eventType} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent text-sm text-gray-700">
-                      <option value="">Wedding Celebration</option>
-                      <option value="wedding">Wedding</option>
-                      <option value="engagement">Engagement</option>
-                      <option value="corporate">Corporate Event</option>
-                      <option value="birthday">Birthday / Anniversary</option>
-                      <option value="prewedding">Pre-Wedding Shoot</option>
-                    </select>
-                  </div>
-                  <div>
                     <label className="block text-[11px] font-semibold tracking-[1.5px] text-gray-500 uppercase mb-2">Estimated Budget</label>
                     <select name="budget" value={formData.budget} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent text-sm text-gray-700">
                       <option value="">Select Range</option>
-                      <option value="4-6L">₹4–6 Lakhs (Basic)</option>
-                      <option value="10-15L">₹10–15 Lakhs (Medium)</option>
-                      <option value="25-30L">₹25–30 Lakhs (Premium)</option>
-                      <option value="40L+">₹40L+ (Luxury)</option>
+                      <option value="₹4–6 Lakhs (Basic)">₹4–6 Lakhs (Basic)</option>
+                      <option value="₹10–15 Lakhs (Medium)">₹10–15 Lakhs (Medium)</option>
+                      <option value="₹25–30 Lakhs (Premium)">₹25–30 Lakhs (Premium)</option>
+                      <option value="₹40L+ (Luxury)">₹40L+ (Luxury)</option>
                     </select>
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold tracking-[1.5px] text-gray-500 uppercase mb-2">Number of Guests</label>
+                    <input
+                      type="number" name="guests" value={formData.guests} onChange={handleChange}
+                      placeholder="Estimated Count" min="1"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent text-sm text-gray-800 placeholder:text-gray-400"
+                    />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-semibold tracking-[1.5px] text-gray-500 uppercase mb-2">Number of Guests</label>
-                  <input
-                    type="number" name="guests" value={formData.guests} onChange={handleChange}
-                    placeholder="Estimated Count" min="1"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent text-sm text-gray-800 placeholder:text-gray-400"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-semibold tracking-[1.5px] text-gray-500 uppercase mb-2">Your Vision</label>
+                  <label className="block text-[11px] font-semibold tracking-[1.5px] text-gray-500 uppercase mb-2">Your Vision / Message *</label>
                   <textarea
-                    name="vision" value={formData.vision} onChange={handleChange}
-                    placeholder="Tell us about your dream event..." rows="4"
+                    name="message" value={formData.message} onChange={handleChange}
+                    placeholder="Tell us about your dream event..." rows="4" required
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent text-sm text-gray-800 placeholder:text-gray-400 resize-none"
                   />
                 </div>
 
-                <button type="submit" className="w-full py-4 rounded-xl bg-accent text-white font-semibold text-base tracking-wide hover:bg-accent-hover transition-all duration-300 hover:-translate-y-0.5 shadow-gold">
-                  Submit Inquiry
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-4 rounded-xl bg-accent text-white font-semibold text-base tracking-wide hover:bg-accent-hover transition-all duration-300 hover:-translate-y-0.5 shadow-gold disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      Sending...
+                    </>
+                  ) : 'Submit Inquiry'}
                 </button>
               </form>
             </div>
@@ -169,7 +275,7 @@ const ContactPage = () => {
                 </a>
               </div>
 
-              {/* Map Placeholder */}
+              {/* Map */}
               <div className="rounded-3xl overflow-hidden h-52 bg-gray-900 relative flex items-center justify-center">
                 <iframe
                   title="BE5 Eventory Location"
@@ -206,36 +312,59 @@ const ContactPage = () => {
           </div>
 
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-3">
-            {calendarDays.map((day, i) => (
-              <div
-                key={i}
-                className={`rounded-2xl p-4 text-center border-2 transition-all duration-300 ${day.status === 'today'
-                    ? 'border-accent bg-white shadow-gold shadow-md'
-                    : day.status === 'booked'
-                      ? 'border-red-200 bg-red-50'
-                      : 'border-gray-200 bg-white hover:border-accent hover:shadow-sm'
-                  }`}
-              >
-                <p className="text-[10px] font-bold tracking-widest text-gray-400 mb-1">{day.month}</p>
-                <p className={`text-2xl font-heading font-bold ${day.status === 'today' ? 'text-accent' : 'text-primary'}`}>
-                  {day.date}
-                </p>
-                {day.status === 'today' && (
-                  <p className="text-[9px] tracking-widest text-accent uppercase font-bold mt-1">TODAY</p>
-                )}
-                <div className="mt-3 flex justify-center">
-                  {day.status === 'booked' ? (
-                    <X size={18} className="text-red-400" />
-                  ) : (
-                    <CalendarDays size={18} className={day.status === 'today' ? 'text-accent' : 'text-gray-300'} />
-                  )}
-                </div>
+            {loadingEvents ? (
+              <div className="col-span-full flex flex-col items-center justify-center py-12 gap-3">
+                <Loader2 size={32} className="text-accent animate-spin" />
+                <p className="text-gray-500 font-medium text-sm">Loading calendar availability...</p>
               </div>
-            ))}
+            ) : (
+              calendarDays.map((day, i) => (
+                <div
+                  key={i}
+                  onClick={() => {
+                    if (day.status === 'booked' && day.event) {
+                      setSelectedCalendarEvent(day.event);
+                    }
+                  }}
+                  className={`rounded-2xl p-4 text-center border-2 transition-all duration-300 relative group ${day.status === 'today'
+                      ? 'border-accent bg-white shadow-gold shadow-md'
+                      : day.status === 'booked'
+                        ? 'border-red-200 bg-red-50 hover:bg-red-100/50 cursor-pointer shadow-sm'
+                        : 'border-gray-200 bg-white hover:border-accent hover:shadow-sm'
+                    }`}
+                >
+                  <p className="text-[10px] font-bold tracking-widest text-gray-400 mb-1">{day.month}</p>
+                  <p className={`text-2xl font-heading font-bold ${day.status === 'today' ? 'text-accent' : 'text-primary'}`}>
+                    {day.date}
+                  </p>
+                  {day.status === 'today' && (
+                    <p className="text-[9px] tracking-widest text-accent uppercase font-bold mt-1">TODAY</p>
+                  )}
+                  {day.status === 'booked' && day.event && (
+                    <div className="absolute top-2 right-2 flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                    </div>
+                  )}
+                  <div className="mt-3 flex flex-col items-center gap-1 justify-center">
+                    {day.status === 'booked' ? (
+                      <>
+                        <X size={18} className="text-red-400" />
+                        <span className="text-[9px] font-semibold text-red-500 truncate max-w-[80px] block mt-0.5">
+                          {day.event.title}
+                        </span>
+                      </>
+                    ) : (
+                      <CalendarDays size={18} className={day.status === 'today' ? 'text-accent' : 'text-gray-300'} />
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
-        {/* Meet the Leads - UNIQUE SECTION */}
+        {/* Meet the Leads */}
         <div className="container mx-auto px-4 max-w-6xl mt-32">
           <div className="text-center mb-16">
             <span className="text-accent font-bold text-xs tracking-[3px] uppercase mb-4 block">THE PEOPLE BEHIND THE MAGIC</span>
@@ -293,6 +422,62 @@ const ContactPage = () => {
             </div>
           </div>
         </div>
+
+        {/* Event Details Modal */}
+        {selectedCalendarEvent && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-all duration-300">
+            <div className="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl relative border border-gray-100 animate-in fade-in zoom-in-95 duration-200">
+              <button
+                onClick={() => setSelectedCalendarEvent(null)}
+                className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X size={20} />
+              </button>
+              <div className="flex items-center gap-2 text-accent font-semibold text-xs tracking-wider uppercase mb-3">
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+                Booked Event
+              </div>
+              <h3 className="text-2xl font-heading text-primary mb-4">{selectedCalendarEvent.title}</h3>
+              
+              <div className="space-y-3 text-sm text-gray-600 mb-6 text-left">
+                <div className="flex items-start gap-2.5">
+                  <CalendarDays size={16} className="text-accent mt-0.5 shrink-0" />
+                  <div>
+                    <span className="font-semibold block text-gray-800">Date</span>
+                    {new Date(selectedCalendarEvent.date).toLocaleDateString('en-US', {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-2.5">
+                  <MapPin size={16} className="text-accent mt-0.5 shrink-0" />
+                  <div>
+                    <span className="font-semibold block text-gray-800">Venue</span>
+                    {selectedCalendarEvent.location}
+                  </div>
+                </div>
+
+                {selectedCalendarEvent.description && (
+                  <div className="pt-2 border-t border-gray-100">
+                    <span className="font-semibold block text-gray-800 mb-1">Details</span>
+                    <p className="leading-relaxed text-xs">{selectedCalendarEvent.description}</p>
+                  </div>
+                )}
+              </div>
+
+              <button
+                onClick={() => setSelectedCalendarEvent(null)}
+                className="w-full py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </main>
 
       <SocialGrid />
