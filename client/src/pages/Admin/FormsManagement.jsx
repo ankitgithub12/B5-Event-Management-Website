@@ -323,7 +323,7 @@ const FormsManagement = () => {
 
               <div className="flex gap-2 w-full sm:w-auto">
                 <a 
-                  href={`mailto:${selectedForm.email}?subject=RE: BE5 Inquiry`}
+                  href={`mailto:${selectedForm.email}?subject=RE: B5 Inquiry`}
                   className="btn bg-primary hover:bg-primary-light text-white text-xs px-4 py-2 rounded-xl flex items-center gap-1.5 flex-1 sm:flex-none justify-center"
                 >
                   Reply Email

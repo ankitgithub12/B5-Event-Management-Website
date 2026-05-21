@@ -4,7 +4,7 @@ import {
   TrendingUp, 
   Users, 
   Calendar, 
-  DollarSign,
+  IndianRupee,
   ArrowUpRight,
   ArrowDownRight,
   Loader,
@@ -77,9 +77,9 @@ const AdminDashboard = () => {
   const statCards = [
     { 
       name: 'Total Revenue', 
-      value: `$${totalRevenue.toLocaleString()}`, 
+      value: `₹${totalRevenue.toLocaleString()}`, 
       change: `${revenueGrowth >= 0 ? '+' : ''}${revenueGrowth.toFixed(1)}%`, 
-      icon: DollarSign, 
+      icon: IndianRupee, 
       isUp: revenueGrowth >= 0 
     },
     { 
@@ -109,7 +109,7 @@ const AdminDashboard = () => {
     <div className="space-y-6 md:space-y-8 font-body">
       <div>
         <h1 className="text-2xl md:text-3xl font-heading font-bold text-primary">Dashboard Overview</h1>
-        <p className="text-gray-500 text-sm md:text-base">Welcome back! Here's a live summary of your BE5 event operations.</p>
+        <p className="text-gray-500 text-sm md:text-base">Welcome back! Here's a live summary of your B5 event operations.</p>
       </div>
 
       {/* Stats Cards */}
@@ -151,7 +151,7 @@ const AdminDashboard = () => {
                 <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 11}} width={45} />
                 <Tooltip 
                   contentStyle={{borderRadius: '16px', border: 'none', boxShadow: '0 10px 25px -5px rgb(0 0 0 / 0.05)', fontSize: '12px'}}
-                  formatter={(value) => [`$${value.toLocaleString()}`, 'Revenue']}
+                  formatter={(value) => [`₹${value.toLocaleString()}`, 'Revenue']}
                 />
                 <Area type="monotone" dataKey="revenue" stroke="#C89E62" strokeWidth={2} fillOpacity={1} fill="url(#colorRevenue)" />
               </AreaChart>
@@ -225,7 +225,7 @@ const AdminDashboard = () => {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-primary font-bold text-sm text-right">
-                        {booking.amount ? `$${booking.amount.toLocaleString()}` : <span className="text-gray-400 italic text-xs">Quote pending</span>}
+                        {booking.amount ? `₹${booking.amount.toLocaleString()}` : <span className="text-gray-400 italic text-xs">Quote pending</span>}
                       </td>
                     </tr>
                   ))}
@@ -254,7 +254,7 @@ const AdminDashboard = () => {
                   <div className="flex justify-between items-center">
                     <span className="text-[11px] text-gray-400">{new Date(booking.eventDate).toLocaleDateString()}</span>
                     <span className="text-sm font-bold text-primary">
-                      {booking.amount ? `$${booking.amount.toLocaleString()}` : <span className="text-gray-400 italic text-xs">Pending</span>}
+                      {booking.amount ? `₹${booking.amount.toLocaleString()}` : <span className="text-gray-400 italic text-xs">Pending</span>}
                     </span>
                   </div>
                 </div>
