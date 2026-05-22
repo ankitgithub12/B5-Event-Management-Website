@@ -4,6 +4,13 @@ BE5 Eventory is a modern, high-end event management platform designed to provide
 
 ---
 
+## 🌐 Deployed Links
+
+*   **Client Application**: [https://be5-event-management-website.onrender.com/](https://be5-event-management-website.onrender.com/)
+*   **Server API**: [https://b5-event-management-website-server.onrender.com/](https://b5-event-management-website-server.onrender.com/)
+
+---
+
 ## ✨ Features
 
 *   **Dynamic Landing Page**: A stunning, responsive home page with multiple specialized sections.
