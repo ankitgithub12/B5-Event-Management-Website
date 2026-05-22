@@ -226,7 +226,7 @@ const UsersManagement = () => {
                 <input 
                   type="email" 
                   required
-                  placeholder="e.g. johndoe@be5.com"
+                  placeholder="e.g. johndoe@b5.com"
                   className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
                   value={newUser.email}
                   onChange={(e) => setNewUser({...newUser, email: e.target.value})}

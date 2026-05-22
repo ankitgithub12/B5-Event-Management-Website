@@ -7,7 +7,7 @@ const FaqSection = () => {
 
   const faqs = [
     {
-      question: 'How far in advance should I book BE5 Eventory for my event?',
+      question: 'How far in advance should I book B5 Eventory for my event?',
       answer:
         'For weddings and large events, we recommend booking at least 6–12 months in advance to secure your preferred venues and vendors. For smaller functions like birthdays or anniversaries, 4–8 weeks is usually sufficient. However, we do accommodate last-minute bookings based on availability — just give us a call!',
     },
@@ -22,14 +22,14 @@ const FaqSection = () => {
         'We specialise in destination weddings across Rajasthan (Udaipur, Jaipur, Jodhpur, Jaisalmer) and also manage events in Goa, Himachal, Kerala, and select international destinations. Our vendor network spans 15+ cities.',
     },
     {
-      question: 'Is there a minimum budget to work with BE5 Eventory?',
+      question: 'Is there a minimum budget to work with B5 Eventory?',
       answer:
         'We work with events starting from ₹1 Lakh (small functions) up to ₹50 Lakh+ (grand weddings). Our goal is to deliver maximum value at every budget tier — we never compromise on creativity or quality regardless of budget size.',
     },
     {
       question: 'Do you handle catering, or do we need to arrange that separately?',
       answer:
-        'We handle everything. BE5 Eventory has exclusive tie-ups with premium caterers across Rajasthan. Whether you want traditional Rajasthani thali, continental buffet, live counters, or custom menus — we curate the best catering experience as part of your package.',
+        'We handle everything. B5 Eventory has exclusive tie-ups with premium caterers across Rajasthan. Whether you want traditional Rajasthani thali, continental buffet, live counters, or custom menus — we curate the best catering experience as part of your package.',
     },
     {
       question: 'Can I see previous event photos and videos before deciding?',

@@ -54,7 +54,7 @@ const PackagesPage = () => {
   };
 
   const handleDownloadBrochure = () => {
-    showToast("✨ Preparing your BE5 Eventory brochure... Download started!");
+    showToast("✨ Preparing your B5 Eventory brochure... Download started!");
   };
 
   const handleBookingChange = (e) => {

@@ -14,7 +14,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'be5_events',
+    folder: 'b5_events',
     allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
   },
 });

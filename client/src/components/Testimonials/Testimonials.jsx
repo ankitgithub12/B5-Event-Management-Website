@@ -7,7 +7,7 @@ const Testimonials = () => {
 
   const testimonials = [
     {
-      text: "BE5 planned our daughter's wedding and my 50th birthday in the same year. Flawless both times.",
+      text: "B5 planned our daughter's wedding and my 50th birthday in the same year. Flawless both times.",
       name: "Meera Sharma",
       role: "Mother of Bride",
       rating: 5,

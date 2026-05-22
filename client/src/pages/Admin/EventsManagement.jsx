@@ -314,6 +314,7 @@ const EventsManagement = () => {
                   <input 
                     type="date" 
                     required
+                    min={isEditing ? undefined : new Date().toLocaleDateString('en-CA')}
                     className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
                     value={formData.date}
                     onChange={(e) => setFormData({...formData, date: e.target.value})}

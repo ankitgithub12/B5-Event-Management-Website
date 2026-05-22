@@ -10,11 +10,11 @@ const connectDB = async () => {
     const userCount = await User.countDocuments();
     if (userCount === 0) {
       console.log('No users found in database. Seeding admin user...');
-      const adminEmail = process.env.ADMIN_EMAIL || 'admin@be5.com';
+      const adminEmail = process.env.ADMIN_EMAIL || 'admin@b5.com';
       const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
       
       await User.create({
-        name: 'BE5 Admin',
+        name: 'B5 Admin',
         email: adminEmail,
         password: adminPassword,
         role: 'superadmin',

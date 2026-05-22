@@ -114,7 +114,7 @@ const ContactPage = () => {
       date: d.getDate(),
       month: d.toLocaleString('en', { month: 'short' }).toUpperCase(),
       year: d.getFullYear(),
-      status: isToday ? 'today' : eventOnDay ? 'booked' : 'available',
+      status: eventOnDay ? 'booked' : isToday ? 'today' : 'available',
       event: eventOnDay || null,
     };
   });
@@ -278,7 +278,7 @@ const ContactPage = () => {
               {/* Map */}
               <div className="rounded-3xl overflow-hidden h-52 bg-gray-900 relative flex items-center justify-center">
                 <iframe
-                  title="BE5 Eventory Location"
+                  title="B5 Eventory Location"
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3628.1!2d73.7125!3d24.5854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDM1JzA3LjQiTiA3M8KwNDInNDUuMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin"
                   width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy"
                   className="opacity-70"
@@ -330,7 +330,7 @@ const ContactPage = () => {
                       ? 'border-accent bg-white shadow-gold shadow-md'
                       : day.status === 'booked'
                         ? 'border-red-200 bg-red-50 hover:bg-red-100/50 cursor-pointer shadow-sm'
-                        : 'border-gray-200 bg-white hover:border-accent hover:shadow-sm'
+                        : 'border-green-200 bg-green-50/30 hover:border-green-400 hover:bg-green-50/50 hover:shadow-sm'
                     }`}
                 >
                   <p className="text-[10px] font-bold tracking-widest text-gray-400 mb-1">{day.month}</p>
@@ -355,7 +355,14 @@ const ContactPage = () => {
                         </span>
                       </>
                     ) : (
-                      <CalendarDays size={18} className={day.status === 'today' ? 'text-accent' : 'text-gray-300'} />
+                      <>
+                        <CalendarDays size={18} className={day.status === 'today' ? 'text-accent' : 'text-green-500'} />
+                        {day.status === 'available' && (
+                          <span className="text-[9px] font-semibold text-green-600 block mt-0.5">
+                            Available
+                          </span>
+                        )}
+                      </>
                     )}
                   </div>
                 </div>

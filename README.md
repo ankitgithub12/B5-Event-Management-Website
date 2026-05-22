@@ -1,12 +1,12 @@
-# BE5 Eventory - Premium Event Management & Admin Portal
+# B5 Eventory - Premium Event Management & Admin Portal
 
-BE5 Eventory is a modern, high-end event management platform designed to provide seamless planning and execution for all types of events, from grand weddings to professional corporate galas. The codebase is divided into a robust React-based frontend and an MVC Express backend, secured with token-based JWT and fully integrated with Cloudinary image hosting.
+B5 Eventory is a modern, high-end event management platform designed to provide seamless planning and execution for all types of events, from grand weddings to professional corporate galas. The codebase is divided into a robust React-based frontend and an MVC Express backend, secured with token-based JWT and fully integrated with Cloudinary image hosting.
 
 ---
 
 ## 🌐 Deployed Links
 
-*   **Client Application**: [https://be5-event-management-website.onrender.com/](https://be5-event-management-website.onrender.com/)
+*   **Client Application**: [https://b5-event-management-website.onrender.com/](https://b5-event-management-website.onrender.com/)
 *   **Server API**: [https://b5-event-management-website-server.onrender.com/](https://b5-event-management-website-server.onrender.com/)
 
 ---
@@ -64,7 +64,7 @@ BE5-Event-Management-Website/
 │   ├── src/
 │   │   ├── components/  # Reusable UI elements & layouts (sidebar/navbar)
 │   │   ├── pages/       # Page-level components & CRUD administration views
-│   │   ├── assets/      # Images, official BE5 logos, and styling sheets
+│   │   ├── assets/      # Images, official B5 logos, and styling sheets
 │   │   ├── utils/       # JWT axios interceptors
 │   │   └── App.jsx      # Main application entry and protected routes
 │   ├── .env             # Client-side environment file (ignored in git)
