@@ -97,10 +97,10 @@ const Footer = () => {
       </div>
 
       {/* Bottom Footer */}
-      <div className="border-t border-white/10 py-6 text-center text-sm text-white/50 flex flex-col md:flex-row justify-center items-center gap-4">
-        <p>&copy; {new Date().getFullYear()} B5 Eventory. All Rights Reserved.</p>
-        <span className="hidden md:inline">|</span>
-        <Link to="/admin/login" className="hover:text-accent transition-colors">Admin Login</Link>
+      <div className="border-t border-white/10 py-6 px-4 text-center text-sm text-white/50">
+        <p className="mb-3 md:mb-0 inline md:inline">&copy; {new Date().getFullYear()} B5 Eventory. All Rights Reserved.</p>
+        <span className="hidden md:inline mx-4">|</span>
+        <Link to="/admin/login" className="hover:text-accent transition-colors inline md:inline">Admin Login</Link>
       </div>
     </footer>
   );
