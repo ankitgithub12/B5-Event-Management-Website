@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, Mail, Phone, Trash2, X, Loader, Calendar, Users, DollarSign, Sparkles } from 'lucide-react';
+import { Search, Filter, Mail, Phone, Trash2, X, Loader, Calendar, Users, IndianRupee, Sparkles } from 'lucide-react';
 import api from '../../utils/api';
 
 const BookingsManagement = () => {
@@ -167,7 +167,7 @@ const BookingsManagement = () => {
                       </p>
                     </td>
                     <td className="px-6 py-4 font-bold text-gray-900 text-sm">
-                      {bk.amount ? `$${bk.amount.toLocaleString()}` : <span className="text-gray-400 italic text-xs">Unassigned</span>}
+                      {bk.amount ? `₹${bk.amount.toLocaleString()}` : <span className="text-gray-400 italic text-xs">Unassigned</span>}
                     </td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
@@ -247,7 +247,7 @@ const BookingsManagement = () => {
               <div className="mt-2">
                 <span className="text-[10px] text-gray-400 uppercase font-bold block mb-1">Estimated Invoice</span>
                 <span className="text-sm font-bold text-primary">
-                  {selectedBooking.amount ? `$${selectedBooking.amount.toLocaleString()}` : 'Not Quote Assigned'}
+                  {selectedBooking.amount ? `₹${selectedBooking.amount.toLocaleString()}` : 'Not Quote Assigned'}
                 </span>
               </div>
             </div>
@@ -267,9 +267,9 @@ const BookingsManagement = () => {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs text-gray-500 mb-1">Assign Invoice Amount ($)</label>
+                  <label className="block text-xs text-gray-500 mb-1">Assign Invoice Amount (₹)</label>
                   <div className="relative group">
-                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                    <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
                     <input 
                       type="number"
                       placeholder="e.g. 5400"

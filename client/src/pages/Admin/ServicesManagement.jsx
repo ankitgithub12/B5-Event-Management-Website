@@ -306,7 +306,7 @@ const ServicesManagement = () => {
                   <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Estimated Pricing Range</label>
                   <input 
                     type="text" 
-                    placeholder="e.g. $5,000 - $12,000"
+                    placeholder="e.g. ₹5,000 - ₹12,000"
                     className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
                     value={formData.priceRange}
                     onChange={(e) => setFormData({...formData, priceRange: e.target.value})}
