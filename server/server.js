@@ -61,6 +61,52 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'API is running' });
 });
 
+// Root route - Welcome message
+app.get('/', (req, res) => {
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>B5 Event Management API</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          }
+          .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+          }
+          h1 {
+            color: #333;
+            margin: 0;
+          }
+          p {
+            color: #666;
+            font-size: 16px;
+            margin-top: 10px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>Welcome to B5 Event Management API</h1>
+          <p>The server is running successfully!</p>
+          <p>Access the API endpoints at <code>/api/*</code></p>
+        </div>
+      </body>
+    </html>
+  `);
+});
+
 // Error handling middleware
 app.use((req, res, next) => {
   const error = new Error(`Not Found - ${req.originalUrl}`);
