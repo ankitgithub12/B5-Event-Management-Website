@@ -18,6 +18,8 @@ import UsersManagement from './pages/Admin/UsersManagement';
 import ServicesManagement from './pages/Admin/ServicesManagement';
 import GalleryManagement from './pages/Admin/GalleryManagement';
 import FormsManagement from './pages/Admin/FormsManagement';
+import TeamManagement from './pages/Admin/TeamManagement';
+import PackagesManagement from './pages/Admin/PackagesManagement';
 
 function App() {
   return (
@@ -68,6 +70,16 @@ function App() {
         <Route path="/admin/forms" element={
           <ProtectedRoute>
             <AdminLayout><FormsManagement /></AdminLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/team" element={
+          <ProtectedRoute>
+            <AdminLayout><TeamManagement /></AdminLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/packages" element={
+          <ProtectedRoute>
+            <AdminLayout><PackagesManagement /></AdminLayout>
           </ProtectedRoute>
         } />
       </Routes>

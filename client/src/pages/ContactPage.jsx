@@ -43,6 +43,8 @@ const ContactPage = () => {
   const [events, setEvents] = useState([]);
   const [selectedCalendarEvent, setSelectedCalendarEvent] = useState(null);
   const [loadingEvents, setLoadingEvents] = useState(true);
+  const [leadPlanners, setLeadPlanners] = useState([]);
+  const [loadingPlanners, setLoadingPlanners] = useState(true);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -55,7 +57,21 @@ const ContactPage = () => {
         setLoadingEvents(false);
       }
     };
+    const fetchLeadPlanners = async () => {
+      try {
+        const { data } = await api.get('/team');
+        const activeLeads = data.filter(
+          (member) => member.type === 'lead' && member.isActive
+        );
+        setLeadPlanners(activeLeads);
+      } catch (err) {
+        console.error('Error fetching lead planners:', err);
+      } finally {
+        setLoadingPlanners(false);
+      }
+    };
     fetchEvents();
+    fetchLeadPlanners();
   }, []);
 
   const handleChange = (e) => {
@@ -378,42 +394,34 @@ const ContactPage = () => {
             <h2 className="text-4xl font-heading text-primary">Meet Our Lead Planners</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {[
-              {
-                name: "Anjali Sharma",
-                role: "Senior Wedding Architect",
-                desc: "With 8 years in luxury weddings, Anjali specializes in traditional Indian heritage events.",
-                image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80"
-              },
-              {
-                name: "Vikram Malhotra",
-                role: "Corporate Experience Lead",
-                desc: "Expert in technical logistics and large-scale corporate gala productions.",
-                image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80"
-              },
-              {
-                name: "Priya Das",
-                role: "Design & Decor Specialist",
-                desc: "Our creative visionary who turns vague moodboards into stunning visual realities.",
-                image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
-              }
-            ].map((lead, idx) => (
-              <div key={idx} className="group">
-                <div className="aspect-[3/4] rounded-3xl overflow-hidden mb-6 relative">
-                  <img
-                    src={lead.image}
-                    alt={lead.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          {loadingPlanners ? (
+            <div className="col-span-full flex flex-col items-center justify-center py-12 gap-3">
+              <Loader2 size={32} className="text-accent animate-spin" />
+              <p className="text-gray-500 font-medium text-sm">Loading lead planners...</p>
+            </div>
+          ) : leadPlanners.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-400">No lead planners registered yet.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+              {leadPlanners.map((lead) => (
+                <div key={lead._id} className="group">
+                  <div className="aspect-[3/4] rounded-3xl overflow-hidden mb-6 relative">
+                    <img
+                      src={lead.imageUrl || lead.image}
+                      alt={lead.name}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                  <h4 className="text-xl font-bold text-primary mb-1">{lead.name}</h4>
+                  <p className="text-accent font-semibold text-xs tracking-wider uppercase mb-3">{lead.role}</p>
+                  <p className="text-gray-500 text-sm leading-relaxed">{lead.bio || lead.desc}</p>
                 </div>
-                <h4 className="text-xl font-bold text-primary mb-1">{lead.name}</h4>
-                <p className="text-accent font-semibold text-xs tracking-wider uppercase mb-3">{lead.role}</p>
-                <p className="text-gray-500 text-sm leading-relaxed">{lead.desc}</p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* CTA Banner */}

@@ -12,6 +12,8 @@ import serviceRoutes from './routes/serviceRoutes.js';
 import galleryRoutes from './routes/galleryRoutes.js';
 import formRoutes from './routes/formRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
+import teamRoutes from './routes/teamRoutes.js';
+import packageRoutes from './routes/packageRoutes.js';
 import http from 'http';
 import { Server } from 'socket.io';
 
@@ -55,6 +57,8 @@ app.use('/api/services', serviceRoutes);
 app.use('/api/gallery', galleryRoutes);
 app.use('/api/forms', formRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/team', teamRoutes);
+app.use('/api/packages', packageRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

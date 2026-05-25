@@ -11,7 +11,9 @@ import {
   Package,
   Sparkles,
   Image as ImageIcon,
-  MessageSquare
+  MessageSquare,
+  Shield,
+  Gift
 } from 'lucide-react';
 import { io } from 'socket.io-client';
 import logo from '../../assets/B5_logo.jpeg';
@@ -95,7 +97,9 @@ const AdminLayout = ({ children }) => {
     { name: 'Services', path: '/admin/services', icon: Sparkles },
     { name: 'Gallery', path: '/admin/gallery', icon: ImageIcon },
     { name: 'Forms & Leads', path: '/admin/forms', icon: MessageSquare },
-    { name: 'Users', path: '/admin/users', icon: Users },
+    { name: 'Packages', path: '/admin/packages', icon: Gift },
+    { name: 'Team / Planners', path: '/admin/team', icon: Users },
+    { name: 'Users', path: '/admin/users', icon: Shield },
   ];
 
   const isMobile = () => window.innerWidth < 768;

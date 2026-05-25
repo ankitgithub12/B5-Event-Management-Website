@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
 import { Link } from 'react-router-dom';
-import { Check, X, ChevronDown, ChevronUp, ArrowRight, Loader2, Calendar, Users, FileText, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Check, X, ChevronDown, ChevronUp, ArrowRight, Loader2, Calendar, FileText, CheckCircle2, AlertCircle } from 'lucide-react';
 import api from '../utils/api';
 
 const PackagesPage = () => {
+  const [packages, setPackages] = useState([]);
+  const [addons, setAddons] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [isTableExpanded, setIsTableExpanded] = useState(false);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [selectedPackageForBooking, setSelectedPackageForBooking] = useState(null);
@@ -24,6 +27,27 @@ const PackagesPage = () => {
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [bookingError, setBookingError] = useState('');
+
+  useEffect(() => {
+    const fetchPackagesAndAddons = async () => {
+      try {
+        const [packagesRes, addonsRes] = await Promise.all([
+          api.get('/packages'),
+          api.get('/packages/addons')
+        ]);
+        
+        // Filter only active records
+        setPackages(packagesRes.data.filter(pkg => pkg.isActive));
+        setAddons(addonsRes.data.filter(addon => addon.isActive));
+      } catch (err) {
+        console.error('Failed to fetch packages and addons:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPackagesAndAddons();
+  }, []);
 
   const showToast = (msg) => {
     setToast(msg);
@@ -100,75 +124,19 @@ const PackagesPage = () => {
     }
   };
 
-  const packages = [
-    {
-      name: 'Basic Package',
-      description: 'Perfect for intimate gatherings and simple, elegant setups.',
-      price: '₹5-10 Lakhs',
-      features: [
-        { name: 'Basic Venue & Decoration', included: true },
-        { name: 'Standard Photography', included: true },
-        { name: 'Limited Hospitality Menu', included: true },
-        { name: 'Videography', included: false },
-        { name: 'Pre-Wedding Shoot', included: false },
-        { name: 'DJ Services', included: false },
-        { name: 'Cinematic Drone Shoot', included: false },
-        { name: 'Luxury Hospitality', included: false },
-      ],
-      color: 'bg-white text-gray-800 border-gray-100',
-      btn: 'border-2 border-gray-200 text-primary hover:bg-gray-50',
-      popular: false
-    },
-    {
-      name: 'Medium Package',
-      description: 'A well-rounded experience with themed decor and full coverage.',
-      price: '₹15-20 Lakhs',
-      features: [
-        { name: 'Themed Decoration', included: true },
-        { name: 'Photography & Videography', included: true },
-        { name: 'Standard Hospitality', included: true },
-        { name: 'Pre-Wedding Shoot', included: true },
-        { name: 'DJ Services', included: true },
-        { name: 'Cinematic Drone Shoot', included: false },
-        { name: 'Luxury Hospitality', included: false },
-      ],
-      color: 'bg-[#2D1B33] text-white border-transparent shadow-2xl scale-105 z-10',
-      btn: 'bg-[#C5A06B] text-white hover:bg-[#B38F5A]',
-      popular: true
-    },
-    {
-      name: 'Premium Package',
-      description: 'High-end luxury venues with cinematic documentation.',
-      price: '₹25-30 Lakhs',
-      features: [
-        { name: 'Luxury Venue & Premium Decor', included: true },
-        { name: 'Cinematic Video & Drone', included: true },
-        { name: 'Premium Hospitality Spread', included: true },
-        { name: 'Pre-Wedding (Outstation)', included: true },
-        { name: 'Full Entertainment Setup', included: true },
-        { name: 'Luxury Hospitality', included: false },
-      ],
-      color: 'bg-white text-gray-800 border-[#C5A06B]/30',
-      btn: 'border-2 border-gray-200 text-primary hover:bg-gray-50',
-      popular: false
-    },
-    {
-      name: 'Luxury Package',
-      description: 'The ultimate destination wedding experience with zero compromises.',
-      price: '₹40L+',
-      features: [
-        { name: 'Destination Wedding Venue', included: true },
-        { name: 'Top-tier Cinematic Production', included: true },
-        { name: 'Exotic Hospitality & Mixology', included: true },
-        { name: 'Pre-Wedding (International)', included: true },
-        { name: 'Celebrity Entertainment Ops', included: true },
-        { name: 'Complete Guest Hospitality', included: true },
-      ],
-      color: 'bg-white text-gray-800 border-gray-100',
-      btn: 'border-2 border-gray-200 text-primary hover:bg-gray-50',
-      popular: false
+  // Helper to dynamically get color classes for package cards
+  const getPackageStyles = (popular) => {
+    if (popular) {
+      return {
+        color: 'bg-[#2D1B33] text-white border-transparent shadow-2xl scale-105 z-10',
+        btn: 'bg-[#C5A06B] text-white hover:bg-[#B38F5A]',
+      };
     }
-  ];
+    return {
+      color: 'bg-white text-gray-800 border-gray-100',
+      btn: 'border-2 border-gray-200 text-primary hover:bg-gray-50',
+    };
+  };
 
   const comparisonData = [
     { service: 'Venue', basic: 'Standard hall', medium: 'Themed venue', premium: 'Luxury resort', luxury: '5-star / Destination' },
@@ -202,51 +170,65 @@ const PackagesPage = () => {
           </div>
 
           {/* Package Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch py-10">
-            {packages.map((pkg, index) => (
-              <div 
-                key={index} 
-                className={`rounded-[2rem] p-10 border-2 flex flex-col transition-all duration-500 hover:-translate-y-2 relative ${pkg.color}`}
-              >
-                {pkg.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#C5A06B] text-white px-6 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase shadow-lg">
-                    Most Popular
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-20 gap-3">
+              <Loader2 size={40} className="text-[#C5A06B] animate-spin" />
+              <p className="text-gray-400 font-medium text-sm">Curating package designs...</p>
+            </div>
+          ) : packages.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-400">No event packages available at the moment.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch py-10">
+              {packages.map((pkg) => {
+                const styles = getPackageStyles(pkg.popular);
+                return (
+                  <div 
+                    key={pkg._id} 
+                    className={`rounded-[2rem] p-10 border-2 flex flex-col transition-all duration-500 hover:-translate-y-2 relative ${styles.color}`}
+                  >
+                    {pkg.popular && (
+                      <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#C5A06B] text-white px-6 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase shadow-lg">
+                        Most Popular
+                      </div>
+                    )}
+                    
+                    <h3 className="text-3xl font-serif mb-4">{pkg.name}</h3>
+                    <p className={`text-sm mb-8 leading-relaxed ${pkg.popular ? 'text-gray-300' : 'text-gray-400'}`}>
+                      {pkg.description}
+                    </p>
+                    
+                    <div className="text-4xl font-bold mb-10 tracking-tight text-primary">
+                      {pkg.popular ? <span className="text-[#C5A06B]">{pkg.price}</span> : pkg.price}
+                    </div>
+                    
+                    <ul className="space-y-5 mb-12 flex-grow">
+                      {pkg.features.map((feature, i) => (
+                        <li key={i} className="flex items-start gap-4 text-sm">
+                          {feature.included ? (
+                            <Check size={18} className="text-[#C5A06B] shrink-0 mt-0.5" />
+                          ) : (
+                            <X size={18} className="text-gray-400 shrink-0 mt-0.5" />
+                          )}
+                          <span className={feature.included ? '' : 'text-gray-400 line-through decoration-1'}>
+                            {feature.name}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    <button 
+                      onClick={() => handleSelectPackage(pkg)}
+                      className={`w-full py-4 rounded-full font-bold text-sm transition-all duration-300 border-2 flex items-center justify-center cursor-pointer ${styles.btn}`}
+                    >
+                      Select Package
+                    </button>
                   </div>
-                )}
-                
-                <h3 className="text-3xl font-serif mb-4">{pkg.name}</h3>
-                <p className={`text-sm mb-8 leading-relaxed ${pkg.popular ? 'text-gray-300' : 'text-gray-400'}`}>
-                  {pkg.description}
-                </p>
-                
-                <div className="text-4xl font-bold mb-10 tracking-tight text-primary">
-                  {pkg.popular ? <span className="text-[#C5A06B]">{pkg.price}</span> : pkg.price}
-                </div>
-                
-                <ul className="space-y-5 mb-12 flex-grow">
-                  {pkg.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-4 text-sm">
-                      {feature.included ? (
-                        <Check size={18} className="text-[#C5A06B] shrink-0 mt-0.5" />
-                      ) : (
-                        <X size={18} className="text-gray-400 shrink-0 mt-0.5" />
-                      )}
-                      <span className={feature.included ? '' : 'text-gray-400 line-through decoration-1'}>
-                        {feature.name}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-                
-                <button 
-                  onClick={() => handleSelectPackage(pkg)}
-                  className={`w-full py-4 rounded-full font-bold text-sm transition-all duration-300 border-2 flex items-center justify-center cursor-pointer ${pkg.btn}`}
-                >
-                  Select Package
-                </button>
-              </div>
-            ))}
-          </div>
+                );
+              })}
+            </div>
+          )}
 
           {/* Comparison Table Section */}
           <div className="mt-32">
@@ -300,30 +282,32 @@ const PackagesPage = () => {
               <p className="text-gray-500 italic">Personalize your package with these signature add-on services.</p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { name: 'Drone Cinematography', price: '₹25,000', desc: '4K aerial shots of your venue and ceremony.' },
-                { name: 'Live Acoustic Band', price: '₹45,000', desc: 'Soulful live music for your reception or dinner.' },
-                { name: 'Themed Photo Booth', price: '₹15,000', desc: 'Custom props and instant print services.' },
-                { name: 'Celebrity MUA', price: '₹35,000', desc: 'Premium makeup services for the bride and family.' },
-                { name: 'Pyrotechnic Display', price: '₹20,000', desc: 'Cold fire entries and grand stage sparkles.' },
-                { name: 'Virtual Streaming', price: '₹12,000', desc: 'Live HD stream for guests who can\'t travel.' },
-                { name: 'Custom Mixology Bar', price: '₹30,000', desc: 'Signature cocktails themed to your event.' },
-                { name: 'Premium Guest Kit', price: '₹8,000', desc: 'Handcrafted welcome hampers for outstation guests.' },
-              ].map((addon, idx) => (
-                <div key={idx} className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
-                  <h4 className="text-lg font-bold text-primary mb-1 group-hover:text-[#C5A06B] transition-colors">{addon.name}</h4>
-                  <div className="text-[#C5A06B] font-bold text-sm mb-4">{addon.price}</div>
-                  <p className="text-gray-500 text-xs leading-relaxed flex-grow">{addon.desc}</p>
-                  <button 
-                    onClick={() => handleAddAddon(addon)}
-                    className="mt-6 text-[10px] font-black tracking-widest uppercase text-primary/40 group-hover:text-[#C5A06B] hover:text-[#C5A06B] transition-colors flex items-center gap-2"
-                  >
-                    ADD TO PACKAGE <ArrowRight size={12} />
-                  </button>
-                </div>
-              ))}
-            </div>
+            {loading ? (
+              <div className="flex flex-col items-center justify-center py-12 gap-3">
+                <Loader2 size={32} className="text-[#C5A06B] animate-spin" />
+                <p className="text-gray-400 font-medium text-sm">Preparing signature add-ons...</p>
+              </div>
+            ) : addons.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-gray-400">No add-on services registered yet.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {addons.map((addon) => (
+                  <div key={addon._id} className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
+                    <h4 className="text-lg font-bold text-primary mb-1 group-hover:text-[#C5A06B] transition-colors">{addon.name}</h4>
+                    <div className="text-[#C5A06B] font-bold text-sm mb-4">{addon.price}</div>
+                    <p className="text-gray-500 text-xs leading-relaxed flex-grow">{addon.description}</p>
+                    <button 
+                      onClick={() => handleAddAddon(addon)}
+                      className="mt-6 text-[10px] font-black tracking-widest uppercase text-primary/40 group-hover:text-[#C5A06B] hover:text-[#C5A06B] transition-colors flex items-center gap-2 cursor-pointer border-0 bg-transparent text-left"
+                    >
+                      ADD TO PACKAGE <ArrowRight size={12} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* FAQ Section */}
@@ -375,7 +359,7 @@ const PackagesPage = () => {
               <a href="/contact" className="bg-[#C5A06B] text-white px-10 py-4 rounded-full font-bold text-base hover:bg-white hover:text-primary transition-colors shadow-lg flex items-center justify-center">Talk to an Expert</a>
               <button 
                 onClick={handleDownloadBrochure}
-                className="border-2 border-white/30 text-white hover:bg-white/10 px-10 py-4 rounded-full font-bold text-base transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                className="border-2 border-white/30 text-white hover:bg-white/10 px-10 py-4 rounded-full font-bold text-base transition-colors flex items-center justify-center gap-2 cursor-pointer bg-transparent"
               >
                 <FileText size={18} /> Download Pricing Brochure
               </button>
