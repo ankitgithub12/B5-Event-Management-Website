@@ -92,7 +92,7 @@ const Services = () => {
               className="bg-white rounded-3xl p-8 text-center shadow-[0_10px_40px_rgba(41,26,57,0.06)] border border-gray-100 hover:shadow-[0_20px_50px_rgba(200,158,98,0.15)] transition-all duration-300 group flex flex-col items-center cursor-default"
             >
               <div className="w-16 h-16 mx-auto bg-primary/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-accent transition-colors duration-300">
-                <service.icon size={28} className="text-primary group-hover:text-white transition-colors duration-300" />
+                <service.icon size={28} className="text-primary group-hover:text-primary-dark transition-colors duration-300" />
               </div>
               <h3 className="text-xl text-primary mb-3 font-heading font-semibold">{service.title}</h3>
               <p className="text-gray-600 mb-6 leading-relaxed text-sm">
