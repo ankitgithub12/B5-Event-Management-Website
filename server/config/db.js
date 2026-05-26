@@ -27,6 +27,14 @@ const connectDB = async () => {
         role: 'superadmin',
       });
       console.log(`Admin user auto-seeded successfully with email: ${adminEmail}`);
+    } else {
+      // Automatically update legacy "BE5 Admin" to "B5 Admin"
+      const legacyAdmin = await User.findOne({ name: 'BE5 Admin' });
+      if (legacyAdmin) {
+        legacyAdmin.name = 'B5 Admin';
+        await legacyAdmin.save();
+        console.log('Successfully updated legacy admin user name from BE5 Admin to B5 Admin');
+      }
     }
 
     // Auto-seed team members if none exists

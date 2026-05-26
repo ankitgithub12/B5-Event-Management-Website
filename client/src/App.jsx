@@ -22,6 +22,7 @@ import TeamManagement from './pages/Admin/TeamManagement';
 import PackagesManagement from './pages/Admin/PackagesManagement';
 import PortfolioManagement from './pages/Admin/PortfolioManagement';
 import HeroManagement from './pages/Admin/HeroManagement';
+import ProfileSettings from './pages/Admin/ProfileSettings';
 
 function App() {
   return (
@@ -92,6 +93,11 @@ function App() {
         <Route path="/admin/packages" element={
           <ProtectedRoute>
             <AdminLayout><PackagesManagement /></AdminLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/profile" element={
+          <ProtectedRoute>
+            <AdminLayout><ProfileSettings /></AdminLayout>
           </ProtectedRoute>
         } />
       </Routes>

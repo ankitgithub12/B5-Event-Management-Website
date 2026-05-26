@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
@@ -15,7 +15,8 @@ import {
   Shield,
   Gift,
   Sliders,
-  LayoutGrid
+  LayoutGrid,
+  User
 } from 'lucide-react';
 import { io } from 'socket.io-client';
 import logo from '../../assets/B5_logo.jpeg';
@@ -26,7 +27,11 @@ const AdminLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 768);
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [adminUser, setAdminUser] = useState({ name: 'Admin User', role: 'Super Admin' });
+
+  const notificationRef = useRef(null);
+  const profileRef = useRef(null);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -51,10 +56,28 @@ const AdminLayout = ({ children }) => {
     }
   }, [location.pathname]);
 
+  // Click outside to close dropdowns
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setShowNotifications(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setShowProfileMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   useEffect(() => {
     const userInfo = localStorage.getItem('userInfo');
     if (userInfo) {
       const parsed = JSON.parse(userInfo);
+      if (parsed.name === 'BE5 Admin') {
+        parsed.name = 'B5 Admin';
+        localStorage.setItem('userInfo', JSON.stringify(parsed));
+      }
       setAdminUser({ name: parsed.name, role: parsed.role === 'superadmin' ? 'Super Admin' : 'Admin' });
     } else {
       navigate('/admin/login');
@@ -189,7 +212,7 @@ const AdminLayout = ({ children }) => {
 
           <div className="flex items-center gap-3 md:gap-6">
             {/* Notifications */}
-            <div className="relative">
+            <div className="relative" ref={notificationRef}>
               <button
                 onClick={() => setShowNotifications(!showNotifications)}
                 className="text-gray-500 hover:text-primary relative p-2 cursor-pointer rounded-lg hover:bg-gray-100 transition-colors"
@@ -232,15 +255,49 @@ const AdminLayout = ({ children }) => {
               )}
             </div>
 
-            {/* Admin Info */}
-            <div className="flex items-center gap-2 md:gap-3 border-l pl-3 md:pl-4 border-gray-100">
-              <div className="text-right hidden sm:block">
-                <p className="text-sm font-bold text-gray-900 truncate max-w-[120px]">{adminUser.name}</p>
-                <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">{adminUser.role}</p>
-              </div>
-              <div className="w-9 h-9 rounded-xl bg-accent/15 text-accent flex items-center justify-center font-bold text-base shadow-sm shrink-0">
-                {adminUser.name.charAt(0).toUpperCase()}
-              </div>
+            {/* Admin Info Dropdown */}
+            <div className="relative" ref={profileRef}>
+              <button
+                onClick={() => setShowProfileMenu(!showProfileMenu)}
+                className="flex items-center gap-2 md:gap-3 border-l pl-3 md:pl-4 border-gray-100 cursor-pointer hover:opacity-80 transition-opacity"
+              >
+                <div className="text-right hidden sm:block">
+                  <p className="text-sm font-bold text-gray-900 truncate max-w-[120px]">{adminUser.name}</p>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">{adminUser.role}</p>
+                </div>
+                <div className="w-9 h-9 rounded-xl bg-accent/15 text-accent flex items-center justify-center font-bold text-base shadow-sm shrink-0">
+                  {adminUser.name.charAt(0).toUpperCase()}
+                </div>
+              </button>
+
+              {showProfileMenu && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50">
+                  <div className="p-3 border-b bg-gray-50/50">
+                    <p className="text-xs font-semibold text-gray-400">Signed in as</p>
+                    <p className="text-sm font-bold text-primary truncate">{adminUser.name}</p>
+                  </div>
+                  <div className="p-1.5 space-y-0.5">
+                    <Link
+                      to="/admin/profile"
+                      onClick={() => setShowProfileMenu(false)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors cursor-pointer"
+                    >
+                      <User size={16} className="text-gray-400" />
+                      <span>My Profile</span>
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setShowProfileMenu(false);
+                        handleLogout();
+                      }}
+                      className="flex items-center gap-2 px-3 py-2 w-full text-left rounded-xl text-sm text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                    >
+                      <LogOut size={16} className="text-red-400" />
+                      <span>Logout</span>
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </header>
