@@ -274,15 +274,15 @@ const ContactPage = () => {
                   </li>
                   <li className="flex items-center gap-4 text-sm text-gray-700">
                     <Phone size={18} className="text-accent shrink-0" />
-                    <span>+91 294 242 8800</span>
+                    <span>+91 9414644988</span>
                   </li>
                   <li className="flex items-center gap-4 text-sm text-gray-700">
                     <Mail size={18} className="text-accent shrink-0" />
-                    <span>concierge@b5eventory.com</span>
+                    <span>[EMAIL_ADDRESS]</span>
                   </li>
                 </ul>
                 <a
-                  href="https://wa.me/919876543210"
+                  href="https://wa.me/919414644988"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full flex items-center justify-center gap-3 py-3 border border-gray-200 rounded-xl text-sm font-semibold text-gray-700 hover:bg-green-50 hover:border-green-400 hover:text-green-700 transition-all duration-300"
@@ -431,8 +431,8 @@ const ContactPage = () => {
             <h2 className="text-3xl md:text-5xl font-heading text-white mb-6 relative z-10">Prefer a Direct Call?</h2>
             <p className="text-white/60 mb-10 max-w-xl mx-auto text-lg relative z-10">Skip the form and talk directly to our concierge team for immediate assistance.</p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center relative z-10">
-              <a href="tel:+912942428800" className="bg-white text-primary px-10 py-4 rounded-full font-bold text-lg hover:bg-accent hover:text-white transition-all shadow-xl">
-                Call +91 294 242 8800
+              <a href="tel:+919414644988" className="bg-white text-primary px-10 py-4 rounded-full font-bold text-lg hover:bg-accent hover:text-white transition-all shadow-xl">
+                Call +91 9414644988
               </a>
             </div>
           </div>

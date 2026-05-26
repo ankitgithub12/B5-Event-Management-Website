@@ -83,7 +83,7 @@ const Navbar = () => {
 
           {/* Mobile Quick Call (Top Right) */}
           <div className="lg:hidden">
-            <a href="tel:+91XXXXXXXXXX" className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shadow-lg active:scale-95 transition-transform">
+            <a href="tel:+919414644988" className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shadow-lg active:scale-95 transition-transform">
               <Phone size={18} fill="currentColor" />
             </a>
           </div>
