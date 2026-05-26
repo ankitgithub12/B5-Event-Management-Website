@@ -22,6 +22,16 @@ const serviceSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  includes: {
+    type: [String],
+    default: [],
+  },
+  popularAddOn: {
+    type: String,
+  },
+  pastEvent: {
+    type: String,
+  },
 }, {
   timestamps: true,
 });

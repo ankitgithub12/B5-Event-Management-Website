@@ -1,10 +1,40 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
-import { Camera, Video, Music, Tent, Users, Briefcase, PartyPopper, CheckCircle, Check, ArrowRight, Heart, Star, Sparkles } from 'lucide-react';
+import { Camera, Music, Briefcase, CheckCircle, Star, ArrowRight, Heart, Sparkle, Cake, Sparkles, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import api from '../utils/api';
+import { io } from 'socket.io-client';
+
+const iconMap = {
+  wedding: Heart,
+  shoot: Camera,
+  photography: Camera,
+  engagement: Sparkle,
+  proposal: Sparkle,
+  corporate: Briefcase,
+  gala: Briefcase,
+  party: Cake,
+  birthday: Cake,
+  anniversary: Cake,
+  small: Cake,
+};
+
+const getIcon = (title) => {
+  const key = title.toLowerCase();
+  for (const [pattern, icon] of Object.entries(iconMap)) {
+    if (key.includes(pattern)) {
+      const IconComponent = icon;
+      return <IconComponent size={40} className="text-primary group-hover:text-white transition-colors duration-300" />;
+    }
+  }
+  return <Sparkles size={40} className="text-primary group-hover:text-white transition-colors duration-300" />;
+};
 
 const ServicesPage = () => {
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
   const [selectedServices, setSelectedServices] = useState({
     'Exotic Floral & Decor': false,
     'Gourmet Catering & Bar': false,
@@ -12,6 +42,30 @@ const ServicesPage = () => {
     'Celebrity Entertainment': false,
     'Seamless Logistics': false
   });
+
+  const fetchServices = async () => {
+    try {
+      const { data } = await api.get('/services');
+      const activeServices = data.filter(service => service.isActive);
+      setServices(activeServices);
+    } catch (err) {
+      console.error('Error fetching services:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    fetchServices();
+
+    const socket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000');
+    socket.on('services_update', () => {
+      fetchServices();
+    });
+
+    return () => socket.disconnect();
+  }, []);
 
   const handleServiceToggle = (label) => {
     setSelectedServices(prev => ({
@@ -34,73 +88,6 @@ const ServicesPage = () => {
     return `/contact?${params.toString()}`;
   };
 
-  const mainServices = [
-    {
-      icon: <Heart size={40} className="text-primary" />,
-      title: 'Wedding Planning',
-      priceRange: '₹6L – ₹50L+',
-      description: 'End-to-end wedding management – venue, decor, catering, guest coordination, and more.',
-      includes: ['Venue booking', 'Catering', 'Decor', 'Makeup', 'Entertainment', 'Transport'],
-      popularAddOn: 'Drone cinematography',
-      ctaText: 'Explore Wedding',
-      link: '/packages',
-      pastEvent: 'Anjali & Rohit – Udaipur Wedding (Premium Package)',
-      image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      icon: <Camera size={40} className="text-primary" />,
-      title: 'Pre-Wedding Shoot',
-      priceRange: '₹25k – ₹3L',
-      description: 'Capture your love story before the big day. Local, destination, or cinematic.',
-      includes: ['Photographer', 'HD photos', 'Drone (optional)', 'Album design'],
-      popularAddOn: 'Behind-the-scenes reel',
-      ctaText: 'Explore Pre-Wedding',
-      link: '/packages',
-      pastEvent: 'Neha & Vikram – Jaipur Pre-Wedding (Drone included)',
-      image: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      icon: <Sparkles size={40} className="text-primary" />,
-      title: 'Engagement Ceremony',
-      priceRange: '₹3L – ₹12L',
-      description: 'Ring ceremonies, surprise proposals, and roka celebrations.',
-      includes: ['Venue', 'Photography', 'Catering', 'Decor', 'Return gifts'],
-      popularAddOn: 'Surprise proposal coordination',
-      ctaText: 'Explore Engagement',
-      link: '/packages',
-      pastEvent: 'Priya & Karan – Surprise Rooftop Proposal',
-      image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      icon: <Briefcase size={40} className="text-primary" />,
-      title: 'Corporate Events',
-      priceRange: '₹5L – ₹25L+',
-      description: 'Product launches, annual galas, conferences, and team offsites.',
-      includes: ['AV setup', 'Stage design', 'Catering', 'Guest management', 'Branding'],
-      popularAddOn: 'Celebrity speaker booking',
-      ctaText: 'Explore Corporate',
-      link: '/packages',
-      pastEvent: 'TechCorp Annual Gala – 800 guests',
-      image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      icon: <PartyPopper size={40} className="text-primary" />,
-      title: 'Small Functions',
-      priceRange: '₹1L – ₹8L',
-      description: 'Birthdays, anniversaries, baby showers, and retirement parties.',
-      includes: ['Theme decor', 'Cake', 'Photography', 'Return gifts', 'Entertainment'],
-      popularAddOn: 'Themed Photo Booth',
-      ctaText: 'Explore Small Functions',
-      link: '/packages',
-      pastEvents: [
-        "Rohan's 1st Birthday – Jungle Theme (45 guests, ₹3.2L)",
-        "Raj & Priya – 25th Ruby Anniversary (120 guests, ₹7.5L)",
-        "Surprise 40th Birthday (70 guests, ₹4.5L)"
-      ],
-      image: 'https://media.istockphoto.com/id/583736396/photo/wedding-hall-or-other-function-facility-set-for-fine-dining.jpg?s=612x612&w=0&k=20&c=gPoRBCkB-wGxvb_BI1vUyjiVryaOjnHhB8RSS4EZmog='
-    }
-  ];
-
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar />
@@ -122,89 +109,99 @@ const ServicesPage = () => {
 
         {/* Main Services Grid */}
         <div className="container mx-auto px-4 max-w-7xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {mainServices.map((service, index) => (
-              <div key={index} className="bg-white rounded-[2rem] overflow-hidden shadow-xl border border-gray-100 flex flex-col h-full group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-                {/* Image Section */}
-                <div className="h-64 overflow-hidden relative">
-                  <img 
-                    src={service.image} 
-                    alt={service.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                    <span className="text-white font-medium text-lg flex items-center gap-2">
-                      Starting from <span className="text-accent font-bold">{service.priceRange.split(' – ')[0]}</span>
-                    </span>
-                  </div>
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-primary font-bold shadow-md">
-                    {service.priceRange}
-                  </div>
-                </div>
-
-                {/* Content Section */}
-                <div className="p-8 flex flex-col flex-grow relative">
-                  <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg absolute -top-8 left-8 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                    {service.icon}
-                  </div>
-                  
-                  <h3 className="text-2xl font-heading text-primary mb-3 mt-6">{service.title}</h3>
-                  <p className="text-gray-600 leading-relaxed mb-6 text-sm">
-                    {service.description}
-                  </p>
-
-                  <div className="space-y-4 mb-8 flex-grow">
-                    <div>
-                      <h4 className="text-xs uppercase tracking-wider text-gray-400 font-bold mb-3 flex items-center gap-2">
-                        <CheckCircle size={14} className="text-accent" />
-                        What's Included
-                      </h4>
-                      <div className="flex flex-wrap gap-2">
-                        {service.includes.map((item, i) => (
-                          <span key={i} className="text-[10px] md:text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full font-medium">
-                            {item}
-                          </span>
-                        ))}
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-20 gap-3">
+              <Loader2 size={40} className="text-accent animate-spin" />
+              <p className="text-gray-500 font-medium">Loading our services...</p>
+            </div>
+          ) : services.length === 0 ? (
+            <div className="text-center py-16 bg-white rounded-3xl border border-gray-100 shadow-sm">
+              <Sparkles className="mx-auto mb-4 text-gray-300" size={48} />
+              <p className="text-gray-500 text-lg">No services configured yet.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              {services.map((service, index) => (
+                <div key={service._id || index} className="bg-white rounded-[2rem] overflow-hidden shadow-xl border border-gray-100 flex flex-col h-full group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                  {/* Image Section */}
+                  <div className="h-64 overflow-hidden relative">
+                    <img 
+                      src={service.imageUrl || 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80'} 
+                      alt={service.title} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                      <span className="text-white font-medium text-lg flex items-center gap-2">
+                        Starting from <span className="text-accent font-bold">{(service.priceRange || 'Contact').split(' – ')[0]}</span>
+                      </span>
+                    </div>
+                    {service.priceRange && (
+                      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-primary font-bold shadow-md">
+                        {service.priceRange}
                       </div>
-                    </div>
+                    )}
+                  </div>
 
-                    <div className="bg-accent/5 p-4 rounded-xl border border-accent/10">
-                      <h4 className="text-xs uppercase tracking-wider text-accent font-bold mb-1">Popular Add-on</h4>
-                      <p className="text-primary font-medium text-sm">{service.popularAddOn}</p>
+                  {/* Content Section */}
+                  <div className="p-8 flex flex-col flex-grow relative">
+                    <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg absolute -top-8 left-8 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                      {getIcon(service.title)}
                     </div>
+                    
+                    <h3 className="text-2xl font-heading text-primary mb-3 mt-6">{service.title}</h3>
+                    <p className="text-gray-600 leading-relaxed mb-6 text-sm">
+                      {service.description}
+                    </p>
 
-                    <div className="border-t border-gray-100 pt-4">
-                      <h4 className="text-xs uppercase tracking-wider text-gray-400 font-bold mb-2 flex items-center gap-2">
-                        <Star size={14} className="text-yellow-500 fill-yellow-500" />
-                        Past Event Example
-                      </h4>
-                      {service.pastEvents ? (
-                        <ul className="space-y-1">
-                          {service.pastEvents.map((event, i) => (
-                            <li key={i} className="text-xs text-gray-600 italic font-medium border-l-2 border-accent pl-2 py-1">
-                              "{event}"
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <p className="text-xs text-gray-600 italic font-medium border-l-2 border-accent pl-2 py-1">
-                          "{service.pastEvent}"
-                        </p>
+                    <div className="space-y-4 mb-8 flex-grow">
+                      {service.includes && service.includes.length > 0 && (
+                        <div>
+                          <h4 className="text-xs uppercase tracking-wider text-gray-400 font-bold mb-3 flex items-center gap-2">
+                            <CheckCircle size={14} className="text-accent" />
+                            What's Included
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            {service.includes.map((item, i) => (
+                              <span key={i} className="text-[10px] md:text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full font-medium">
+                                {item}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {service.popularAddOn && (
+                        <div className="bg-accent/5 p-4 rounded-xl border border-accent/10">
+                          <h4 className="text-xs uppercase tracking-wider text-accent font-bold mb-1">Popular Add-on</h4>
+                          <p className="text-primary font-medium text-sm">{service.popularAddOn}</p>
+                        </div>
+                      )}
+
+                      {service.pastEvent && (
+                        <div className="border-t border-gray-100 pt-4">
+                          <h4 className="text-xs uppercase tracking-wider text-gray-400 font-bold mb-2 flex items-center gap-2">
+                            <Star size={14} className="text-yellow-500 fill-yellow-500" />
+                            Past Event Example
+                          </h4>
+                          <p className="text-xs text-gray-600 italic font-medium border-l-2 border-accent pl-2 py-1">
+                            "{service.pastEvent}"
+                          </p>
+                        </div>
                       )}
                     </div>
-                  </div>
 
-                  <Link to={service.link} className="w-full bg-primary text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 group-hover:bg-accent transition-colors duration-300 cursor-pointer">
-                    {service.ctaText}
-                    <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-                  </Link>
+                    <Link to="/packages" className="w-full bg-primary text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 group-hover:bg-accent transition-colors duration-300 cursor-pointer">
+                      Explore {service.title}
+                      <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Custom Service Selector - UNIQUE SECTION */}
+        {/* Custom Service Selector */}
         <div className="container mx-auto px-4 max-w-7xl mt-32">
           <div className="bg-white rounded-[3rem] p-12 md:p-20 shadow-2xl border border-gray-100">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -301,5 +298,3 @@ const ServicesPage = () => {
 };
 
 export default ServicesPage;
-
-

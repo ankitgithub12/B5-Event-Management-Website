@@ -12,13 +12,26 @@ export const getServices = async (req, res) => {
 
 export const createService = async (req, res) => {
   try {
-    const { title, description, priceRange, isActive } = req.body;
+    const { title, description, priceRange, isActive, includes, popularAddOn, pastEvent } = req.body;
     let imageUrl = '';
     let cloudinaryId = '';
 
     if (req.file) {
       imageUrl = req.file.path;
       cloudinaryId = req.file.filename;
+    }
+
+    let parsedIncludes = [];
+    if (includes) {
+      if (typeof includes === 'string') {
+        try {
+          parsedIncludes = JSON.parse(includes);
+        } catch (e) {
+          parsedIncludes = includes.split(',').map(item => item.trim()).filter(Boolean);
+        }
+      } else if (Array.isArray(includes)) {
+        parsedIncludes = includes;
+      }
     }
 
     const service = new Service({
@@ -28,9 +41,19 @@ export const createService = async (req, res) => {
       isActive: isActive === 'true' || isActive === true,
       imageUrl,
       cloudinaryId,
+      includes: parsedIncludes,
+      popularAddOn,
+      pastEvent,
     });
 
     const createdService = await service.save();
+
+    // Trigger realtime updates
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('services_update');
+    }
+
     res.status(201).json(createdService);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -39,15 +62,32 @@ export const createService = async (req, res) => {
 
 export const updateService = async (req, res) => {
   try {
-    const { title, description, priceRange, isActive } = req.body;
+    const { title, description, priceRange, isActive, includes, popularAddOn, pastEvent } = req.body;
     const service = await Service.findById(req.params.id);
 
     if (service) {
       service.title = title || service.title;
       service.description = description || service.description;
-      service.priceRange = priceRange || service.priceRange;
+      service.priceRange = priceRange !== undefined ? priceRange : service.priceRange;
+      service.popularAddOn = popularAddOn !== undefined ? popularAddOn : service.popularAddOn;
+      service.pastEvent = pastEvent !== undefined ? pastEvent : service.pastEvent;
+      
       if (isActive !== undefined) {
         service.isActive = isActive === 'true' || isActive === true;
+      }
+
+      if (includes !== undefined) {
+        let parsedIncludes = [];
+        if (typeof includes === 'string') {
+          try {
+            parsedIncludes = JSON.parse(includes);
+          } catch (e) {
+            parsedIncludes = includes.split(',').map(item => item.trim()).filter(Boolean);
+          }
+        } else if (Array.isArray(includes)) {
+          parsedIncludes = includes;
+        }
+        service.includes = parsedIncludes;
       }
 
       if (req.file) {
@@ -59,6 +99,13 @@ export const updateService = async (req, res) => {
       }
 
       const updatedService = await service.save();
+
+      // Trigger realtime updates
+      const io = req.app.get('io');
+      if (io) {
+        io.emit('services_update');
+      }
+
       res.json(updatedService);
     } else {
       res.status(404).json({ message: 'Service not found' });
@@ -77,6 +124,13 @@ export const deleteService = async (req, res) => {
         await cloudinary.uploader.destroy(service.cloudinaryId);
       }
       await Service.deleteOne({ _id: service._id });
+
+      // Trigger realtime updates
+      const io = req.app.get('io');
+      if (io) {
+        io.emit('services_update');
+      }
+
       res.json({ message: 'Service removed' });
     } else {
       res.status(404).json({ message: 'Service not found' });

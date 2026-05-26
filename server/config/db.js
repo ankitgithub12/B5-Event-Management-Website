@@ -3,6 +3,10 @@ import User from '../models/User.js';
 import TeamMember from '../models/TeamMember.js';
 import EventPackage from '../models/EventPackage.js';
 import PackageAddon from '../models/PackageAddon.js';
+import Service from '../models/Service.js';
+import Portfolio from '../models/Portfolio.js';
+import Hero from '../models/Hero.js';
+import Gallery from '../models/Gallery.js';
 
 const connectDB = async () => {
   try {
@@ -184,6 +188,186 @@ const connectDB = async () => {
       ];
       await PackageAddon.insertMany(seedAddons);
       console.log('Default package addons auto-seeded successfully.');
+    }
+
+    // Auto-seed services if none exists
+    const serviceCount = await Service.countDocuments();
+    if (serviceCount === 0) {
+      console.log('No services found in database. Seeding default services...');
+      const seedServices = [
+        {
+          title: 'Wedding Planning',
+          description: 'End-to-end wedding management – venue, decor, catering, guest coordination, and more.',
+          priceRange: '₹6L – ₹50L+',
+          imageUrl: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+          cloudinaryId: 'seeded_service_wedding',
+          includes: ['Venue booking', 'Catering', 'Decor', 'Makeup', 'Entertainment', 'Transport'],
+          popularAddOn: 'Drone cinematography',
+          pastEvent: 'Anjali & Rohit – Udaipur Wedding (Premium Package)',
+          isActive: true
+        },
+        {
+          title: 'Pre-Wedding Shoot',
+          description: 'Capture your love story before the big day. Local, destination, or cinematic.',
+          priceRange: '₹25k – ₹3L',
+          imageUrl: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80',
+          cloudinaryId: 'seeded_service_prewedding',
+          includes: ['Photographer', 'HD photos', 'Drone (optional)', 'Album design'],
+          popularAddOn: 'Behind-the-scenes reel',
+          pastEvent: 'Neha & Vikram – Jaipur Pre-Wedding (Drone included)',
+          isActive: true
+        },
+        {
+          title: 'Engagement Ceremony',
+          description: 'Ring ceremonies, surprise proposals, and roka celebrations.',
+          priceRange: '₹3L – ₹12L',
+          imageUrl: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80',
+          cloudinaryId: 'seeded_service_engagement',
+          includes: ['Venue', 'Photography', 'Catering', 'Decor', 'Return gifts'],
+          popularAddOn: 'Surprise proposal coordination',
+          pastEvent: 'Priya & Karan – Surprise Rooftop Proposal',
+          isActive: true
+        },
+        {
+          title: 'Corporate Events',
+          description: 'Product launches, annual galas, conferences, and team offsites.',
+          priceRange: '₹5L – ₹25L+',
+          imageUrl: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80',
+          cloudinaryId: 'seeded_service_corporate',
+          includes: ['AV setup', 'Stage design', 'Catering', 'Guest management', 'Branding'],
+          popularAddOn: 'Celebrity speaker booking',
+          pastEvent: 'TechCorp Annual Gala – 800 guests',
+          isActive: true
+        },
+        {
+          title: 'Small Functions',
+          description: 'Birthdays, anniversaries, baby showers, and retirement parties.',
+          priceRange: '₹1L – ₹8L',
+          imageUrl: 'https://media.istockphoto.com/id/583736396/photo/wedding-hall-or-other-function-facility-set-for-fine-dining.jpg?s=612x612&w=0&k=20&c=gPoRBCkB-wGxvb_BI1vUyjiVryaOjnHhB8RSS4EZmog=',
+          cloudinaryId: 'seeded_service_small',
+          includes: ['Theme decor', 'Cake', 'Photography', 'Return gifts', 'Entertainment'],
+          popularAddOn: 'Themed Photo Booth',
+          pastEvent: "Rohan's 1st Birthday – Jungle Theme (45 guests, ₹3.2L)",
+          isActive: true
+        }
+      ];
+      await Service.insertMany(seedServices);
+      console.log('Default services auto-seeded successfully.');
+    }
+
+    // Auto-seed portfolio items if none exists
+    const portfolioCount = await Portfolio.countDocuments();
+    if (portfolioCount === 0) {
+      console.log('No portfolio items found in database. Seeding default portfolios...');
+      const seedPortfolios = [
+        { title: 'Grand Wedding Reception', category: 'wedding', imageUrl: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80', cloudinaryId: 'seeded_portfolio_1' },
+        { title: 'Tech Corporate Gala', category: 'corporate', imageUrl: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80', cloudinaryId: 'seeded_portfolio_2' },
+        { title: 'College Cultural Fest', category: 'college', imageUrl: 'https://i.pinimg.com/1200x/0f/e9/84/0fe984a1e10c7394f44b6b396cea17a5.jpg', cloudinaryId: 'seeded_portfolio_3' },
+        { title: 'Luxury Birthday Bash', category: 'party', imageUrl: 'https://i.pinimg.com/1200x/9d/5b/e4/9d5be4eb8bea1c525e7a1868ef731a95.jpg', cloudinaryId: 'seeded_portfolio_4' },
+        { title: 'Smartphone Launch Event', category: 'product', imageUrl: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800&q=80', cloudinaryId: 'seeded_portfolio_5' },
+        { title: 'Elegant Engagement', category: 'wedding', imageUrl: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80', cloudinaryId: 'seeded_portfolio_6' },
+        { title: 'Annual Sports Meet', category: 'college', imageUrl: 'https://www.nafl.in/img/2024-2025/events/annual-sports-day-2024-2025/annual-sports-day-2024-2025-1-lg.jpg', cloudinaryId: 'seeded_portfolio_7' },
+        { title: 'Startup Networking Night', category: 'corporate', imageUrl: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=800&q=80', cloudinaryId: 'seeded_portfolio_8' },
+        { title: 'Theme Anniversary Party', category: 'party', imageUrl: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80', cloudinaryId: 'seeded_portfolio_9' }
+      ];
+      await Portfolio.insertMany(seedPortfolios);
+      console.log('Default portfolio items auto-seeded successfully.');
+    }
+
+    // Auto-seed Hero configuration if none exists
+    const heroCount = await Hero.countDocuments();
+    if (heroCount === 0) {
+      console.log('No hero configuration found in database. Seeding default hero...');
+      const seedHero = new Hero({
+        leftImageUrl: 'https://images.unsplash.com/photo-1530023367847-a683933f4172',
+        leftImageCloudinaryId: 'seeded_hero_left',
+        rightImageUrl: 'https://www.bfivewarriors.com/assets/images/gallery/image16.png',
+        rightImageCloudinaryId: 'seeded_hero_right',
+        badgeText: '✨ WE DESIGN. YOU CELEBRATE.',
+        title: 'Where Every Event Becomes a Story',
+        subtitle: 'Weddings • Engagements • Birthdays • Anniversaries • Corporate Events',
+        ctaPrimaryText: 'Start Planning',
+        ctaPrimaryLink: '#contact',
+        ctaSecondaryText: 'View Packages',
+        ctaSecondaryLink: '/packages',
+      });
+      await seedHero.save();
+      console.log('Default hero section config auto-seeded successfully.');
+    }
+
+    // Auto-seed gallery items if none exists
+    await Gallery.deleteMany({ cloudinaryId: { $regex: /^seeded_gallery_/ } });
+    const galleryCount = await Gallery.countDocuments();
+    if (galleryCount === 0) {
+      console.log('No gallery items found in database. Seeding default gallery...');
+      const seedGallery = [
+        {
+          title: 'Udaipur Gala 1',
+          category: 'Wedding',
+          imageUrl: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80',
+          cloudinaryId: 'seeded_gallery_1',
+          span: 'col-span-1 md:col-span-2 row-span-2',
+          order: 0
+        },
+        {
+          title: 'Udaipur Gala 2',
+          category: 'Wedding',
+          imageUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+          cloudinaryId: 'seeded_gallery_2',
+          span: 'col-span-1 row-span-1',
+          order: 1
+        },
+        {
+          title: 'Udaipur Gala 3',
+          category: 'Wedding',
+          imageUrl: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80',
+          cloudinaryId: 'seeded_gallery_3',
+          span: 'col-span-1 row-span-1',
+          order: 2
+        },
+        {
+          title: 'Udaipur Gala 4',
+          category: 'Corporate',
+          imageUrl: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80',
+          cloudinaryId: 'seeded_gallery_4',
+          span: 'col-span-1 md:col-span-2 row-span-1',
+          order: 3
+        },
+        {
+          title: 'Udaipur Gala 5',
+          category: 'Wedding',
+          imageUrl: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80',
+          cloudinaryId: 'seeded_gallery_5',
+          span: 'col-span-1 row-span-2',
+          order: 4
+        },
+        {
+          title: 'Udaipur Gala 6',
+          category: 'Corporate',
+          imageUrl: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800&q=80',
+          cloudinaryId: 'seeded_gallery_6',
+          span: 'col-span-1 row-span-1',
+          order: 5
+        },
+        {
+          title: 'Udaipur Gala 7',
+          category: 'Private Party',
+          imageUrl: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80',
+          cloudinaryId: 'seeded_gallery_7',
+          span: 'col-span-1 row-span-1',
+          order: 6
+        },
+        {
+          title: 'Udaipur Gala 8',
+          category: 'Corporate',
+          imageUrl: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1200&q=80',
+          cloudinaryId: 'seeded_gallery_8',
+          span: 'col-span-1 md:col-span-3 row-span-2',
+          order: 7
+        }
+      ];
+      await Gallery.insertMany(seedGallery);
+      console.log('Default gallery items auto-seeded successfully.');
     }
   } catch (error) {
     console.error(`Error connecting to MongoDB: ${error.message}`);

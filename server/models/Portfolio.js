@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const gallerySchema = new mongoose.Schema({
+const portfolioSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -17,18 +17,10 @@ const gallerySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  span: {
-    type: String,
-    default: 'col-span-1 row-span-1',
-  },
-  order: {
-    type: Number,
-    default: 0,
-  },
 }, {
   timestamps: true,
 });
 
-const Gallery = mongoose.model('Gallery', gallerySchema);
+const Portfolio = mongoose.model('Portfolio', portfolioSchema);
 
-export default Gallery;
+export default Portfolio;

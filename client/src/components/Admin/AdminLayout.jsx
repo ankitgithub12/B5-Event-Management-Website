@@ -13,7 +13,9 @@ import {
   Image as ImageIcon,
   MessageSquare,
   Shield,
-  Gift
+  Gift,
+  Sliders,
+  LayoutGrid
 } from 'lucide-react';
 import { io } from 'socket.io-client';
 import logo from '../../assets/B5_logo.jpeg';
@@ -92,9 +94,11 @@ const AdminLayout = ({ children }) => {
 
   const navItems = [
     { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+    { name: 'Hero Settings', path: '/admin/hero', icon: Sliders },
+    { name: 'Services', path: '/admin/services', icon: Sparkles },
+    { name: 'Portfolio', path: '/admin/portfolio', icon: LayoutGrid },
     { name: 'Events', path: '/admin/events', icon: Calendar },
     { name: 'Bookings', path: '/admin/bookings', icon: Package },
-    { name: 'Services', path: '/admin/services', icon: Sparkles },
     { name: 'Gallery', path: '/admin/gallery', icon: ImageIcon },
     { name: 'Forms & Leads', path: '/admin/forms', icon: MessageSquare },
     { name: 'Packages', path: '/admin/packages', icon: Gift },

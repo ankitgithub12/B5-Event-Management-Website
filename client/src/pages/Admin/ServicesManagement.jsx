@@ -20,6 +20,9 @@ const ServicesManagement = () => {
     description: '',
     priceRange: '',
     isActive: true,
+    includes: '',
+    popularAddOn: '',
+    pastEvent: '',
   });
   const [imageFile, setImageFile] = useState(null);
   
@@ -46,7 +49,15 @@ const ServicesManagement = () => {
   const openAddModal = () => {
     setIsEditing(false);
     setEditingId(null);
-    setFormData({ title: '', description: '', priceRange: '', isActive: true });
+    setFormData({ 
+      title: '', 
+      description: '', 
+      priceRange: '', 
+      isActive: true,
+      includes: '',
+      popularAddOn: '',
+      pastEvent: ''
+    });
     setImageFile(null);
     setFormError('');
     setShowFormModal(true);
@@ -60,6 +71,9 @@ const ServicesManagement = () => {
       description: service.description,
       priceRange: service.priceRange || '',
       isActive: service.isActive,
+      includes: service.includes ? service.includes.join(', ') : '',
+      popularAddOn: service.popularAddOn || '',
+      pastEvent: service.pastEvent || '',
     });
     setImageFile(null);
     setFormError('');
@@ -77,6 +91,9 @@ const ServicesManagement = () => {
     uploadData.append('description', formData.description);
     uploadData.append('priceRange', formData.priceRange);
     uploadData.append('isActive', formData.isActive);
+    uploadData.append('includes', formData.includes);
+    uploadData.append('popularAddOn', formData.popularAddOn);
+    uploadData.append('pastEvent', formData.pastEvent);
     if (imageFile) {
       uploadData.append('image', imageFile);
     }
@@ -324,6 +341,39 @@ const ServicesManagement = () => {
                     <option value="false">Inactive (Draft)</option>
                   </select>
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Inclusions (comma-separated)</label>
+                <input 
+                  type="text" 
+                  placeholder="e.g. Venue booking, Catering, Decor, Transport"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
+                  value={formData.includes}
+                  onChange={(e) => setFormData({...formData, includes: e.target.value})}
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Popular Add-on</label>
+                <input 
+                  type="text" 
+                  placeholder="e.g. Drone cinematography"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
+                  value={formData.popularAddOn}
+                  onChange={(e) => setFormData({...formData, popularAddOn: e.target.value})}
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Past Event Example</label>
+                <input 
+                  type="text" 
+                  placeholder="e.g. Anjali & Rohit – Udaipur Wedding (Premium)"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
+                  value={formData.pastEvent}
+                  onChange={(e) => setFormData({...formData, pastEvent: e.target.value})}
+                />
               </div>
 
               <div>

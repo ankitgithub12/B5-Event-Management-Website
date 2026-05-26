@@ -3,23 +3,38 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
-import { Users, Trophy, Calendar, Star, Quote } from 'lucide-react';
+import { Loader2, ArrowRight } from 'lucide-react';
 import SocialGrid from '../components/SocialGrid/SocialGrid';
+import api from '../utils/api';
+import { io } from 'socket.io-client';
 
 const PortfolioPage = () => {
   const [filter, setFilter] = useState('all');
-  
-  const projects = [
-    { id: 1, title: 'Grand Wedding Reception', category: 'wedding', image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80' },
-    { id: 2, title: 'Tech Corporate Gala', category: 'corporate', image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80' },
-    { id: 3, title: 'College Cultural Fest', category: 'college', image: 'https://i.pinimg.com/1200x/0f/e9/84/0fe984a1e10c7394f44b6b396cea17a5.jpg' },
-    { id: 4, title: 'Luxury Birthday Bash', category: 'party', image: 'https://i.pinimg.com/1200x/9d/5b/e4/9d5be4eb8bea1c525e7a1868ef731a95.jpg' },
-    { id: 5, title: 'Smartphone Launch Event', category: 'product', image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800&q=80' },
-    { id: 6, title: 'Elegant Engagement', category: 'wedding', image: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80' },
-    { id: 7, title: 'Annual Sports Meet', category: 'college', image: 'https://www.nafl.in/img/2024-2025/events/annual-sports-day-2024-2025/annual-sports-day-2024-2025-1-lg.jpg' },
-    { id: 8, title: 'Startup Networking Night', category: 'corporate', image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=800&q=80' },
-    { id: 9, title: 'Theme Anniversary Party', category: 'party', image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80' },
-  ];
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchPortfolio = async () => {
+    try {
+      const { data } = await api.get('/portfolio');
+      setProjects(data);
+    } catch (err) {
+      console.error('Error fetching portfolio:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    fetchPortfolio();
+
+    const socket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000');
+    socket.on('portfolio_update', () => {
+      fetchPortfolio();
+    });
+
+    return () => socket.disconnect();
+  }, []);
 
   const categories = [
     { id: 'all', name: 'All Work' },
@@ -32,11 +47,7 @@ const PortfolioPage = () => {
 
   const filteredProjects = filter === 'all' 
     ? projects 
-    : projects.filter(project => project.category === filter);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    : projects.filter(project => project.category.toLowerCase() === filter.toLowerCase());
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -66,7 +77,7 @@ const PortfolioPage = () => {
               <button
                 key={cat.id}
                 onClick={() => setFilter(cat.id)}
-                className={`px-6 py-2 rounded-full transition-all duration-300 text-sm font-semibold ${
+                className={`px-6 py-2 rounded-full transition-all duration-300 text-sm font-semibold cursor-pointer ${
                   filter === cat.id 
                     ? 'bg-accent text-white shadow-lg' 
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -78,41 +89,48 @@ const PortfolioPage = () => {
           </div>
 
           {/* Project Grid */}
-          <motion.div 
-            layout
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            <AnimatePresence mode='popLayout'>
-              {filteredProjects.map((project) => (
-                <motion.div
-                  key={project.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.4 }}
-                  className="group relative overflow-hidden rounded-3xl bg-gray-100 aspect-[4/5] cursor-pointer shadow-xl"
-                >
-                  <img 
-                    src={project.image} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
-                    <span className="text-accent text-xs font-bold tracking-widest uppercase mb-2 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-100">
-                      {project.category}
-                    </span>
-                    <h3 className="text-white text-2xl font-heading font-bold opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-200">
-                      {project.title}
-                    </h3>
-                    <div className="w-12 h-1 bg-accent mt-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-300"></div>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-20 gap-3">
+              <Loader2 size={40} className="text-accent animate-spin" />
+              <p className="text-gray-500 font-medium">Loading our portfolios...</p>
+            </div>
+          ) : (
+            <motion.div 
+              layout
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              <AnimatePresence mode='popLayout'>
+                {filteredProjects.map((project) => (
+                  <motion.div
+                    key={project._id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.4 }}
+                    className="group relative overflow-hidden rounded-3xl bg-gray-100 aspect-[4/5] cursor-pointer shadow-xl"
+                  >
+                    <img 
+                      src={project.imageUrl} 
+                      alt={project.title} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
+                      <span className="text-accent text-xs font-bold tracking-widest uppercase mb-2 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-100">
+                        {project.category}
+                      </span>
+                      <h3 className="text-white text-2xl font-heading font-bold opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-200">
+                        {project.title}
+                      </h3>
+                      <div className="w-12 h-1 bg-accent mt-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-300"></div>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          )}
 
-          {filteredProjects.length === 0 && (
+          {filteredProjects.length === 0 && !loading && (
             <div className="text-center py-24">
               <p className="text-2xl text-gray-400">No projects found in this category yet.</p>
             </div>
@@ -124,7 +142,7 @@ const PortfolioPage = () => {
               <span className="text-accent font-bold text-xs tracking-[3px] uppercase mb-4 block">OUR PHILOSOPHY</span>
               <h2 className="text-4xl md:text-5xl font-heading text-primary mb-8">The B5 Signature</h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                We don't just plan events; we curate atmospheres. Our signature style blends **timeless elegance** with **modern editorial precision**. 
+                We don't just plan events; we curate atmospheres. Our signature style blends <strong className="text-primary font-bold">timeless elegance</strong> with <strong className="text-primary font-bold">modern editorial precision</strong>. 
               </p>
               <div className="grid grid-cols-2 gap-8 mt-12">
                 <div>

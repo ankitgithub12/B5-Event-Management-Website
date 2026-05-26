@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { io } from 'socket.io-client';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
 import SocialGrid from '../components/SocialGrid/SocialGrid';
-import { X, ZoomIn, Loader2 } from 'lucide-react';
+import { X, ZoomIn, Loader2, Image as ImageIcon } from 'lucide-react';
 import api from '../utils/api';
 
 const spanClasses = [
@@ -17,49 +18,77 @@ const spanClasses = [
   'col-span-1 md:col-span-3 row-span-2',
 ];
 
+const fallbackImages = [
+  { id: 1, src: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80', alt: 'Udaipur Gala 1', category: 'Wedding' },
+  { id: 2, src: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 2', category: 'Wedding' },
+  { id: 3, src: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 3', category: 'Wedding' },
+  { id: 4, src: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 4', category: 'Corporate' },
+  { id: 5, src: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 5', category: 'Wedding' },
+  { id: 6, src: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 6', category: 'Corporate' },
+  { id: 7, src: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 7', category: 'Private Party' },
+  { id: 8, src: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1200&q=80', alt: 'Udaipur Gala 8', category: 'Corporate' },
+];
+
 const GalleryPage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState('all');
+  const [toast, setToast] = useState('');
 
-  const fallbackImages = [
-    { id: 1, src: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80', alt: 'Udaipur Gala 1', span: 'col-span-1 md:col-span-2 row-span-2' },
-    { id: 2, src: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 2', span: 'col-span-1 row-span-1' },
-    { id: 3, src: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 3', span: 'col-span-1 row-span-1' },
-    { id: 4, src: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 4', span: 'col-span-1 md:col-span-2 row-span-1' },
-    { id: 5, src: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 5', span: 'col-span-1 row-span-2' },
-    { id: 6, src: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 6', span: 'col-span-1 row-span-1' },
-    { id: 7, src: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 7', span: 'col-span-1 row-span-1' },
-    { id: 8, src: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1200&q=80', alt: 'Udaipur Gala 8', span: 'col-span-1 md:col-span-3 row-span-2' },
-  ];
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(''), 5000);
+  };
+
+  const fetchGallery = async () => {
+    try {
+      const { data } = await api.get('/gallery');
+      if (data && data.length > 0) {
+        const formatted = data.map((item) => ({
+          id: item._id,
+          src: item.imageUrl,
+          alt: item.title,
+          category: item.category,
+          span: item.span,
+        }));
+        setImages(formatted);
+      } else {
+        setImages(fallbackImages);
+      }
+    } catch (err) {
+      console.error('Error fetching gallery:', err);
+      setImages(fallbackImages);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    
-    const fetchGallery = async () => {
-      try {
-        const { data } = await api.get('/gallery');
-        if (data && data.length > 0) {
-          const formatted = data.map((item, i) => ({
-            id: item._id,
-            src: item.imageUrl,
-            alt: item.title,
-            span: spanClasses[i % spanClasses.length],
-          }));
-          setImages(formatted);
-        } else {
-          setImages(fallbackImages);
-        }
-      } catch (err) {
-        console.error('Error fetching gallery:', err);
-        setImages(fallbackImages);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchGallery();
+    
+    const socket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000');
+    socket.on('gallery_update', () => {
+      fetchGallery();
+      showToast('✨ The media gallery was updated in real-time!');
+    });
+
+    return () => socket.disconnect();
   }, []);
+
+  const categories = [
+    { id: 'all', name: 'All Media' },
+    { id: 'wedding', name: 'Weddings' },
+    { id: 'corporate', name: 'Corporate' },
+    { id: 'private party', name: 'Private Parties' },
+    { id: 'exhibition', name: 'Exhibitions' },
+    { id: 'other', name: 'Others' },
+  ];
+
+  const filteredImages = filter === 'all'
+    ? images
+    : images.filter(img => img.category.toLowerCase() === filter.toLowerCase());
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
@@ -75,13 +104,30 @@ const GalleryPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <span className="text-accent font-bold text-xs tracking-[3px] uppercase mb-4 block">Event Spotlight</span>
-              <h1 className="text-5xl md:text-7xl font-heading text-primary mb-6">The Udaipur Heritage Gala</h1>
+              <span className="text-accent font-bold text-xs tracking-[3px] uppercase mb-4 block">Event Memories</span>
+              <h1 className="text-5xl md:text-7xl font-heading text-primary mb-6">Our Media Gallery</h1>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                A visual journey through our breathtaking transformation of a 400-year-old palace.
-                Witness the seamless blend of heritage and modern design.
+                A visual journey through the breathtaking experiences we've crafted.
+                Witness the details, atmosphere, and joy captured in real time.
               </p>
             </motion.div>
+          </div>
+
+          {/* Filters */}
+          <div className="flex flex-wrap justify-center gap-4 mb-12">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setFilter(cat.id)}
+                className={`px-6 py-2 rounded-full transition-all duration-300 text-sm font-semibold cursor-pointer ${
+                  filter === cat.id 
+                    ? 'bg-accent text-white shadow-lg' 
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
           </div>
 
           {/* Gallery Grid */}
@@ -89,6 +135,15 @@ const GalleryPage = () => {
             <div className="flex flex-col items-center justify-center py-20 gap-3">
               <Loader2 size={40} className="text-accent animate-spin" />
               <p className="text-gray-500 font-medium">Loading our dynamic event gallery...</p>
+            </div>
+          ) : filteredImages.length === 0 ? (
+            <div className="text-center py-24 bg-white rounded-[2rem] border border-gray-100 shadow-sm p-12 max-w-lg mx-auto">
+              <ImageIcon className="mx-auto mb-4 text-gray-300" size={48} />
+              <h3 className="text-lg font-bold text-primary mb-2">No showcase items</h3>
+              <p className="text-gray-500 text-sm mb-6">We are currently curating and uploading event captures. Please check back soon!</p>
+              <a href="/portfolio" className="bg-primary text-white px-6 py-2.5 rounded-full font-bold text-sm hover:bg-accent transition-colors">
+                View Portfolios
+              </a>
             </div>
           ) : (
             <motion.div 
@@ -103,29 +158,51 @@ const GalleryPage = () => {
                 }
               }}
             >
-              {images.map((img) => (
-                <motion.div
-                  key={img.id}
-                  variants={{
-                    hidden: { opacity: 0, scale: 0.9 },
-                    visible: { opacity: 1, scale: 1 }
-                  }}
-                  whileHover={{ scale: 0.98 }}
-                  className={`relative group overflow-hidden rounded-2xl cursor-pointer shadow-lg ${img.span}`}
-                  onClick={() => setSelectedImage(img)}
-                >
-                  <img 
-                    src={img.src} 
-                    alt={img.alt} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <div className="bg-white/20 backdrop-blur-md p-4 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                      <ZoomIn className="text-white w-6 h-6" />
+              {filteredImages.map((img, index) => {
+                // Dynamically select span classes if item doesn't have a specific span class
+                const span = img.span || spanClasses[index % spanClasses.length];
+                return (
+                  <motion.div
+                    key={img.id}
+                    variants={{
+                      hidden: { opacity: 0, scale: 0.9 },
+                      visible: { opacity: 1, scale: 1 }
+                    }}
+                    whileHover={{ scale: 0.98 }}
+                    className={`relative group overflow-hidden rounded-2xl cursor-pointer shadow-lg ${span}`}
+                    onClick={() => setSelectedImage(img)}
+                  >
+                    <div className="relative w-full h-full overflow-hidden bg-gray-900 flex items-center justify-center">
+                      {/* Blurred ambient background to fill empty space without cropping */}
+                      <img 
+                        src={img.src} 
+                        alt="" 
+                        className="absolute inset-0 w-full h-full object-cover filter blur-lg scale-110 opacity-30 select-none pointer-events-none"
+                      />
+                      {/* Foreground full-visibility image */}
+                      <img 
+                        src={img.src} 
+                        alt={img.alt} 
+                        className="relative z-10 max-w-full max-h-full object-contain transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                      />
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                    <div className="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6 z-20">
+                      <span className="self-start text-[10px] uppercase font-bold text-accent tracking-widest bg-white/95 px-2.5 py-1 rounded-full shadow-sm">
+                        {img.category}
+                      </span>
+                      <div className="flex justify-between items-center w-full">
+                        <span className="text-white text-sm font-bold truncate max-w-[80%] drop-shadow">
+                          {img.alt}
+                        </span>
+                        <div className="bg-white/20 backdrop-blur-md p-2 rounded-full transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                          <ZoomIn className="text-white w-4 h-4" />
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </motion.div>
           )}
           
@@ -149,7 +226,7 @@ const GalleryPage = () => {
             onClick={() => setSelectedImage(null)}
           >
             <button 
-              className="absolute top-8 right-8 text-white/70 hover:text-white transition-colors"
+              className="absolute top-8 right-8 text-white/70 hover:text-white transition-colors cursor-pointer"
               onClick={() => setSelectedImage(null)}
             >
               <X className="w-10 h-10" />
@@ -170,6 +247,16 @@ const GalleryPage = () => {
 
       <SocialGrid />
       <Footer />
+
+      {/* Toast Notification */}
+      {toast && (
+        <div className="fixed bottom-8 right-8 z-[110] bg-primary text-white border border-[#C5A06B]/20 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-5 duration-300 max-w-sm text-left">
+          <span className="text-sm font-semibold">{toast}</span>
+          <button onClick={() => setToast('')} className="text-white/50 hover:text-white ml-auto shrink-0 cursor-pointer">
+            <X size={16} />
+          </button>
+        </div>
+      )}
     </div>
   );
 };

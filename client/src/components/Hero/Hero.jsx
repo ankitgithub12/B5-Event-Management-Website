@@ -1,8 +1,47 @@
+import { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import api from '../../utils/api';
+import { io } from 'socket.io-client';
 
 const Hero = () => {
+  const [hero, setHero] = useState({
+    leftImageUrl: 'https://images.unsplash.com/photo-1530023367847-a683933f4172',
+    rightImageUrl: 'https://www.bfivewarriors.com/assets/images/gallery/image16.png',
+    badgeText: '✨ WE DESIGN. YOU CELEBRATE.',
+    title: 'Where Every <br />Event Becomes a <span class="text-accent italic font-serif">Story</span>',
+    subtitle: 'Weddings • Engagements • Birthdays • Anniversaries • Corporate Events',
+    ctaPrimaryText: 'Start Planning',
+    ctaPrimaryLink: '#contact',
+    ctaSecondaryText: 'View Packages',
+    ctaSecondaryLink: '/packages',
+  });
+
+  useEffect(() => {
+    const fetchHero = async () => {
+      try {
+        const { data } = await api.get('/hero');
+        if (data) {
+          setHero(data);
+        }
+      } catch (err) {
+        console.error('Error fetching hero content:', err);
+      }
+    };
+
+    fetchHero();
+
+    const socket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000');
+    socket.on('hero_update', (updatedHero) => {
+      if (updatedHero) {
+        setHero(updatedHero);
+      }
+    });
+
+    return () => socket.disconnect();
+  }, []);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -40,27 +79,29 @@ const Hero = () => {
       {/* Split Background */}
       <div className="absolute inset-0 flex flex-col lg:flex-row">
         <motion.div 
+          key={`left-${hero.leftImageUrl}`}
           variants={imageContainerVariants}
           initial="hidden"
           animate="visible"
           className="flex-1 relative group overflow-hidden"
         >
           <img
-            src="https://images.unsplash.com/photo-1530023367847-a683933f4172"
-            alt="Wedding Celebration"
+            src={hero.leftImageUrl}
+            alt="Left Celebration"
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3000ms] group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-primary/45 group-hover:bg-primary/30 transition-colors duration-500"></div>
         </motion.div>
         <motion.div 
+          key={`right-${hero.rightImageUrl}`}
           variants={imageContainerVariants}
           initial="hidden"
           animate="visible"
           className="flex-1 relative group overflow-hidden"
         >
           <img
-            src="https://www.bfivewarriors.com/assets/images/gallery/image16.png"
-            alt="Birthday Celebration"
+            src={hero.rightImageUrl}
+            alt="Right Celebration"
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3000ms] group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-primary/45 group-hover:bg-primary/30 transition-colors duration-500"></div>
@@ -79,33 +120,45 @@ const Hero = () => {
             variants={itemVariants}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-accent font-semibold text-xs md:text-sm tracking-[3px] uppercase mb-8 shadow-lg"
           >
-            <span>✨</span> WE DESIGN. YOU CELEBRATE.
+            {hero.badgeText}
           </motion.div>
 
           <motion.h1 
             variants={itemVariants}
             className="text-5xl md:text-7xl lg:text-[5.5rem] text-white mb-8 leading-tight drop-shadow-2xl font-bold"
-          >
-            Where Every <br />Event Becomes a <span className="text-accent italic font-serif">Story</span>
-          </motion.h1>
+            dangerouslySetInnerHTML={{ __html: hero.title }}
+          />
 
           <motion.p 
             variants={itemVariants}
             className="text-lg md:text-xl text-white/90 mb-12 leading-relaxed max-w-2xl mx-auto font-light tracking-wide"
           >
-            Weddings • Engagements • Birthdays • Anniversaries • Corporate Events
+            {hero.subtitle}
           </motion.p>
 
           <motion.div 
             variants={itemVariants}
             className="flex flex-col sm:flex-row gap-6 justify-center items-center"
           >
-            <a href="#contact" className="btn bg-accent text-white hover:bg-accent-hover px-10 py-4 text-lg shadow-gold transition-all duration-300 group">
-              Start Planning <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-            </a>
-            <Link to="/packages" className="btn border-2 border-white text-white hover:bg-white/10 hover:border-accent hover:text-white px-10 py-4 text-lg backdrop-blur-sm transition-all duration-300">
-              View Packages
-            </Link>
+            {hero.ctaPrimaryLink.startsWith('/') ? (
+              <Link to={hero.ctaPrimaryLink} className="btn bg-accent text-white hover:bg-accent-hover px-10 py-4 text-lg shadow-gold transition-all duration-300 group">
+                {hero.ctaPrimaryText} <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            ) : (
+              <a href={hero.ctaPrimaryLink} className="btn bg-accent text-white hover:bg-accent-hover px-10 py-4 text-lg shadow-gold transition-all duration-300 group">
+                {hero.ctaPrimaryText} <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              </a>
+            )}
+
+            {hero.ctaSecondaryLink.startsWith('/') ? (
+              <Link to={hero.ctaSecondaryLink} className="btn border-2 border-white text-white hover:bg-white/10 hover:border-accent hover:text-white px-10 py-4 text-lg backdrop-blur-sm transition-all duration-300">
+                {hero.ctaSecondaryText}
+              </Link>
+            ) : (
+              <a href={hero.ctaSecondaryLink} className="btn border-2 border-white text-white hover:bg-white/10 hover:border-accent hover:text-white px-10 py-4 text-lg backdrop-blur-sm transition-all duration-300">
+                {hero.ctaSecondaryText}
+              </a>
+            )}
           </motion.div>
         </div>
       </motion.div>
@@ -117,4 +170,3 @@ const Hero = () => {
 };
 
 export default Hero;
-

@@ -1,16 +1,36 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import api from '../../utils/api';
+import { io } from 'socket.io-client';
 
 const Portfolio = () => {
-  const projects = [
-    { title: 'Wedding Mandap Setup', category: 'Wedding', image: 'https://thumbs.dreamstime.com/b/elegant-indian-wedding-mandap-setup-luxurious-decor-festive-atmosphere-lavishly-decorated-featuring-ornate-gold-accents-vibrant-377567689.jpg?w=768' },
-    { title: 'Birthday Celebration', category: 'Birthday', image: 'https://i.pinimg.com/1200x/38/aa/e3/38aae3ef640e264fe7cb1bf1a366661b.jpg' },
-    { title: 'Anniversary Dinner', category: 'Anniversary', image: 'https://images.stockcake.com/public/8/2/5/825d7412-25ac-4aa4-9287-87f561bf5eb5/romantic-dinner-date-stockcake.jpg' },
-    { title: 'Corporate Branding', category: 'Corporate', image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Pre-Wedding Magic', category: 'Pre-Wedding', image: 'https://i.pinimg.com/1200x/8e/f6/c8/8ef6c8d47b96a3bb27097cc9b1ba9281.jpg' },
-    { title: 'The Proposal', category: 'Engagement', image: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80' },
-  ];
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchPortfolio = async () => {
+    try {
+      const { data } = await api.get('/portfolio');
+      // Limit to 6 items on homepage preview
+      setProjects(data.slice(0, 6));
+    } catch (err) {
+      console.error('Error fetching portfolio:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPortfolio();
+
+    const socket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000');
+    socket.on('portfolio_update', () => {
+      fetchPortfolio();
+    });
+
+    return () => socket.disconnect();
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -34,6 +54,18 @@ const Portfolio = () => {
       }
     }
   };
+
+  if (loading) {
+    return (
+      <div className="py-24 bg-gray-50 flex justify-center items-center">
+        <div className="w-10 h-10 border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (projects.length === 0) {
+    return null; // hide homepage section if empty
+  }
 
   return (
     <section id="portfolio" className="py-24 bg-gray-50 overflow-hidden">
@@ -72,13 +104,13 @@ const Portfolio = () => {
         >
           {projects.map((project, index) => (
             <motion.div
-              key={index}
+              key={project._id || index}
               variants={itemVariants}
               whileHover={{ scale: 0.98 }}
               className="group relative rounded-3xl overflow-hidden aspect-[4/5] cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
             >
               <img
-                src={project.image}
+                src={project.imageUrl}
                 alt={project.title}
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
               />
@@ -107,4 +139,3 @@ const Portfolio = () => {
 };
 
 export default Portfolio;
-

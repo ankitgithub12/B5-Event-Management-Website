@@ -20,6 +20,8 @@ import GalleryManagement from './pages/Admin/GalleryManagement';
 import FormsManagement from './pages/Admin/FormsManagement';
 import TeamManagement from './pages/Admin/TeamManagement';
 import PackagesManagement from './pages/Admin/PackagesManagement';
+import PortfolioManagement from './pages/Admin/PortfolioManagement';
+import HeroManagement from './pages/Admin/HeroManagement';
 
 function App() {
   return (
@@ -60,6 +62,16 @@ function App() {
         <Route path="/admin/services" element={
           <ProtectedRoute>
             <AdminLayout><ServicesManagement /></AdminLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/portfolio" element={
+          <ProtectedRoute>
+            <AdminLayout><PortfolioManagement /></AdminLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/hero" element={
+          <ProtectedRoute>
+            <AdminLayout><HeroManagement /></AdminLayout>
           </ProtectedRoute>
         } />
         <Route path="/admin/gallery" element={
