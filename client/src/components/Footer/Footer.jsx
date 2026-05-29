@@ -22,16 +22,16 @@ const Footer = () => {
             </div>
           </Link>
           <div className="flex gap-4">
-            <a href="#" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-accent hover:border-accent hover:-translate-y-1 transition-all duration-300">
+            <a href="https://www.facebook.com/profile.php?id=61590305528572" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-accent hover:border-accent hover:-translate-y-1 transition-all duration-300">
               <FaFacebook size={20} />
             </a>
-            <a href="#" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-accent hover:border-accent hover:-translate-y-1 transition-all duration-300">
+            <a href="https://www.instagram.com/bfive_eventory/" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-accent hover:border-accent hover:-translate-y-1 transition-all duration-300">
               <FaInstagram size={20} />
             </a>
-            <a href="#" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-accent hover:border-accent hover:-translate-y-1 transition-all duration-300">
+            <a href="movi062026@gmail.com" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-accent hover:border-accent hover:-translate-y-1 transition-all duration-300">
               <MessageCircle size={20} />
             </a>
-            <a href="#" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-accent hover:border-accent hover:-translate-y-1 transition-all duration-300">
+            <a href="https://www.youtube.com/@B5EVENTORY" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-accent hover:border-accent hover:-translate-y-1 transition-all duration-300">
               <FaYoutube size={20} />
             </a>
           </div>

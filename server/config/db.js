@@ -7,6 +7,8 @@ import Service from '../models/Service.js';
 import Portfolio from '../models/Portfolio.js';
 import Hero from '../models/Hero.js';
 import Gallery from '../models/Gallery.js';
+import SocialGridSettings from '../models/SocialGridSettings.js';
+import SocialGridImage from '../models/SocialGridImage.js';
 
 const connectDB = async () => {
   try {
@@ -382,6 +384,52 @@ const connectDB = async () => {
       ];
       await Gallery.insertMany(seedGallery);
       console.log('Default gallery items auto-seeded successfully.');
+    }
+
+    // Auto-seed Social Grid Settings if none exists
+    const socialSettingsCount = await SocialGridSettings.countDocuments();
+    if (socialSettingsCount === 0) {
+      console.log('No social grid settings found in database. Seeding default social grid settings...');
+      await SocialGridSettings.create({
+        sectionTitle: 'FOLLOW OUR JOURNEY',
+        instagramHandle: '@b5eventory',
+      });
+      console.log('Default social grid settings auto-seeded successfully.');
+    }
+
+    // Auto-seed Social Grid Images if none exists
+    const socialImagesCount = await SocialGridImage.countDocuments();
+    if (socialImagesCount === 0) {
+      console.log('No social grid images found in database. Seeding default social grid images...');
+      const seedSocialImages = [
+        {
+          imageUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=400&q=80',
+          cloudinaryId: 'seeded_social_1',
+          order: 0,
+        },
+        {
+          imageUrl: 'https://i.pinimg.com/736x/d3/fc/61/d3fc6177dfe52706a3f6826c3948f4ae.jpg',
+          cloudinaryId: 'seeded_social_2',
+          order: 1,
+        },
+        {
+          imageUrl: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=400&q=80',
+          cloudinaryId: 'seeded_social_3',
+          order: 2,
+        },
+        {
+          imageUrl: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=400&q=80',
+          cloudinaryId: 'seeded_social_4',
+          order: 3,
+        },
+        {
+          imageUrl: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=400&q=80',
+          cloudinaryId: 'seeded_social_5',
+          order: 4,
+        },
+      ];
+      await SocialGridImage.insertMany(seedSocialImages);
+      console.log('Default social grid images auto-seeded successfully.');
     }
   } catch (error) {
     console.error(`Error connecting to MongoDB: ${error.message}`);

@@ -22,6 +22,7 @@ import TeamManagement from './pages/Admin/TeamManagement';
 import PackagesManagement from './pages/Admin/PackagesManagement';
 import PortfolioManagement from './pages/Admin/PortfolioManagement';
 import HeroManagement from './pages/Admin/HeroManagement';
+import SocialGridManagement from './pages/Admin/SocialGridManagement';
 import ProfileSettings from './pages/Admin/ProfileSettings';
 
 function App() {
@@ -73,6 +74,11 @@ function App() {
         <Route path="/admin/hero" element={
           <ProtectedRoute>
             <AdminLayout><HeroManagement /></AdminLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/social" element={
+          <ProtectedRoute>
+            <AdminLayout><SocialGridManagement /></AdminLayout>
           </ProtectedRoute>
         } />
         <Route path="/admin/gallery" element={

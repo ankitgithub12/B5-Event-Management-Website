@@ -301,7 +301,7 @@ const ContactPage = () => {
               <div className="rounded-3xl overflow-hidden h-52 bg-gray-900 relative flex items-center justify-center">
                 <iframe
                   title="B5 Eventory Location"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3628.1!2d73.7125!3d24.5854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDM1JzA3LjQiTiA3M8KwNDInNDUuMCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin"
+                  src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3561.033642988921!2d75.85572607543581!3d26.80705737671034!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjbCsDQ4JzI1LjQiTiA3NcKwNTEnMjkuOSJF!5e0!3m2!1sen!2sin!4v1780057625888!5m2!1sen!2sin"
                   width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy"
                   className="opacity-70"
                 ></iframe>

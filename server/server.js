@@ -16,6 +16,7 @@ import teamRoutes from './routes/teamRoutes.js';
 import packageRoutes from './routes/packageRoutes.js';
 import portfolioRoutes from './routes/portfolioRoutes.js';
 import heroRoutes from './routes/heroRoutes.js';
+import socialGridRoutes from './routes/socialGridRoutes.js';
 import http from 'http';
 import { Server } from 'socket.io';
 
@@ -63,6 +64,7 @@ app.use('/api/team', teamRoutes);
 app.use('/api/packages', packageRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/hero', heroRoutes);
+app.use('/api/social-grid', socialGridRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {
