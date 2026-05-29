@@ -1,4 +1,5 @@
 import Navbar from '../components/Navbar/Navbar';
+import SEO from '../components/SEO';
 import Footer from '../components/Footer/Footer';
 import { 
   Users, Truck, Zap, Star, Utensils, Hotel, Bus, 
@@ -135,6 +136,11 @@ const HospitalityPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
+      <SEO 
+        title="Event Hospitality & Crew"
+        description="Learn about our core hospitality services and event crew, including logistics, VIP management, and catering teams."
+        canonicalUrl="/hospitality"
+      />
       <Navbar />
       
       <main className="flex-grow pt-32 pb-20">
@@ -162,6 +168,7 @@ const HospitalityPage = () => {
                   <img 
                     src={role.image} 
                     alt={role.title} 
+                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors duration-500"></div>

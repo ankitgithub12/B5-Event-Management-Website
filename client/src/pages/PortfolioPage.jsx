@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar';
+import SEO from '../components/SEO';
 import Footer from '../components/Footer/Footer';
 import { Loader2, ArrowRight } from 'lucide-react';
 import SocialGrid from '../components/SocialGrid/SocialGrid';
@@ -51,6 +52,11 @@ const PortfolioPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
+      <SEO 
+        title="Our Portfolio - Past Events & Work"
+        description="View our extensive portfolio of past events, weddings, corporate galas, and parties. Discover how B5 EVENTORY brings visions to life."
+        canonicalUrl="/portfolio"
+      />
       <Navbar />
       
       <main className="flex-grow pt-32 pb-24">
@@ -113,6 +119,7 @@ const PortfolioPage = () => {
                     <img 
                       src={project.imageUrl} 
                       alt={project.title} 
+                      loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
@@ -160,6 +167,7 @@ const PortfolioPage = () => {
                 <img 
                   src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80" 
                   alt="B5 Signature Style" 
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -194,6 +202,7 @@ const PortfolioPage = () => {
                   <img 
                     src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80" 
                     alt="Udaipur Gala Case Study" 
+                    loading="lazy"
                     className="w-full h-full object-cover"
                   />
                 </div>

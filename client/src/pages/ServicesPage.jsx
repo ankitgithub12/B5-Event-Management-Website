@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar/Navbar';
+import SEO from '../components/SEO';
 import Footer from '../components/Footer/Footer';
 import { Camera, Music, Briefcase, CheckCircle, Star, ArrowRight, Heart, Sparkle, Cake, Sparkles, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -88,8 +89,25 @@ const ServicesPage = () => {
     return `/contact?${params.toString()}`;
   };
 
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Event Management",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "B5 EVENTORY"
+    },
+    "description": "Complete event planning solutions tailored to your unique vision and budget, including weddings, corporate events, and parties."
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
+      <SEO 
+        title="Our Services - Event Planning"
+        description="Explore our comprehensive event management services including wedding planning, corporate events, photography, catering, and logistics."
+        canonicalUrl="/services"
+        schema={serviceSchema}
+      />
       <Navbar />
       
       <main className="flex-grow pt-32 pb-20">

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar';
+import SEO from '../components/SEO';
 import Footer from '../components/Footer/Footer';
 import SocialGrid from '../components/SocialGrid/SocialGrid';
 import { MapPin, Phone, Mail, MessageCircle, CalendarDays, CheckCircle2, X, Loader2, AlertCircle } from 'lucide-react';
@@ -137,6 +138,11 @@ const ContactPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen" style={{ backgroundColor: '#F8F6F2' }}>
+      <SEO 
+        title="Contact Us - Let's Plan Your Event"
+        description="Get in touch with B5 EVENTORY for your next event. Fill out our inquiry form or reach out directly to our team in Udaipur."
+        canonicalUrl="/contact"
+      />
       <Navbar />
 
       <main className="flex-grow pt-32 pb-20">
@@ -270,7 +276,7 @@ const ContactPage = () => {
                 <ul className="space-y-5 mb-8">
                   <li className="flex items-start gap-4 text-sm text-gray-700">
                     <MapPin size={18} className="text-accent shrink-0 mt-0.5" />
-                    <span>125, Heritage Manor, Palace Road<br />Udaipur, Rajasthan – 313001</span>
+                    <span>Ac-209, Gyan Vihar Marg, Central Spine, Jagatpura, Jaipur, Rajasthan 302017</span>
                   </li>
                   <li className="flex items-center gap-4 text-sm text-gray-700">
                     <Phone size={18} className="text-accent shrink-0" />
@@ -411,6 +417,7 @@ const ContactPage = () => {
                     <img
                       src={lead.imageUrl || lead.image}
                       alt={lead.name}
+                      loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

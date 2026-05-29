@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { io } from 'socket.io-client';
 import Navbar from '../components/Navbar/Navbar';
+import SEO from '../components/SEO';
 import Footer from '../components/Footer/Footer';
 import SocialGrid from '../components/SocialGrid/SocialGrid';
 import { X, ZoomIn, Loader2, Image as ImageIcon } from 'lucide-react';
@@ -92,6 +93,11 @@ const GalleryPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
+      <SEO 
+        title="Event Gallery - B5 EVENTORY"
+        description="Browse our event gallery and see the stunning weddings, corporate events, and parties we have managed."
+        canonicalUrl="/gallery"
+      />
       <Navbar />
       
       <main className="flex-grow pt-32 pb-24">

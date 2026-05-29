@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar/Navbar';
+import SEO from '../components/SEO';
 import Footer from '../components/Footer/Footer';
 import { Link } from 'react-router-dom';
 import { Check, X, ChevronDown, ChevronUp, ArrowRight, Loader2, Calendar, FileText, CheckCircle2, AlertCircle } from 'lucide-react';
@@ -152,6 +153,11 @@ const PackagesPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#FDFCFB]">
+      <SEO 
+        title="Event Packages & Pricing"
+        description="Explore our curated event packages and pricing plans. From basic to luxury, find the perfect package for your wedding or corporate event."
+        canonicalUrl="/packages"
+      />
       <Navbar />
       
       <main className="flex-grow pt-32 pb-20">

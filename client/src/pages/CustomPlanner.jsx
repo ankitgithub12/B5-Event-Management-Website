@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar/Navbar';
+import SEO from '../components/SEO';
 import Footer from '../components/Footer/Footer';
 import { Calculator } from 'lucide-react';
 
@@ -75,6 +76,11 @@ const CustomPlanner = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
+      <SEO 
+        title="Custom Event Planner"
+        description="Calculate an estimate for your custom event. Select your requirements to get an instant cost estimation from B5 EVENTORY."
+        canonicalUrl="/planner"
+      />
       <Navbar />
 
       <main className="flex-grow pt-32 pb-20">
