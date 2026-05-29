@@ -51,7 +51,8 @@ const connectDB = async () => {
           specialty: 'Weddings & Destination Events',
           events: '200+ events',
           type: 'mastermind',
-          isActive: true
+          isActive: true,
+          order: 0
         },
         {
           name: 'Priya Malhotra',
@@ -62,7 +63,8 @@ const connectDB = async () => {
           specialty: 'Décor & Theming',
           events: '150+ themes',
           type: 'mastermind',
-          isActive: true
+          isActive: true,
+          order: 1
         },
         {
           name: 'Rohan Mehta',
@@ -73,7 +75,8 @@ const connectDB = async () => {
           specialty: 'Corporate & Galas',
           events: '80+ corporate shows',
           type: 'mastermind',
-          isActive: true
+          isActive: true,
+          order: 2
         },
         {
           name: 'Anjali Sharma',
@@ -82,7 +85,8 @@ const connectDB = async () => {
           imageUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
           cloudinaryId: 'seeded_anjali',
           type: 'lead',
-          isActive: true
+          isActive: true,
+          order: 3
         },
         {
           name: 'Vikram Malhotra',
@@ -91,7 +95,8 @@ const connectDB = async () => {
           imageUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80',
           cloudinaryId: 'seeded_vikram',
           type: 'lead',
-          isActive: true
+          isActive: true,
+          order: 4
         },
         {
           name: 'Priya Das',
@@ -100,7 +105,8 @@ const connectDB = async () => {
           imageUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
           cloudinaryId: 'seeded_priyadas',
           type: 'lead',
-          isActive: true
+          isActive: true,
+          order: 5
         }
       ];
       await TeamMember.insertMany(seedMembers);

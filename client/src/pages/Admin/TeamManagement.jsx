@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Search, X, Loader, ToggleLeft, ToggleRight, Users, Award, ShieldAlert, Globe } from 'lucide-react';
+import { Plus, Edit2, Trash2, Search, X, Loader, ToggleLeft, ToggleRight, Users, Award, ShieldAlert, Globe, GripVertical } from 'lucide-react';
 import { FaLinkedin, FaInstagram } from 'react-icons/fa';
 import api from '../../utils/api';
 
@@ -27,6 +27,7 @@ const TeamManagement = () => {
     instagramUrl: '',
     linkedinUrl: '',
     isActive: true,
+    order: 0,
   });
   const [imageFile, setImageFile] = useState(null);
   
@@ -38,7 +39,8 @@ const TeamManagement = () => {
     setError('');
     try {
       const response = await api.get('/team');
-      setTeamMembers(response.data);
+      const sorted = response.data.sort((a, b) => (a.order || 0) - (b.order || 0));
+      setTeamMembers(sorted);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch team members');
     } finally {
@@ -63,6 +65,7 @@ const TeamManagement = () => {
       instagramUrl: '',
       linkedinUrl: '',
       isActive: true,
+      order: 0,
     });
     setImageFile(null);
     setFormError('');
@@ -82,6 +85,7 @@ const TeamManagement = () => {
       instagramUrl: member.instagramUrl || '',
       linkedinUrl: member.linkedinUrl || '',
       isActive: member.isActive,
+      order: member.order !== undefined ? member.order : 0,
     });
     setImageFile(null);
     setFormError('');
@@ -102,6 +106,7 @@ const TeamManagement = () => {
     uploadData.append('isActive', formData.isActive);
     uploadData.append('instagramUrl', formData.instagramUrl);
     uploadData.append('linkedinUrl', formData.linkedinUrl);
+    uploadData.append('order', formData.order !== undefined ? formData.order : 0);
 
     if (formData.type === 'mastermind') {
       uploadData.append('specialty', formData.specialty);
@@ -156,6 +161,59 @@ const TeamManagement = () => {
       fetchTeamMembers();
     } catch (err) {
       alert('Failed to update status');
+    }
+  };
+
+  // Drag and Drop States and Handlers
+  const [draggedIndex, setDraggedIndex] = useState(null);
+  const [dragOverIndex, setDragOverIndex] = useState(null);
+
+  const handleDragStart = (e, index) => {
+    if (!e.target.closest('.drag-handle')) {
+      e.preventDefault();
+      return;
+    }
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
+    if (draggedIndex === index) return;
+    setDragOverIndex(index);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDrop = async (e, targetIndex) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === targetIndex) return;
+
+    const reorderedList = [...filteredMembers];
+    const [draggedItem] = reorderedList.splice(draggedIndex, 1);
+    reorderedList.splice(targetIndex, 0, draggedItem);
+
+    const orderedIds = reorderedList.map(m => m._id);
+
+    // Optimistically update local UI state
+    const updatedTeamMembers = teamMembers.map(member => {
+      const idxInReordered = orderedIds.indexOf(member._id);
+      if (idxInReordered !== -1) {
+        return { ...member, order: idxInReordered };
+      }
+      return member;
+    }).sort((a, b) => (a.order || 0) - (b.order || 0));
+
+    setTeamMembers(updatedTeamMembers);
+
+    try {
+      await api.put('/team/reorder', { orderedIds });
+    } catch (err) {
+      alert('Failed to save the new order.');
+      fetchTeamMembers();
     }
   };
 
@@ -224,6 +282,15 @@ const TeamManagement = () => {
         </div>
       </div>
 
+      {/* Reordering helper instruction */}
+      <div className="text-xs text-gray-500 bg-amber-50/50 border border-amber-100/50 rounded-xl px-4 py-2.5 flex items-center gap-2 max-w-fit shadow-sm">
+        <span className="flex h-2 w-2 relative">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+        </span>
+        <span className="text-gray-600 font-medium">Tip: You can drag and drop team profiles by their <strong># Order</strong> handle to customize their display sequence.</span>
+      </div>
+
       {/* Main Grid */}
       {loading ? (
         <div className="flex justify-center items-center py-20">
@@ -241,42 +308,58 @@ const TeamManagement = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredMembers.map((member) => (
-            <div 
-              key={member._id} 
-              className={`bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col justify-between transition-all hover:shadow-md ${
-                !member.isActive ? 'opacity-70 bg-gray-50/50' : ''
-              }`}
-            >
-              <div>
-                {/* Photo Header */}
-                <div className="h-56 bg-gray-100 relative overflow-hidden flex items-center justify-center">
-                  {member.imageUrl ? (
-                    <img 
-                      src={member.imageUrl} 
-                      alt={member.name} 
-                      className="w-full h-full object-cover object-top"
-                    />
-                  ) : (
-                    <Users className="text-accent/30" size={48} />
-                  )}
-                  
-                  {/* Category Badge */}
-                  <span className={`absolute top-4 left-4 text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full ${
-                    member.type === 'mastermind' 
-                      ? 'bg-purple-100 text-purple-800 border border-purple-200' 
-                      : 'bg-amber-100 text-amber-800 border border-amber-200'
-                  }`}>
-                    {member.type === 'mastermind' ? 'Mastermind (Home)' : 'Lead Planner (Contact)'}
-                  </span>
+          {filteredMembers.map((member, index) => {
+            const isDragged = draggedIndex === index;
+            const isOver = dragOverIndex === index;
+            return (
+              <div 
+                key={member._id} 
+                draggable
+                onDragStart={(e) => handleDragStart(e, index)}
+                onDragOver={(e) => handleDragOver(e, index)}
+                onDragEnd={handleDragEnd}
+                onDrop={(e) => handleDrop(e, index)}
+                className={`bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-md ${
+                  isDragged ? 'opacity-30 border-dashed border-accent border-2 scale-95' : isOver ? 'border-accent bg-accent/5 scale-[1.01]' : 'border-gray-100'
+                } ${
+                  !member.isActive ? 'opacity-70 bg-gray-50/50' : ''
+                }`}
+              >
+                <div>
+                  {/* Photo Header */}
+                  <div className="h-56 bg-gray-100 relative overflow-hidden flex items-center justify-center">
+                    {member.imageUrl ? (
+                      <img 
+                        src={member.imageUrl} 
+                        alt={member.name} 
+                        className="w-full h-full object-cover object-top"
+                      />
+                    ) : (
+                      <Users className="text-accent/30" size={48} />
+                    )}
 
-                  {/* Active Status Badge */}
-                  <span className={`absolute top-4 right-4 text-xs font-semibold px-2.5 py-1 rounded-full ${
-                    member.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-700'
-                  }`}>
-                    {member.isActive ? 'Active' : 'Inactive'}
-                  </span>
-                </div>
+                    {/* Drag Handle & Order Badge */}
+                    <div className="drag-handle absolute top-4 left-4 flex items-center gap-1.5 bg-white/95 text-gray-700 px-2.5 py-1.5 rounded-xl shadow-sm text-[11px] font-bold select-none cursor-grab active:cursor-grabbing hover:bg-white transition-all hover:scale-105 z-10">
+                      <GripVertical size={13} className="text-gray-400" />
+                      <span>#{member.order || 0}</span>
+                    </div>
+                    
+                    {/* Category Badge */}
+                    <span className={`absolute bottom-4 left-4 text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full z-10 ${
+                      member.type === 'mastermind' 
+                        ? 'bg-purple-100 text-purple-800 border border-purple-200' 
+                        : 'bg-amber-100 text-amber-800 border border-amber-200'
+                    }`}>
+                      {member.type === 'mastermind' ? 'Mastermind (Home)' : 'Lead Planner (Contact)'}
+                    </span>
+
+                    {/* Active Status Badge */}
+                    <span className={`absolute top-4 right-4 text-xs font-semibold px-2.5 py-1 rounded-full ${
+                      member.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-700'
+                    }`}>
+                      {member.isActive ? 'Active' : 'Inactive'}
+                    </span>
+                  </div>
 
                 {/* Card Details */}
                 <div className="p-6 space-y-3">
@@ -357,7 +440,8 @@ const TeamManagement = () => {
                 </div>
               </div>
             </div>
-          ))}
+              );
+            })}
         </div>
       )}
 
@@ -409,7 +493,7 @@ const TeamManagement = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Category / Section</label>
                   <select 
@@ -432,6 +516,18 @@ const TeamManagement = () => {
                     <option value="true">Active (Visible)</option>
                     <option value="false">Inactive (Draft)</option>
                   </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Display Order</label>
+                  <input 
+                    type="number" 
+                    min="0"
+                    placeholder="0"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
+                    value={formData.order}
+                    onChange={(e) => setFormData({...formData, order: e.target.value})}
+                  />
                 </div>
               </div>
 

@@ -6,7 +6,7 @@ import { cloudinary } from '../config/cloudinaryConfig.js';
 // @access  Public
 export const getTeamMembers = async (req, res) => {
   try {
-    const teamMembers = await TeamMember.find({});
+    const teamMembers = await TeamMember.find({}).sort({ order: 1, createdAt: -1 });
     res.json(teamMembers);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -18,7 +18,7 @@ export const getTeamMembers = async (req, res) => {
 // @access  Private/Admin
 export const createTeamMember = async (req, res) => {
   try {
-    const { name, role, bio, type, specialty, events, instagramUrl, linkedinUrl, isActive } = req.body;
+    const { name, role, bio, type, specialty, events, instagramUrl, linkedinUrl, isActive, order } = req.body;
     let imageUrl = '';
     let cloudinaryId = '';
 
@@ -39,6 +39,7 @@ export const createTeamMember = async (req, res) => {
       isActive: isActive === 'true' || isActive === true,
       imageUrl,
       cloudinaryId,
+      order: order !== undefined ? Number(order) : 0,
     });
 
     const createdTeamMember = await teamMember.save();
@@ -53,7 +54,7 @@ export const createTeamMember = async (req, res) => {
 // @access  Private/Admin
 export const updateTeamMember = async (req, res) => {
   try {
-    const { name, role, bio, type, specialty, events, instagramUrl, linkedinUrl, isActive } = req.body;
+    const { name, role, bio, type, specialty, events, instagramUrl, linkedinUrl, isActive, order } = req.body;
     const teamMember = await TeamMember.findById(req.params.id);
 
     if (teamMember) {
@@ -70,6 +71,10 @@ export const updateTeamMember = async (req, res) => {
 
       if (isActive !== undefined) {
         teamMember.isActive = isActive === 'true' || isActive === true;
+      }
+
+      if (order !== undefined) {
+        teamMember.order = Number(order);
       }
 
       if (req.file) {
@@ -116,6 +121,30 @@ export const deleteTeamMember = async (req, res) => {
     } else {
       res.status(404).json({ message: 'Team member not found' });
     }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc    Reorder team members in bulk
+// @route   PUT /api/team/reorder
+// @access  Private/Admin
+export const reorderTeamMembers = async (req, res) => {
+  try {
+    const { orderedIds } = req.body;
+    if (!Array.isArray(orderedIds)) {
+      return res.status(400).json({ message: 'orderedIds must be an array' });
+    }
+
+    const bulkOps = orderedIds.map((id, index) => ({
+      updateOne: {
+        filter: { _id: id },
+        update: { $set: { order: index } },
+      },
+    }));
+
+    await TeamMember.bulkWrite(bulkOps);
+    res.json({ message: 'Team members reordered successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

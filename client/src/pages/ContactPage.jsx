@@ -61,9 +61,9 @@ const ContactPage = () => {
     const fetchLeadPlanners = async () => {
       try {
         const { data } = await api.get('/team');
-        const activeLeads = data.filter(
-          (member) => member.type === 'lead' && member.isActive
-        );
+        const activeLeads = data
+          .filter((member) => member.type === 'lead' && member.isActive)
+          .sort((a, b) => (a.order || 0) - (b.order || 0));
         setLeadPlanners(activeLeads);
       } catch (err) {
         console.error('Error fetching lead planners:', err);

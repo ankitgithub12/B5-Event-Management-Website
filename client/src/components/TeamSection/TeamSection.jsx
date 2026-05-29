@@ -14,9 +14,9 @@ const TeamSection = () => {
       try {
         const response = await api.get('/team');
         // Filter only active mastermind members
-        const activeMasterminds = response.data.filter(
-          (member) => member.type === 'mastermind' && member.isActive
-        );
+        const activeMasterminds = response.data
+          .filter((member) => member.type === 'mastermind' && member.isActive)
+          .sort((a, b) => (a.order || 0) - (b.order || 0));
         setTeam(activeMasterminds);
       } catch (err) {
         console.error('Failed to fetch team members:', err);
