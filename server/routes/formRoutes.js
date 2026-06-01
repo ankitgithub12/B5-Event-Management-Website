@@ -1,12 +1,13 @@
 import express from 'express';
 import { getForms, submitForm, updateFormStatus, deleteForm } from '../controllers/formController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
+import { apiSubmitLimiter } from '../middleware/rateLimiter.js';
 
 const router = express.Router();
 
 router.route('/')
   .get(protect, admin, getForms)
-  .post(submitForm);
+  .post(apiSubmitLimiter, submitForm);
 
 router.route('/:id')
   .put(protect, admin, updateFormStatus)

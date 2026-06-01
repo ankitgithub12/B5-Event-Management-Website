@@ -19,6 +19,7 @@ import heroRoutes from './routes/heroRoutes.js';
 import socialGridRoutes from './routes/socialGridRoutes.js';
 import http from 'http';
 import { Server } from 'socket.io';
+import { globalLimiter } from './middleware/rateLimiter.js';
 
 // Load env vars
 dotenv.config();
@@ -45,8 +46,12 @@ io.on('connection', (socket) => {
 app.set('io', io);
 
 // Middleware
+if (process.env.TRUST_PROXY === 'true') {
+  app.set('trust proxy', 1);
+}
 app.use(cors());
 app.use(express.json());
+app.use('/api', globalLimiter);
 
 // Routes
 app.use('/api/examples', exampleRoutes);
