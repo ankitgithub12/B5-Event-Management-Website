@@ -9,6 +9,10 @@ import {
 import { Link } from 'react-router-dom';
 
 const HospitalityPage = () => {
+  // Brand-colored gradient placeholder — no external URL dependency
+  const placeholderImg = (label = '') =>
+    `https://placehold.co/800x500/3B1E54/C89E62?text=${encodeURIComponent(label)}&font=playfair-display`;
+
   const coreServices = [
     {
       icon: <Users size={40} className="text-primary" />,
@@ -16,7 +20,7 @@ const HospitalityPage = () => {
       description: 'The front-facing guest management team. Includes welcoming, registration, and comprehensive guest assistance from arrival to departure.',
       responsibilities: ['Welcome desk / registration', 'Guest greeting', 'Check-in & badge distribution', 'VIP handling', 'Seating assistance', 'Help desk', 'Information counters'],
       staff: ['Hosts/Hostesses', 'Reception executives', 'Guest relation executives'],
-      image: 'https://images.unsplash.com/photo-1556745753-b2904692b3cd?auto=format&fit=crop&w=800&q=80'
+      image: placeholderImg('Guest Hospitality')
     },
     {
       icon: <Truck size={40} className="text-primary" />,
@@ -24,7 +28,7 @@ const HospitalityPage = () => {
       description: 'Handles movement and operational coordination, ensuring everything is exactly where it needs to be, right on time.',
       responsibilities: ['Transportation coordination', 'Material movement', 'Vendor coordination', 'Equipment delivery', 'Loading/unloading', 'Inventory management', 'Backstage movement'],
       staff: ['Moving sound systems', 'Coordinating artist pickups', 'Handling stage setup timing'],
-      image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80'
+      image: placeholderImg('Logistics')
     },
     {
       icon: <Zap size={40} className="text-primary" />,
@@ -32,7 +36,7 @@ const HospitalityPage = () => {
       description: 'The "on-ground problem solvers". Fast, efficient, and always on the move to bridge the gap between different teams.',
       responsibilities: ['Carrying urgent items', 'Coordinating between departments', 'Delivering documents/equipment', 'Supporting artists/speakers', 'Managing last-minute requirements'],
       staff: ['Example: If a speaker needs a charger, runners arrange it immediately'],
-      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80'
+      image: placeholderImg('Event Runners')
     },
     {
       icon: <Star size={40} className="text-primary" />,
@@ -40,7 +44,7 @@ const HospitalityPage = () => {
       description: 'Special hospitality for important guests, managing their itinerary and ensuring their absolute comfort.',
       responsibilities: ['Airport pickup/drop', 'Hotel coordination', 'Green room setup', 'Security coordination', 'Personal assistance', 'Food preferences management'],
       staff: ['Artist managers', 'VIP coordinators', 'Celebrity handlers'],
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80'
+      image: placeholderImg('VIP Management')
     },
     {
       icon: <Utensils size={40} className="text-primary" />,
@@ -48,7 +52,7 @@ const HospitalityPage = () => {
       description: 'Comprehensive food and beverage management for a perfect dining experience.',
       responsibilities: ['Buffet management', 'Live counters', 'Beverage service', 'Table service', 'Guest dining experience', 'Kitchen coordination'],
       staff: ['Catering staff', 'Stewards', 'Bartenders (for alcoholic events)', 'Service captains'],
-      image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80'
+      image: placeholderImg('Catering')
     },
     {
       icon: <Hotel size={40} className="text-primary" />,
@@ -56,7 +60,7 @@ const HospitalityPage = () => {
       description: 'Used in destination weddings, conferences, festivals, and large-scale events to ensure comfortable stays.',
       responsibilities: ['Hotel booking', 'Room allocation', 'Guest check-in', 'Welcome kits', 'Travel coordination'],
       staff: [],
-      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80'
+      image: placeholderImg('Accommodation')
     },
     {
       icon: <Bus size={40} className="text-primary" />,
@@ -64,7 +68,7 @@ const HospitalityPage = () => {
       description: 'Movement of guests and teams with optimal routing, safety, and comfort.',
       responsibilities: ['Shuttle services', 'Airport transfers', 'Cab coordination', 'Parking management', 'Driver coordination'],
       staff: [],
-      image: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=800&q=80'
+      image: placeholderImg('Transportation')
     },
     {
       icon: <Shield size={40} className="text-primary" />,
@@ -72,7 +76,7 @@ const HospitalityPage = () => {
       description: 'Safety and discipline handling for a secure and controlled event environment.',
       responsibilities: ['Entry management', 'Crowd control', 'Emergency response', 'VIP security', 'Bouncer services'],
       staff: [],
-      image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80'
+      image: placeholderImg('Security')
     },
     {
       icon: <Settings size={40} className="text-primary" />,
@@ -80,7 +84,7 @@ const HospitalityPage = () => {
       description: 'Controls backstage operations to keep the show running flawlessly on time.',
       responsibilities: ['Artist timing', 'Stage entry coordination', 'Costume/equipment handling', 'Crew communication', 'Technical coordination'],
       staff: [],
-      image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80'
+      image: placeholderImg('Backstage')
     },
     {
       icon: <Monitor size={40} className="text-primary" />,
@@ -88,7 +92,7 @@ const HospitalityPage = () => {
       description: 'Support for speakers, performers, and production teams to ensure smooth technical execution.',
       responsibilities: ['Wi-Fi support', 'Charging stations', 'AV support', 'Microphone coordination', 'Presentation setup'],
       staff: [],
-      image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80'
+      image: placeholderImg('Technical Support')
     }
   ];
 

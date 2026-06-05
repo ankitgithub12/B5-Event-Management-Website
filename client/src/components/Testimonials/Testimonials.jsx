@@ -11,42 +11,42 @@ const Testimonials = () => {
       name: "Meera Sharma",
       role: "Mother of Bride",
       rating: 5,
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80"
+      image: "https://ui-avatars.com/api/?name=Meera+Sharma&background=3B1E54&color=C89E62&size=150&bold=true&font-size=0.4"
     },
     {
       text: "The pre-wedding shoot was magical. Drone shots took our breath away.",
       name: "Anjali & Rohit",
       role: "Wedding",
       rating: 5,
-      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+      image: "https://ui-avatars.com/api/?name=Anjali+Rohit&background=C89E62&color=3B1E54&size=150&bold=true&font-size=0.4"
     },
     {
       text: "Corporate gala for 800 people? They nailed it. Zero stress for us.",
       name: "Vikram Mehta",
       role: "TechCorp",
       rating: 4,
-      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80"
+      image: "https://ui-avatars.com/api/?name=Vikram+Mehta&background=3B1E54&color=C89E62&size=150&bold=true&font-size=0.4"
     },
     {
       text: "They handled our destination wedding in Udaipur with such grace. Every detail was perfect.",
       name: "Sanya Kapoor",
       role: "Bride",
       rating: 5,
-      image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80"
+      image: "https://ui-avatars.com/api/?name=Sanya+Kapoor&background=C89E62&color=3B1E54&size=150&bold=true&font-size=0.4"
     },
     {
       text: "The most creative team I've ever worked with. They turned our backyard into a fairy tale.",
       name: "Rahul Verma",
       role: "Groom",
       rating: 5,
-      image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80"
+      image: "https://ui-avatars.com/api/?name=Rahul+Verma&background=3B1E54&color=C89E62&size=150&bold=true&font-size=0.4"
     },
     {
       text: "Exceptional service for our product launch. The stage design was world-class.",
       name: "Priya Das",
       role: "Marketing Head",
       rating: 5,
-      image: "https://images.unsplash.com/photo-1600357524338-0aa536556606?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Z2lybCUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D"
+      image: "https://ui-avatars.com/api/?name=Priya+Das&background=C89E62&color=3B1E54&size=150&bold=true&font-size=0.4"
     }
   ];
 

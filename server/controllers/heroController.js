@@ -39,12 +39,12 @@ export const getHero = async (req, res) => {
       hero = new Hero({
         slideshowImages: [
           {
-            url: 'https://images.unsplash.com/photo-1530023367847-a683933f4172',
+            url: 'https://placehold.co/1920x1080/3B1E54/C89E62?text=B5+EVENTORY&font=playfair-display',
             cloudinaryId: '',
             order: 0,
           },
           {
-            url: 'https://www.bfivewarriors.com/assets/images/gallery/image16.png',
+            url: 'https://placehold.co/1920x1080/C89E62/3B1E54?text=Your+Events+Here&font=playfair-display',
             cloudinaryId: '',
             order: 1,
           },

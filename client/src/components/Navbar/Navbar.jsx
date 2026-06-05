@@ -49,7 +49,7 @@ const Navbar = () => {
               <div className="absolute inset-0 rounded-xl shadow-[0_0_15px_rgba(255,255,255,0.3)] group-hover:shadow-[0_0_20px_rgba(200,158,98,0.5)] transition-shadow duration-300"></div>
             </div>
             <div className="hidden sm:block">
-              <span className={`block font-bold text-xl md:text-2xl leading-none tracking-tighter font-serif transition-colors duration-300 ${isSolid ? 'text-primary' : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]'
+              <span className={`block font-bold text-xl md:text-2xl leading-none tracking-tight font-body transition-colors duration-300 ${isSolid ? 'text-primary' : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]'
                 }`}>
                 B5 EVENTORY
               </span>

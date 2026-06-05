@@ -11,7 +11,7 @@ import WhyChooseUs from '../components/WhyChooseUs/WhyChooseUs';
 import TeamSection from '../components/TeamSection/TeamSection';
 import Testimonials from '../components/Testimonials/Testimonials';
 import FaqSection from '../components/FaqSection/FaqSection';
-import SocialGrid from '../components/SocialGrid/SocialGrid';
+
 import ContactForm from '../components/ContactForm/ContactForm';
 import Footer from '../components/Footer/Footer';
 
@@ -52,7 +52,7 @@ const Home = () => {
         <TeamSection />
         <Testimonials />
         <FaqSection />
-        <SocialGrid />
+
         <ContactForm />
       </main>
       <Footer />
