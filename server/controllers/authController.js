@@ -1,5 +1,6 @@
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
+import { cloudinary } from '../config/cloudinaryConfig.js';
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -21,6 +22,7 @@ export const authUser = async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      profilePhotoUrl: user.profilePhotoUrl || '',
       token: generateToken(user._id),
     });
   } else {
@@ -40,13 +42,14 @@ export const getUserProfile = async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      profilePhotoUrl: user.profilePhotoUrl || '',
     });
   } else {
     res.status(404).json({ message: 'User not found' });
   }
 };
 
-// @desc    Update user profile
+// @desc    Update user profile (name, email, password, photo)
 // @route   PUT /api/auth/profile
 // @access  Private
 export const updateUserProfile = async (req, res) => {
@@ -75,6 +78,16 @@ export const updateUserProfile = async (req, res) => {
         user.password = req.body.password;
       }
 
+      // Handle profile photo upload via Cloudinary
+      if (req.file) {
+        // Delete old photo from Cloudinary if it exists
+        if (user.profilePhotoCloudinaryId) {
+          await cloudinary.uploader.destroy(user.profilePhotoCloudinaryId);
+        }
+        user.profilePhotoUrl = req.file.path;
+        user.profilePhotoCloudinaryId = req.file.filename;
+      }
+
       const updatedUser = await user.save();
 
       res.json({
@@ -82,6 +95,7 @@ export const updateUserProfile = async (req, res) => {
         name: updatedUser.name,
         email: updatedUser.email,
         role: updatedUser.role,
+        profilePhotoUrl: updatedUser.profilePhotoUrl || '',
         token: generateToken(updatedUser._id),
       });
     } else {
@@ -91,4 +105,3 @@ export const updateUserProfile = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-

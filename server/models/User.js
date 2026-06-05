@@ -20,6 +20,14 @@ const userSchema = new mongoose.Schema({
     enum: ['admin', 'superadmin'],
     default: 'admin',
   },
+  profilePhotoUrl: {
+    type: String,
+    default: '',
+  },
+  profilePhotoCloudinaryId: {
+    type: String,
+    default: '',
+  },
 }, {
   timestamps: true,
 });

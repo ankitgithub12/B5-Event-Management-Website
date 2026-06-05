@@ -29,7 +29,7 @@ const AdminLayout = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const [adminUser, setAdminUser] = useState({ name: 'Admin User', role: 'Super Admin' });
+  const [adminUser, setAdminUser] = useState({ name: 'Admin User', role: 'Super Admin', profilePhotoUrl: '' });
 
   const notificationRef = useRef(null);
   const profileRef = useRef(null);
@@ -79,7 +79,11 @@ const AdminLayout = ({ children }) => {
         parsed.name = 'B5 Admin';
         localStorage.setItem('userInfo', JSON.stringify(parsed));
       }
-      setAdminUser({ name: parsed.name, role: parsed.role === 'superadmin' ? 'Super Admin' : 'Admin' });
+      setAdminUser({
+        name: parsed.name,
+        role: parsed.role === 'superadmin' ? 'Super Admin' : 'Admin',
+        profilePhotoUrl: parsed.profilePhotoUrl || '',
+      });
     } else {
       navigate('/admin/login');
     }
@@ -267,8 +271,12 @@ const AdminLayout = ({ children }) => {
                   <p className="text-sm font-bold text-gray-900 truncate max-w-[120px]">{adminUser.name}</p>
                   <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">{adminUser.role}</p>
                 </div>
-                <div className="w-9 h-9 rounded-xl bg-accent/15 text-accent flex items-center justify-center font-bold text-base shadow-sm shrink-0">
-                  {adminUser.name.charAt(0).toUpperCase()}
+                <div className="w-9 h-9 rounded-xl overflow-hidden bg-accent/15 text-accent flex items-center justify-center font-bold text-base shadow-sm shrink-0">
+                  {adminUser.profilePhotoUrl ? (
+                    <img src={adminUser.profilePhotoUrl} alt={adminUser.name} className="w-full h-full object-cover" />
+                  ) : (
+                    adminUser.name.charAt(0).toUpperCase()
+                  )}
                 </div>
               </button>
 
