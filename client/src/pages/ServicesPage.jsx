@@ -142,23 +142,25 @@ const ServicesPage = () => {
               {services.map((service, index) => (
                 <div key={service._id || index} className="bg-white rounded-[2rem] overflow-hidden shadow-xl border border-gray-100 flex flex-col h-full group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                   {/* Image Section */}
-                  <div className="h-64 overflow-hidden relative">
-                    <img 
-                      src={service.imageUrl || 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80'} 
-                      alt={service.title} 
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                      <span className="text-white font-medium text-lg flex items-center gap-2">
-                        Starting from <span className="text-accent font-bold">{(service.priceRange || 'Contact').split(' – ')[0]}</span>
-                      </span>
-                    </div>
-                    {service.priceRange && (
-                      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-primary font-bold shadow-md">
-                        {service.priceRange}
+                  {service.imageUrl && (
+                    <div className="h-64 overflow-hidden relative">
+                      <img 
+                        src={service.imageUrl} 
+                        alt={service.title} 
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span className="text-white font-medium text-lg flex items-center gap-2">
+                          Starting from <span className="text-accent font-bold">{(service.priceRange || 'Contact').split(' – ')[0]}</span>
+                        </span>
                       </div>
-                    )}
-                  </div>
+                      {service.priceRange && (
+                        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-primary font-bold shadow-md">
+                          {service.priceRange}
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   {/* Content Section */}
                   <div className="p-8 flex flex-col flex-grow relative">

@@ -163,14 +163,16 @@ const PortfolioPage = () => {
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80" 
-                  alt="B5 Signature Style" 
-                  loading="lazy"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              {projects[0]?.imageUrl && (
+                <div className="aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl">
+                  <img 
+                    src={projects[0].imageUrl} 
+                    alt="B5 Signature Style" 
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
               <div className="absolute -top-10 -right-10 w-64 h-64 border-2 border-accent/20 rounded-full -z-10"></div>
             </div>
           </div>
@@ -198,14 +200,16 @@ const PortfolioPage = () => {
                     View Full Gallery
                   </Link>
                 </div>
-                <div className="h-[400px] lg:h-auto">
-                  <img 
-                    src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80" 
-                    alt="Udaipur Gala Case Study" 
-                    loading="lazy"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+                {projects[1]?.imageUrl && (
+                  <div className="h-[400px] lg:h-auto">
+                    <img 
+                      src={projects[1].imageUrl} 
+                      alt="Udaipur Gala Case Study" 
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>

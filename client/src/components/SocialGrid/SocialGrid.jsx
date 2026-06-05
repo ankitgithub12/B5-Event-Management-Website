@@ -24,14 +24,7 @@ const SocialGrid = () => {
       }
     } catch (err) {
       console.error('Failed to fetch social grid details:', err);
-      // Fallback default demo images if DB call fails
-      setImages([
-        { imageUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=400&q=80' },
-        { imageUrl: 'https://i.pinimg.com/736x/d3/fc/61/d3fc6177dfe52706a3f6826c3948f4ae.jpg' },
-        { imageUrl: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=400&q=80' },
-        { imageUrl: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=400&q=80' },
-        { imageUrl: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=400&q=80' },
-      ]);
+      setImages([]);
     } finally {
       setLoading(false);
     }

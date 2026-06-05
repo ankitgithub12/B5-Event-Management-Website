@@ -19,16 +19,7 @@ const spanClasses = [
   'col-span-1 md:col-span-3 row-span-2',
 ];
 
-const fallbackImages = [
-  { id: 1, src: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80', alt: 'Udaipur Gala 1', category: 'Wedding' },
-  { id: 2, src: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 2', category: 'Wedding' },
-  { id: 3, src: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 3', category: 'Wedding' },
-  { id: 4, src: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 4', category: 'Corporate' },
-  { id: 5, src: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 5', category: 'Wedding' },
-  { id: 6, src: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 6', category: 'Corporate' },
-  { id: 7, src: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80', alt: 'Udaipur Gala 7', category: 'Private Party' },
-  { id: 8, src: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1200&q=80', alt: 'Udaipur Gala 8', category: 'Corporate' },
-];
+
 
 const GalleryPage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -55,11 +46,11 @@ const GalleryPage = () => {
         }));
         setImages(formatted);
       } else {
-        setImages(fallbackImages);
+        setImages([]);
       }
     } catch (err) {
       console.error('Error fetching gallery:', err);
-      setImages(fallbackImages);
+      setImages([]);
     } finally {
       setLoading(false);
     }
