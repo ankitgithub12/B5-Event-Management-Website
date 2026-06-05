@@ -164,18 +164,7 @@ const Hero = () => {
         </div>
       )}
 
-      {/* ── Auto-play Progress Bar ── */}
-      {slides.length > 1 && !isPaused && (
-        <div className="absolute bottom-0 left-0 right-0 h-0.5 z-30 bg-white/10">
-          <motion.div
-            key={`progress-${currentIndex}`}
-            className="h-full bg-accent"
-            initial={{ width: '0%' }}
-            animate={{ width: '100%' }}
-            transition={{ duration: SLIDE_INTERVAL / 1000, ease: 'linear' }}
-          />
-        </div>
-      )}
+
 
       {/* ── Content Overlay ── */}
       <motion.div
