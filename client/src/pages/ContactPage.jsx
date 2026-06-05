@@ -284,7 +284,7 @@ const ContactPage = () => {
                   </li>
                   <li className="flex items-center gap-4 text-sm text-gray-700">
                     <Mail size={18} className="text-accent shrink-0" />
-                    <span>[EMAIL_ADDRESS]</span>
+                    <span>B5eventory@gmail.com</span>
                   </li>
                 </ul>
                 <a
