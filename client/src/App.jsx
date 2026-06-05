@@ -24,6 +24,7 @@ import PortfolioManagement from './pages/Admin/PortfolioManagement';
 import HeroManagement from './pages/Admin/HeroManagement';
 import SocialGridManagement from './pages/Admin/SocialGridManagement';
 import ProfileSettings from './pages/Admin/ProfileSettings';
+import HospitalityManagement from './pages/Admin/HospitalityManagement';
 
 function App() {
   return (
@@ -104,6 +105,11 @@ function App() {
         <Route path="/admin/profile" element={
           <ProtectedRoute>
             <AdminLayout><ProfileSettings /></AdminLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/hospitality" element={
+          <ProtectedRoute>
+            <AdminLayout><HospitalityManagement /></AdminLayout>
           </ProtectedRoute>
         } />
       </Routes>

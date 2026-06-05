@@ -147,7 +147,7 @@ const PortfolioPage = () => {
           <div className="mt-32 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div>
               <span className="text-accent font-bold text-xs tracking-[3px] uppercase mb-4 block">OUR PHILOSOPHY</span>
-              <h2 className="text-4xl md:text-5xl font-heading text-primary mb-8">The B5 Signature</h2>
+              <h2 className="text-4xl md:text-5xl font-heading text-primary mb-8">The <span className="font-body">B5</span> Signature</h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
                 We don't just plan events; we curate atmospheres. Our signature style blends <strong className="text-primary font-bold">timeless elegance</strong> with <strong className="text-primary font-bold">modern editorial precision</strong>. 
               </p>

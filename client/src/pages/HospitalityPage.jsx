@@ -1,100 +1,38 @@
+import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar/Navbar';
 import SEO from '../components/SEO';
 import Footer from '../components/Footer/Footer';
-import { 
-  Users, Truck, Zap, Star, Utensils, Hotel, Bus, 
-  Shield, Settings, Monitor, HeartHandshake, Sparkles, 
-  Droplets, CheckCircle, Info 
+import {
+  Users, Truck, Zap, Star, Utensils, Hotel, Bus,
+  Shield, Settings, Monitor, HeartHandshake, Sparkles,
+  Droplets, CheckCircle, Info, Loader
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import api from '../utils/api';
+
+// Map icon name string → Lucide component
+const iconMap = {
+  Users, Truck, Zap, Star, Utensils, Hotel, Bus,
+  Shield, Settings, Monitor, HeartHandshake, Sparkles, Droplets,
+};
 
 const HospitalityPage = () => {
-  // Brand-colored gradient placeholder — no external URL dependency
-  const placeholderImg = (label = '') =>
-    `https://placehold.co/800x500/3B1E54/C89E62?text=${encodeURIComponent(label)}&font=playfair-display`;
+  const [coreServices, setCoreServices] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const coreServices = [
-    {
-      icon: <Users size={40} className="text-primary" />,
-      title: 'Guest Hospitality & Reception',
-      description: 'The front-facing guest management team. Includes welcoming, registration, and comprehensive guest assistance from arrival to departure.',
-      responsibilities: ['Welcome desk / registration', 'Guest greeting', 'Check-in & badge distribution', 'VIP handling', 'Seating assistance', 'Help desk', 'Information counters'],
-      staff: ['Hosts/Hostesses', 'Reception executives', 'Guest relation executives'],
-      image: placeholderImg('Guest Hospitality')
-    },
-    {
-      icon: <Truck size={40} className="text-primary" />,
-      title: 'Logistics Management',
-      description: 'Handles movement and operational coordination, ensuring everything is exactly where it needs to be, right on time.',
-      responsibilities: ['Transportation coordination', 'Material movement', 'Vendor coordination', 'Equipment delivery', 'Loading/unloading', 'Inventory management', 'Backstage movement'],
-      staff: ['Moving sound systems', 'Coordinating artist pickups', 'Handling stage setup timing'],
-      image: placeholderImg('Logistics')
-    },
-    {
-      icon: <Zap size={40} className="text-primary" />,
-      title: 'Runners / Event Runners',
-      description: 'The "on-ground problem solvers". Fast, efficient, and always on the move to bridge the gap between different teams.',
-      responsibilities: ['Carrying urgent items', 'Coordinating between departments', 'Delivering documents/equipment', 'Supporting artists/speakers', 'Managing last-minute requirements'],
-      staff: ['Example: If a speaker needs a charger, runners arrange it immediately'],
-      image: placeholderImg('Event Runners')
-    },
-    {
-      icon: <Star size={40} className="text-primary" />,
-      title: 'VIP & Artist Management',
-      description: 'Special hospitality for important guests, managing their itinerary and ensuring their absolute comfort.',
-      responsibilities: ['Airport pickup/drop', 'Hotel coordination', 'Green room setup', 'Security coordination', 'Personal assistance', 'Food preferences management'],
-      staff: ['Artist managers', 'VIP coordinators', 'Celebrity handlers'],
-      image: placeholderImg('VIP Management')
-    },
-    {
-      icon: <Utensils size={40} className="text-primary" />,
-      title: 'Catering & Food Services',
-      description: 'Comprehensive food and beverage management for a perfect dining experience.',
-      responsibilities: ['Buffet management', 'Live counters', 'Beverage service', 'Table service', 'Guest dining experience', 'Kitchen coordination'],
-      staff: ['Catering staff', 'Stewards', 'Bartenders (for alcoholic events)', 'Service captains'],
-      image: placeholderImg('Catering')
-    },
-    {
-      icon: <Hotel size={40} className="text-primary" />,
-      title: 'Accommodation Management',
-      description: 'Used in destination weddings, conferences, festivals, and large-scale events to ensure comfortable stays.',
-      responsibilities: ['Hotel booking', 'Room allocation', 'Guest check-in', 'Welcome kits', 'Travel coordination'],
-      staff: [],
-      image: placeholderImg('Accommodation')
-    },
-    {
-      icon: <Bus size={40} className="text-primary" />,
-      title: 'Transportation Services',
-      description: 'Movement of guests and teams with optimal routing, safety, and comfort.',
-      responsibilities: ['Shuttle services', 'Airport transfers', 'Cab coordination', 'Parking management', 'Driver coordination'],
-      staff: [],
-      image: placeholderImg('Transportation')
-    },
-    {
-      icon: <Shield size={40} className="text-primary" />,
-      title: 'Security & Crowd Management',
-      description: 'Safety and discipline handling for a secure and controlled event environment.',
-      responsibilities: ['Entry management', 'Crowd control', 'Emergency response', 'VIP security', 'Bouncer services'],
-      staff: [],
-      image: placeholderImg('Security')
-    },
-    {
-      icon: <Settings size={40} className="text-primary" />,
-      title: 'Backstage Management',
-      description: 'Controls backstage operations to keep the show running flawlessly on time.',
-      responsibilities: ['Artist timing', 'Stage entry coordination', 'Costume/equipment handling', 'Crew communication', 'Technical coordination'],
-      staff: [],
-      image: placeholderImg('Backstage')
-    },
-    {
-      icon: <Monitor size={40} className="text-primary" />,
-      title: 'Technical Hospitality',
-      description: 'Support for speakers, performers, and production teams to ensure smooth technical execution.',
-      responsibilities: ['Wi-Fi support', 'Charging stations', 'AV support', 'Microphone coordination', 'Presentation setup'],
-      staff: [],
-      image: placeholderImg('Technical Support')
-    }
-  ];
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const { data } = await api.get('/hospitality');
+        setCoreServices(data.filter(s => s.isActive));
+      } catch (err) {
+        console.error('Failed to load hospitality services', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchServices();
+  }, []);
 
   const additionalServices = [
     {
@@ -140,13 +78,13 @@ const HospitalityPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <SEO 
+      <SEO
         title="Event Hospitality & Crew"
         description="Learn about our core hospitality services and event crew, including logistics, VIP management, and catering teams."
         canonicalUrl="/hospitality"
       />
       <Navbar />
-      
+
       <main className="flex-grow pt-32 pb-20">
         {/* Page Header */}
         <div className="container mx-auto px-4 max-w-7xl mb-20 text-center">
@@ -161,75 +99,87 @@ const HospitalityPage = () => {
           </p>
         </div>
 
-        {/* 10 Core Services Grid */}
+        {/* Core Services */}
         <div className="container mx-auto px-4 max-w-7xl mb-24">
-          <div className="space-y-16">
-            {coreServices.map((role, index) => (
-              <div key={index} className={`flex flex-col ${index % 2 !== 0 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-10 items-center bg-white rounded-[3rem] p-6 shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-500`}>
-                
-                {/* Image */}
-                <div className="w-full lg:w-1/2 h-80 lg:h-[400px] rounded-[2rem] overflow-hidden relative group">
-                  <img 
-                    src={role.image} 
-                    alt={role.title} 
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors duration-500"></div>
-                </div>
-
-                {/* Content */}
-                <div className="w-full lg:w-1/2 p-4 lg:p-10">
-                  <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center text-accent mb-6">
-                    {role.icon}
-                  </div>
-                  <h2 className="text-3xl md:text-4xl font-heading text-primary mb-4">{index + 1}. {role.title}</h2>
-                  <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                    {role.description}
-                  </p>
-
-                  <div className="space-y-6">
-                    <div>
-                      <h4 className="text-sm uppercase tracking-wider text-primary font-bold mb-3 flex items-center gap-2">
-                        Includes
-                      </h4>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {role.responsibilities.map((task, i) => (
-                          <div key={i} className="flex items-start gap-2">
-                            <CheckCircle size={18} className="text-accent mt-0.5 shrink-0" />
-                            <span className="text-gray-700 text-sm font-medium">{task}</span>
-                          </div>
-                        ))}
+          {loading ? (
+            <div className="flex justify-center items-center py-24">
+              <Loader className="animate-spin text-accent" size={40} />
+            </div>
+          ) : coreServices.length === 0 ? (
+            <div className="text-center py-20 text-gray-400">
+              <p>No hospitality services found.</p>
+            </div>
+          ) : (
+            <div className="space-y-16">
+              {coreServices.map((role, index) => {
+                const IconComponent = iconMap[role.icon] || Users;
+                return (
+                  <div
+                    key={role._id}
+                    className={`flex flex-col ${index % 2 !== 0 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-10 items-center bg-white rounded-[3rem] p-6 shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-500`}
+                  >
+                    {/* Icon Panel */}
+                    <div className="w-full lg:w-1/2 h-64 lg:h-[360px] rounded-[2rem] overflow-hidden relative bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center group">
+                      <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-500" />
+                      <div className="relative z-10 flex flex-col items-center gap-4 text-white/90">
+                        <div className="w-24 h-24 rounded-2xl bg-accent/20 border border-accent/30 flex items-center justify-center">
+                          <IconComponent size={48} className="text-accent" />
+                        </div>
+                        <span className="text-accent font-bold text-lg tracking-wider uppercase font-body">
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
                       </div>
                     </div>
 
-                    {role.staff && role.staff.length > 0 && (
-                      <div className="bg-gray-50 rounded-2xl p-4 border border-gray-100">
-                        <h4 className="text-sm uppercase tracking-wider text-primary font-bold mb-3 flex items-center gap-2">
-                          Teams & Roles
-                        </h4>
-                        <div className="flex flex-wrap gap-2">
-                          {role.staff.map((member, i) => (
-                            <span key={i} className="bg-white px-3 py-1.5 rounded-full text-xs font-medium text-gray-700 border border-gray-200 shadow-sm">
-                              {member}
-                            </span>
-                          ))}
-                        </div>
+                    {/* Content */}
+                    <div className="w-full lg:w-1/2 p-4 lg:p-10">
+                      <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center text-accent mb-6">
+                        <IconComponent size={36} />
                       </div>
-                    )}
-                  </div>
-                </div>
+                      <h2 className="text-3xl md:text-4xl font-heading text-primary mb-4">{index + 1}. {role.title}</h2>
+                      <p className="text-gray-600 text-lg leading-relaxed mb-6">{role.description}</p>
 
-              </div>
-            ))}
-          </div>
+                      <div className="space-y-6">
+                        {role.responsibilities && role.responsibilities.length > 0 && (
+                          <div>
+                            <h4 className="text-sm uppercase tracking-wider text-primary font-bold mb-3">Includes</h4>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                              {role.responsibilities.map((task, i) => (
+                                <div key={i} className="flex items-start gap-2">
+                                  <CheckCircle size={18} className="text-accent mt-0.5 shrink-0" />
+                                  <span className="text-gray-700 text-sm font-medium">{task}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {role.staff && role.staff.length > 0 && (
+                          <div className="bg-gray-50 rounded-2xl p-4 border border-gray-100">
+                            <h4 className="text-sm uppercase tracking-wider text-primary font-bold mb-3">Teams & Roles</h4>
+                            <div className="flex flex-wrap gap-2">
+                              {role.staff.map((member, i) => (
+                                <span key={i} className="bg-white px-3 py-1.5 rounded-full text-xs font-medium text-gray-700 border border-gray-200 shadow-sm">
+                                  {member}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Additional Services */}
         <div className="bg-primary py-24 mb-24 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
-          
+
           <div className="container mx-auto px-4 max-w-7xl relative z-10">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-heading text-white mb-6">Additional Hospitality Services</h2>
@@ -258,11 +208,9 @@ const HospitalityPage = () => {
           </div>
         </div>
 
-        {/* Departments & Structure Section */}
+        {/* Departments & Structure */}
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            
-            {/* Departments Table */}
             <div className="bg-white rounded-[3rem] p-8 md:p-12 shadow-xl border border-gray-100">
               <h3 className="text-3xl font-heading text-primary mb-8">Departments Usually Found in Large Events</h3>
               <div className="overflow-x-auto">
@@ -287,10 +235,8 @@ const HospitalityPage = () => {
               </div>
             </div>
 
-            {/* Structure Example */}
             <div className="bg-gradient-to-br from-primary to-primary/90 rounded-[3rem] p-8 md:p-12 shadow-xl text-white relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3"></div>
-              
               <div className="relative z-10">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="w-14 h-14 bg-accent rounded-2xl flex items-center justify-center text-primary">
@@ -301,7 +247,6 @@ const HospitalityPage = () => {
                     <p className="text-white/70">Example for a concert or corporate event</p>
                   </div>
                 </div>
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {structureExample.map((item, idx) => (
                     <div key={idx} className="bg-white/10 backdrop-blur-md rounded-2xl p-4 flex items-center gap-4 border border-white/5">
@@ -314,7 +259,6 @@ const HospitalityPage = () => {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
 
@@ -323,7 +267,6 @@ const HospitalityPage = () => {
           <div className="bg-primary rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
             <div className="absolute top-0 left-0 w-64 h-64 bg-accent/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/5 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl"></div>
-            
             <h2 className="text-3xl md:text-5xl font-heading text-white mb-6 relative z-10">Want Our Team for Your Next Event?</h2>
             <p className="text-white/70 max-w-2xl mx-auto mb-10 text-lg relative z-10">
               Our professional crews are ready to handle every detail of your event flawlessly.
@@ -335,7 +278,7 @@ const HospitalityPage = () => {
         </div>
 
       </main>
-      
+
       <Footer />
     </div>
   );

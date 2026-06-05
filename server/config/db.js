@@ -9,6 +9,7 @@ import Hero from '../models/Hero.js';
 import Gallery from '../models/Gallery.js';
 import SocialGridSettings from '../models/SocialGridSettings.js';
 import SocialGridImage from '../models/SocialGridImage.js';
+import HospitalityService from '../models/HospitalityService.js';
 
 const connectDB = async () => {
   try {
@@ -431,6 +432,106 @@ const connectDB = async () => {
       await SocialGridImage.insertMany(seedSocialImages);
       console.log('Default social grid images auto-seeded successfully.');
     }
+    // Auto-seed Hospitality Services if none exists
+    const hospitalityCount = await HospitalityService.countDocuments();
+    if (hospitalityCount === 0) {
+      console.log('No hospitality services found. Seeding default hospitality services...');
+      const seedHospitality = [
+        {
+          title: 'Guest Hospitality & Reception',
+          description: 'The front-facing guest management team. Includes welcoming, registration, and comprehensive guest assistance from arrival to departure.',
+          responsibilities: ['Welcome desk / registration', 'Guest greeting', 'Check-in & badge distribution', 'VIP handling', 'Seating assistance', 'Help desk', 'Information counters'],
+          staff: ['Hosts/Hostesses', 'Reception executives', 'Guest relation executives'],
+          icon: 'Users',
+          order: 0,
+          isActive: true,
+        },
+        {
+          title: 'Logistics Management',
+          description: 'Handles movement and operational coordination, ensuring everything is exactly where it needs to be, right on time.',
+          responsibilities: ['Transportation coordination', 'Material movement', 'Vendor coordination', 'Equipment delivery', 'Loading/unloading', 'Inventory management', 'Backstage movement'],
+          staff: ['Moving sound systems', 'Coordinating artist pickups', 'Handling stage setup timing'],
+          icon: 'Truck',
+          order: 1,
+          isActive: true,
+        },
+        {
+          title: 'Runners / Event Runners',
+          description: 'The on-ground problem solvers. Fast, efficient, and always on the move to bridge the gap between different teams.',
+          responsibilities: ['Carrying urgent items', 'Coordinating between departments', 'Delivering documents/equipment', 'Supporting artists/speakers', 'Managing last-minute requirements'],
+          staff: ['If a speaker needs a charger, runners arrange it immediately'],
+          icon: 'Zap',
+          order: 2,
+          isActive: true,
+        },
+        {
+          title: 'VIP & Artist Management',
+          description: 'Special hospitality for important guests, managing their itinerary and ensuring their absolute comfort.',
+          responsibilities: ['Airport pickup/drop', 'Hotel coordination', 'Green room setup', 'Security coordination', 'Personal assistance', 'Food preferences management'],
+          staff: ['Artist managers', 'VIP coordinators', 'Celebrity handlers'],
+          icon: 'Star',
+          order: 3,
+          isActive: true,
+        },
+        {
+          title: 'Catering & Food Services',
+          description: 'Comprehensive food and beverage management for a perfect dining experience.',
+          responsibilities: ['Buffet management', 'Live counters', 'Beverage service', 'Table service', 'Guest dining experience', 'Kitchen coordination'],
+          staff: ['Catering staff', 'Stewards', 'Bartenders (for alcoholic events)', 'Service captains'],
+          icon: 'Utensils',
+          order: 4,
+          isActive: true,
+        },
+        {
+          title: 'Accommodation Management',
+          description: 'Used in destination weddings, conferences, festivals, and large-scale events to ensure comfortable stays.',
+          responsibilities: ['Hotel booking', 'Room allocation', 'Guest check-in', 'Welcome kits', 'Travel coordination'],
+          staff: [],
+          icon: 'Hotel',
+          order: 5,
+          isActive: true,
+        },
+        {
+          title: 'Transportation Services',
+          description: 'Movement of guests and teams with optimal routing, safety, and comfort.',
+          responsibilities: ['Shuttle services', 'Airport transfers', 'Cab coordination', 'Parking management', 'Driver coordination'],
+          staff: [],
+          icon: 'Bus',
+          order: 6,
+          isActive: true,
+        },
+        {
+          title: 'Security & Crowd Management',
+          description: 'Safety and discipline handling for a secure and controlled event environment.',
+          responsibilities: ['Entry management', 'Crowd control', 'Emergency response', 'VIP security', 'Bouncer services'],
+          staff: [],
+          icon: 'Shield',
+          order: 7,
+          isActive: true,
+        },
+        {
+          title: 'Backstage Management',
+          description: 'Controls backstage operations to keep the show running flawlessly on time.',
+          responsibilities: ['Artist timing', 'Stage entry coordination', 'Costume/equipment handling', 'Crew communication', 'Technical coordination'],
+          staff: [],
+          icon: 'Settings',
+          order: 8,
+          isActive: true,
+        },
+        {
+          title: 'Technical Hospitality',
+          description: 'Support for speakers, performers, and production teams to ensure smooth technical execution.',
+          responsibilities: ['Wi-Fi support', 'Charging stations', 'AV support', 'Microphone coordination', 'Presentation setup'],
+          staff: [],
+          icon: 'Monitor',
+          order: 9,
+          isActive: true,
+        },
+      ];
+      await HospitalityService.insertMany(seedHospitality);
+      console.log('Default hospitality services seeded successfully.');
+    }
+
   } catch (error) {
     console.error(`Error connecting to MongoDB: ${error.message}`);
     process.exit(1);

@@ -125,6 +125,7 @@ const AdminLayout = ({ children }) => {
     { name: 'Hero Settings', path: '/admin/hero', icon: Sliders },
     { name: 'Social Grid', path: '/admin/social', icon: FaInstagram },
     { name: 'Services', path: '/admin/services', icon: Sparkles },
+    { name: 'Hospitality', path: '/admin/hospitality', icon: LayoutGrid },
     { name: 'Portfolio', path: '/admin/portfolio', icon: LayoutGrid },
     { name: 'Events', path: '/admin/events', icon: Calendar },
     { name: 'Bookings', path: '/admin/bookings', icon: Package },
@@ -161,7 +162,7 @@ const AdminLayout = ({ children }) => {
         <div className="p-5 border-b border-white/10 flex justify-between items-center shrink-0">
           <Link to="/" className="flex items-center gap-3">
             <img src={logo} alt="B5 Logo" className="w-8 h-8 rounded-lg border border-white/20 bg-white p-0.5 object-cover" />
-            <span className="text-xl font-heading font-bold text-accent tracking-wider">B5 ADMIN</span>
+            <span className="text-xl font-body font-bold text-accent tracking-wider">B5 ADMIN</span>
           </Link>
           <button
             onClick={() => setIsSidebarOpen(false)}

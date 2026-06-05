@@ -17,7 +17,7 @@ const Footer = () => {
               className="h-16 w-16 md:h-20 md:w-20 object-contain rounded-2xl shadow-2xl border-2 border-white bg-white p-1"
             />
             <div>
-              <span className="block text-white font-bold text-2xl tracking-tighter font-serif group-hover:text-accent transition-colors">B5 EVENTORY</span>
+              <span className="block text-white font-bold text-2xl tracking-tighter font-body group-hover:text-accent transition-colors">B5 EVENTORY</span>
               <p className="text-[0.6rem] tracking-[2px] text-accent uppercase m-0 mt-1 font-semibold">WHERE EVERY EVENT BECOMES A STORY</p>
             </div>
           </Link>
