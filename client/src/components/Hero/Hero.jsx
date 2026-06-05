@@ -7,8 +7,8 @@ import { io } from 'socket.io-client';
 
 const Hero = () => {
   const [hero, setHero] = useState({
-    leftImageUrl: 'https://images.unsplash.com/photo-1530023367847-a683933f4172',
-    rightImageUrl: 'https://www.bfivewarriors.com/assets/images/gallery/image16.png',
+    leftImageUrl: '',
+    rightImageUrl: '',
     badgeText: '✨ WE DESIGN. YOU CELEBRATE.',
     title: 'Where Every <br />Event Becomes a <span class="text-accent italic font-serif">Story</span>',
     subtitle: 'Weddings • Engagements • Birthdays • Anniversaries • Corporate Events',
@@ -17,6 +17,7 @@ const Hero = () => {
     ctaSecondaryText: 'View Packages',
     ctaSecondaryLink: '/packages',
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchHero = async () => {
@@ -27,6 +28,8 @@ const Hero = () => {
         }
       } catch (err) {
         console.error('Error fetching hero content:', err);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -78,34 +81,48 @@ const Hero = () => {
 
       {/* Split Background */}
       <div className="absolute inset-0 flex flex-col lg:flex-row">
-        <motion.div 
-          key={`left-${hero.leftImageUrl}`}
-          variants={imageContainerVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex-1 relative group overflow-hidden"
-        >
-          <img
-            src={hero.leftImageUrl}
-            alt="Left Celebration"
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3000ms] group-hover:scale-110"
-          />
-          <div className="absolute inset-0 bg-primary/45 group-hover:bg-primary/30 transition-colors duration-500"></div>
-        </motion.div>
-        <motion.div 
-          key={`right-${hero.rightImageUrl}`}
-          variants={imageContainerVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex-1 relative group overflow-hidden"
-        >
-          <img
-            src={hero.rightImageUrl}
-            alt="Right Celebration"
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3000ms] group-hover:scale-110"
-          />
-          <div className="absolute inset-0 bg-primary/45 group-hover:bg-primary/30 transition-colors duration-500"></div>
-        </motion.div>
+        {isLoading ? (
+          // Skeleton shimmer while Cloudinary URLs are being fetched
+          <>
+            <div className="flex-1 relative overflow-hidden bg-primary/80 animate-pulse" />
+            <div className="flex-1 relative overflow-hidden bg-primary/60 animate-pulse" />
+          </>
+        ) : (
+          <>
+            <motion.div 
+              key={`left-${hero.leftImageUrl}`}
+              variants={imageContainerVariants}
+              initial="hidden"
+              animate="visible"
+              className="flex-1 relative group overflow-hidden"
+            >
+              {hero.leftImageUrl && (
+                <img
+                  src={hero.leftImageUrl}
+                  alt="Left Celebration"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3000ms] group-hover:scale-110"
+                />
+              )}
+              <div className="absolute inset-0 bg-primary/45 group-hover:bg-primary/30 transition-colors duration-500"></div>
+            </motion.div>
+            <motion.div 
+              key={`right-${hero.rightImageUrl}`}
+              variants={imageContainerVariants}
+              initial="hidden"
+              animate="visible"
+              className="flex-1 relative group overflow-hidden"
+            >
+              {hero.rightImageUrl && (
+                <img
+                  src={hero.rightImageUrl}
+                  alt="Right Celebration"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3000ms] group-hover:scale-110"
+                />
+              )}
+              <div className="absolute inset-0 bg-primary/45 group-hover:bg-primary/30 transition-colors duration-500"></div>
+            </motion.div>
+          </>
+        )}
       </div>
 
       {/* Content Overlay */}
