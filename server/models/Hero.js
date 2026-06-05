@@ -1,20 +1,33 @@
 import mongoose from 'mongoose';
 
+const slideshowImageSchema = new mongoose.Schema({
+  url: {
+    type: String,
+    required: true,
+  },
+  cloudinaryId: {
+    type: String,
+    default: '',
+  },
+  order: {
+    type: Number,
+    default: 0,
+  },
+}, { _id: true });
+
 const heroSchema = new mongoose.Schema({
-  leftImageUrl: {
-    type: String,
-    required: true,
+  // New: array of slideshow images (replaces leftImageUrl / rightImageUrl)
+  slideshowImages: {
+    type: [slideshowImageSchema],
+    default: [],
   },
-  leftImageCloudinaryId: {
-    type: String,
-  },
-  rightImageUrl: {
-    type: String,
-    required: true,
-  },
-  rightImageCloudinaryId: {
-    type: String,
-  },
+
+  // Legacy fields — kept temporarily for migration; will be removed after first migration
+  leftImageUrl: { type: String },
+  leftImageCloudinaryId: { type: String },
+  rightImageUrl: { type: String },
+  rightImageCloudinaryId: { type: String },
+
   badgeText: {
     type: String,
     required: true,
