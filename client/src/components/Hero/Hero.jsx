@@ -9,7 +9,13 @@ const SLIDE_INTERVAL = 5000; // ms between auto-advance
 
 const Hero = () => {
   const [hero, setHero] = useState({
-    slideshowImages: [],
+    slideshowImages: [
+      {
+        url: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1920&q=80',
+        order: 0,
+        _id: 'default-lcp-slide',
+      }
+    ],
     badgeText: '✨ WE DESIGN. YOU CELEBRATE.',
     title: 'Where Every <br />Event Becomes a <span class="text-accent italic font-serif">Story</span>',
     subtitle: 'Weddings • Engagements • Birthdays • Anniversaries • Corporate Events',
@@ -100,14 +106,12 @@ const Hero = () => {
 
       {/* ── Slideshow Background ── */}
       <div className="absolute inset-0">
-        {isLoading ? (
-          <div className="w-full h-full bg-primary/80 animate-pulse" />
-        ) : slides.length === 0 ? (
+        {slides.length === 0 ? (
           <div className="w-full h-full bg-primary" />
         ) : (
           <AnimatePresence mode="sync">
             <motion.div
-              key={`slide-${currentIndex}-${slides[currentIndex]?._id}`}
+              key={`slide-${currentIndex}-${slides[currentIndex]?._id || currentIndex}`}
               initial={{ opacity: 0, scale: 1.08 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.02 }}
