@@ -16,8 +16,10 @@ import {
   Gift,
   Sliders,
   LayoutGrid,
-  User
+  User,
+  Heart
 } from 'lucide-react';
+
 import { FaInstagram } from 'react-icons/fa';
 import { io } from 'socket.io-client';
 import logo from '../../assets/B5_logo.jpeg';
@@ -124,6 +126,8 @@ const AdminLayout = ({ children }) => {
     { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
     { name: 'Hero Settings', path: '/admin/hero', icon: Sliders },
     { name: 'Social Grid', path: '/admin/social', icon: FaInstagram },
+    { name: 'Love Notes', path: '/admin/testimonials', icon: Heart },
+
     { name: 'Services', path: '/admin/services', icon: Sparkles },
     { name: 'Hospitality', path: '/admin/hospitality', icon: LayoutGrid },
     { name: 'Portfolio', path: '/admin/portfolio', icon: LayoutGrid },

@@ -11,6 +11,8 @@ import SocialGridSettings from '../models/SocialGridSettings.js';
 import SocialGridImage from '../models/SocialGridImage.js';
 import HospitalityService from '../models/HospitalityService.js';
 
+
+
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI);
@@ -531,6 +533,7 @@ const connectDB = async () => {
       await HospitalityService.insertMany(seedHospitality);
       console.log('Default hospitality services seeded successfully.');
     }
+
 
   } catch (error) {
     console.error(`Error connecting to MongoDB: ${error.message}`);

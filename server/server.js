@@ -18,6 +18,8 @@ import portfolioRoutes from './routes/portfolioRoutes.js';
 import heroRoutes from './routes/heroRoutes.js';
 import socialGridRoutes from './routes/socialGridRoutes.js';
 import hospitalityRoutes from './routes/hospitalityRoutes.js';
+import testimonialRoutes from './routes/testimonialRoutes.js';
+
 import http from 'http';
 import { Server } from 'socket.io';
 import { globalLimiter } from './middleware/rateLimiter.js';
@@ -72,6 +74,8 @@ app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/hero', heroRoutes);
 app.use('/api/social-grid', socialGridRoutes);
 app.use('/api/hospitality', hospitalityRoutes);
+app.use('/api/testimonials', testimonialRoutes);
+
 
 // Health check route
 app.get('/api/health', (req, res) => {

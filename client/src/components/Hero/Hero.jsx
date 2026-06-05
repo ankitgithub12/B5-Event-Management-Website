@@ -118,6 +118,7 @@ const Hero = () => {
                 src={slides[currentIndex]?.url}
                 alt={`Hero slide ${currentIndex + 1}`}
                 className="absolute inset-0 w-full h-full object-cover"
+                fetchPriority={currentIndex === 0 ? "high" : "auto"}
               />
               {/* Ken Burns subtle zoom via CSS */}
               <div className="absolute inset-0 bg-primary/50" />

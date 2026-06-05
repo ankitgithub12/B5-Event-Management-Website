@@ -45,6 +45,8 @@ const Navbar = () => {
                 src={logo}
                 alt="B5 Logo"
                 className="h-12 w-12 md:h-16 md:w-16 object-contain rounded-xl shadow-xl border-2 border-white bg-white"
+                width={64}
+                height={64}
               />
               <div className="absolute inset-0 rounded-xl shadow-[0_0_15px_rgba(255,255,255,0.3)] group-hover:shadow-[0_0_20px_rgba(200,158,98,0.5)] transition-shadow duration-300"></div>
             </div>

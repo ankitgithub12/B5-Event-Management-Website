@@ -1,54 +1,40 @@
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { io } from 'socket.io-client';
+import axios from 'axios';
 
 const Testimonials = () => {
   const [isPaused, setIsPaused] = useState(false);
+  const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const testimonials = [
-    {
-      text: "B5 planned our daughter's wedding and my 50th birthday in the same year. Flawless both times.",
-      name: "Meera Sharma",
-      role: "Mother of Bride",
-      rating: 5,
-      image: "https://ui-avatars.com/api/?name=Meera+Sharma&background=3B1E54&color=C89E62&size=150&bold=true&font-size=0.4"
-    },
-    {
-      text: "The pre-wedding shoot was magical. Drone shots took our breath away.",
-      name: "Anjali & Rohit",
-      role: "Wedding",
-      rating: 5,
-      image: "https://ui-avatars.com/api/?name=Anjali+Rohit&background=C89E62&color=3B1E54&size=150&bold=true&font-size=0.4"
-    },
-    {
-      text: "Corporate gala for 800 people? They nailed it. Zero stress for us.",
-      name: "Vikram Mehta",
-      role: "TechCorp",
-      rating: 4,
-      image: "https://ui-avatars.com/api/?name=Vikram+Mehta&background=3B1E54&color=C89E62&size=150&bold=true&font-size=0.4"
-    },
-    {
-      text: "They handled our destination wedding in Udaipur with such grace. Every detail was perfect.",
-      name: "Sanya Kapoor",
-      role: "Bride",
-      rating: 5,
-      image: "https://ui-avatars.com/api/?name=Sanya+Kapoor&background=C89E62&color=3B1E54&size=150&bold=true&font-size=0.4"
-    },
-    {
-      text: "The most creative team I've ever worked with. They turned our backyard into a fairy tale.",
-      name: "Rahul Verma",
-      role: "Groom",
-      rating: 5,
-      image: "https://ui-avatars.com/api/?name=Rahul+Verma&background=3B1E54&color=C89E62&size=150&bold=true&font-size=0.4"
-    },
-    {
-      text: "Exceptional service for our product launch. The stage design was world-class.",
-      name: "Priya Das",
-      role: "Marketing Head",
-      rating: 5,
-      image: "https://ui-avatars.com/api/?name=Priya+Das&background=C89E62&color=3B1E54&size=150&bold=true&font-size=0.4"
+  const fetchTestimonials = async () => {
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const response = await axios.get(`${apiUrl}/testimonials`);
+      setTestimonials(response.data);
+    } catch (err) {
+      console.error('Failed to load testimonials:', err);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  useEffect(() => {
+    fetchTestimonials();
+
+    const socket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000');
+    socket.on('testimonial_update', () => {
+      fetchTestimonials();
+    });
+
+    return () => socket.disconnect();
+  }, []);
+
+  if (loading || testimonials.length === 0) {
+    return null;
+  }
 
   // Double the testimonials for seamless loop
   const duplicatedTestimonials = [...testimonials, ...testimonials];
@@ -164,6 +150,7 @@ const Testimonials = () => {
                       src={testimonial.image}
                       alt={testimonial.name}
                       className="w-12 h-12 rounded-full object-cover border-2 border-accent/20"
+                      loading="lazy"
                     />
                     <div>
                       <h4 className="font-bold text-primary text-sm">{testimonial.name}</h4>

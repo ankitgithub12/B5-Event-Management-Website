@@ -15,6 +15,9 @@ const Footer = () => {
               src={logo}
               alt="B5 Eventory Logo"
               className="h-16 w-16 md:h-20 md:w-20 object-contain rounded-2xl shadow-2xl border-2 border-white bg-white p-1"
+              width={80}
+              height={80}
+              loading="lazy"
             />
             <div>
               <span className="block text-white font-bold text-2xl tracking-tighter font-body group-hover:text-accent transition-colors">B5 EVENTORY</span>
