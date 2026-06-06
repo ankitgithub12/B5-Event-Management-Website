@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
@@ -82,7 +81,7 @@ const FaqSection = () => {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl text-white mb-4"
           >
-            Frequently Asked <span className="text-accent italic">Questions</span>
+            Frequently Asked <span className="text-accent">Questions</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -144,21 +143,7 @@ const FaqSection = () => {
           ))}
         </div>
 
-        {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
-          <p className="text-white/50 mb-4 text-sm">Still have questions? We're happy to help.</p>
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2 bg-accent text-white px-8 py-3 rounded-full font-bold text-sm hover:bg-accent-hover hover:-translate-y-0.5 transition-all duration-300 shadow-[var(--shadow-gold)]"
-          >
-            Talk to a Planner
-          </Link>
-        </motion.div>
+
 
       </div>
     </section>
