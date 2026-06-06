@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from './components/Admin/ProtectedRoute';
+import CookieConsent from './components/CookieConsent/CookieConsent';
 
 // Home page is kept static to prevent any layout shifts or initial load delays on landing page.
 import Home from './pages/Home';
@@ -137,6 +138,7 @@ function App() {
           } />
         </Routes>
       </Suspense>
+      <CookieConsent />
     </Router>
   );
 }

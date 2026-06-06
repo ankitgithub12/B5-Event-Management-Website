@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Trophy, Award, Star, Palette } from 'lucide-react';
 
 const AwardsSection = () => {
   const awards = [
@@ -6,25 +7,25 @@ const AwardsSection = () => {
       year: '2024',
       title: 'Best Wedding Planner',
       org: 'Rajasthan Tourism Awards',
-      badge: '🏆'
+      icon: Trophy
     },
     {
       year: '2023',
       title: 'Excellence in Corporate Events',
       org: 'Event Management Association',
-      badge: '🎖️'
+      icon: Award
     },
     {
       year: '2023',
       title: 'Top 10 Emerging Planners',
       org: 'Luxury Living India',
-      badge: '🌟'
+      icon: Star
     },
     {
       year: '2022',
       title: 'Most Creative Decor',
       org: 'National Event Expo',
-      badge: '🎨'
+      icon: Palette
     }
   ];
 
@@ -72,8 +73,8 @@ const AwardsSection = () => {
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               className="bg-gray-50 rounded-3xl p-8 text-center border border-gray-100 hover:border-accent/30 hover:bg-white hover:shadow-xl transition-all duration-300 group cursor-default"
             >
-              <div className="text-4xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
-                {award.badge}
+              <div className="flex justify-center mb-5 text-accent group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                <award.icon className="w-10 h-10 stroke-[1.5]" />
               </div>
               <div className="text-accent font-bold text-xs tracking-wider mb-2">
                 {award.year}
