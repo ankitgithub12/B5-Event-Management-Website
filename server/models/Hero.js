@@ -51,7 +51,7 @@ const heroSchema = new mongoose.Schema({
   ctaPrimaryLink: {
     type: String,
     required: true,
-    default: '#contact',
+    default: '/contact',
   },
   ctaSecondaryText: {
     type: String,

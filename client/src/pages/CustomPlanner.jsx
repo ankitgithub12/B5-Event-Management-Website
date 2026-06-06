@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar';
 import SEO from '../components/SEO';
 import Footer from '../components/Footer/Footer';
@@ -189,9 +190,12 @@ const CustomPlanner = () => {
                       <p className="text-xl font-semibold text-white">{estimate.suggested}</p>
                     </div>
 
-                    <a href="/#contact" className="btn bg-white text-primary w-full hover:bg-gray-100">
+                    <Link 
+                      to={`/contact?eventType=${formData.eventType}&guests=${formData.guests}&budget=${formData.budget}&message=I calculated an estimate using the Custom Planner. Suggested Package: ${estimate.suggested}`} 
+                      className="btn bg-white text-primary w-full hover:bg-gray-100 text-center"
+                    >
                       Request Official Quote
-                    </a>
+                    </Link>
                   </div>
                 ) : (
                   <div className="text-center py-12 opacity-50">

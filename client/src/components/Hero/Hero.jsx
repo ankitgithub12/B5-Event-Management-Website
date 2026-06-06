@@ -20,7 +20,7 @@ const Hero = () => {
     title: 'Where Every <br />Event Becomes a <span class="text-accent italic font-serif">Story</span>',
     subtitle: 'Weddings • Engagements • Birthdays • Anniversaries • Corporate Events',
     ctaPrimaryText: 'Start Planning',
-    ctaPrimaryLink: '#contact',
+    ctaPrimaryLink: '/contact',
     ctaSecondaryText: 'View Packages',
     ctaSecondaryLink: '/packages',
   });

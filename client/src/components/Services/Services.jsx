@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Camera, Sparkle, Building2, Cake, Heart, ArrowRight, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import api from '../../utils/api';
@@ -138,9 +139,12 @@ const Services = () => {
                   {service.description}
                 </p>
                 <div className="mt-auto">
-                  <a href="#contact" className="inline-flex items-center gap-2 text-xs font-bold text-accent tracking-widest uppercase group-hover:text-primary transition-colors duration-300">
+                  <Link 
+                    to={`/contact?eventType=${encodeURIComponent(service.title)}&message=I want to enquire about the ${encodeURIComponent(service.title)} service.`} 
+                    className="inline-flex items-center gap-2 text-xs font-bold text-accent tracking-widest uppercase group-hover:text-primary transition-colors duration-300"
+                  >
                     Enquire Now <ArrowRight size={14} />
-                  </a>
+                  </Link>
                 </div>
               </motion.div>
             );

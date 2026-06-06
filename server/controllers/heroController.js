@@ -53,7 +53,7 @@ export const getHero = async (req, res) => {
         title: 'Where Every Event Becomes a Story',
         subtitle: 'Weddings • Engagements • Birthdays • Anniversaries • Corporate Events',
         ctaPrimaryText: 'Start Planning',
-        ctaPrimaryLink: '#contact',
+        ctaPrimaryLink: '/contact',
         ctaSecondaryText: 'View Packages',
         ctaSecondaryLink: '/packages',
       });

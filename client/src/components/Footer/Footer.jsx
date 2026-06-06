@@ -51,13 +51,20 @@ const Footer = () => {
               { name: 'Custom Planner', path: '/planner' },
               { name: 'Portfolio', path: '/#portfolio' },
               { name: 'Hospitality', path: '/hospitality' },
-              { name: 'Contact', path: '/#contact' }
+              { name: 'Contact', path: '/contact' }
             ].map((link, i) => (
               <li key={i}>
-                <a href={link.path} className="text-sm text-white/70 hover:text-accent relative group inline-block">
-                  {link.name}
-                  <span className="absolute bottom-0 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                {link.path.includes('#') ? (
+                  <a href={link.path} className="text-sm text-white/70 hover:text-accent relative group inline-block">
+                    {link.name}
+                    <span className="absolute bottom-0 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full"></span>
+                  </a>
+                ) : (
+                  <Link to={link.path} className="text-sm text-white/70 hover:text-accent relative group inline-block">
+                    {link.name}
+                    <span className="absolute bottom-0 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full"></span>
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
