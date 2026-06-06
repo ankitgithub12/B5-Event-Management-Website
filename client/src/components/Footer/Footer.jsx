@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { MessageCircle, Phone, Mail, MapPin } from 'lucide-react';
 import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa';
-import logo from '../../assets/B5_logo.jpeg';
+import logo from '../../assets/B5_logo.png';
 
 const Footer = () => {
   return (

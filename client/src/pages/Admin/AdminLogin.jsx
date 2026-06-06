@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
-import logo from '../../assets/B5_logo.jpeg';
+import logo from '../../assets/B5_logo.png';
 import api from '../../utils/api';
 
 const AdminLogin = () => {

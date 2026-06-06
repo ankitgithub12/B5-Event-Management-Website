@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, LayoutGrid, Briefcase, Image, MessageCircle, Calendar, Phone } from 'lucide-react';
-import logo from "../../assets/B5_logo.jpeg";
+import logo from "../../assets/B5_logo.png";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);

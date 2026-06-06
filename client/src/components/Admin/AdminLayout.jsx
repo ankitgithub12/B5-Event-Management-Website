@@ -22,7 +22,7 @@ import {
 
 import { FaInstagram } from 'react-icons/fa';
 import { io } from 'socket.io-client';
-import logo from '../../assets/B5_logo.jpeg';
+import logo from '../../assets/B5_logo.png';
 import api from '../../utils/api';
 
 const AdminLayout = ({ children }) => {
