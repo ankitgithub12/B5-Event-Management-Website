@@ -49,9 +49,14 @@ const OurProcess = () => {
 
   return (
     <section className="py-24 bg-gray-50 relative overflow-hidden">
-      {/* Background decorative blobs */}
-      <div className="absolute -top-24 -left-24 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+      {/* Animated background gradient blobs */}
+      <div className="absolute -top-24 -left-24 w-96 h-96 bg-gradient-to-br from-accent/8 to-accent/3 rounded-full blur-3xl pointer-events-none animate-gradient-shift" 
+        style={{ backgroundSize: '200% 200%', background: 'linear-gradient(135deg, rgba(200,158,98,0.08) 0%, rgba(200,158,98,0.03) 50%, rgba(59,30,84,0.05) 100%)' }} />
+      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-gradient-to-tl from-primary/8 to-primary/3 rounded-full blur-3xl pointer-events-none" />
+      
+      {/* Floating sparkles */}
+      <div className="absolute top-16 right-[15%] text-accent/10 text-3xl select-none sparkle-float">✦</div>
+      <div className="absolute bottom-16 left-[10%] text-accent/10 text-4xl select-none sparkle-float-delayed">✦</div>
 
       <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
 
@@ -61,11 +66,11 @@ const OurProcess = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex items-center justify-center gap-2 text-accent font-semibold text-sm tracking-[2px] uppercase mb-4"
+            className="section-label"
           >
-            <span className="w-8 h-px bg-accent" />
+            <span className="section-label-line" />
             HOW IT WORKS
-            <span className="w-8 h-px bg-accent" />
+            <span className="section-label-line" />
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -95,8 +100,10 @@ const OurProcess = () => {
           viewport={{ once: true }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative"
         >
-          {/* Dashed connector line — desktop only */}
-          <div className="hidden lg:block absolute top-[3.25rem] left-[12.5%] right-[12.5%] h-px border-t-2 border-dashed border-accent/30 z-0" />
+          {/* Animated gradient connector line — desktop only */}
+          <div className="hidden lg:block absolute top-[3.25rem] left-[12.5%] right-[12.5%] h-[2px] z-0 overflow-hidden">
+            <div className="h-full w-full bg-gradient-to-r from-accent/10 via-accent/40 to-accent/10" />
+          </div>
 
           {steps.map((step, index) => (
             <motion.div
@@ -106,16 +113,21 @@ const OurProcess = () => {
             >
               {/* Number badge */}
               <div className="relative mb-6">
-                <div className="w-[4.5rem] h-[4.5rem] rounded-full bg-white border-2 border-accent/20 shadow-[0_8px_30px_rgba(200,158,98,0.15)] flex items-center justify-center group-hover:border-accent group-hover:shadow-[0_8px_30px_rgba(200,158,98,0.3)] transition-all duration-400">
+                <div className="w-[4.5rem] h-[4.5rem] rounded-full bg-white border-2 border-accent/20 shadow-[0_8px_30px_rgba(200,158,98,0.12)] flex items-center justify-center group-hover:border-accent group-hover:shadow-[0_8px_35px_rgba(200,158,98,0.35)] transition-all duration-500 group-hover:scale-105">
                   {step.icon}
                 </div>
-                <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-accent text-white text-[10px] font-black flex items-center justify-center shadow-md">
+                <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-gradient-to-br from-accent to-[#d4ad6e] text-white text-[10px] font-black flex items-center justify-center shadow-[0_4px_12px_rgba(200,158,98,0.4)]">
                   {index + 1}
                 </span>
+                {/* Glow ring on hover */}
+                <div className="absolute -inset-2 rounded-full bg-accent/0 group-hover:bg-accent/5 transition-colors duration-500 blur-md"></div>
               </div>
 
               {/* Card */}
-              <div className="bg-white rounded-[1.5rem] p-6 shadow-[0_10px_40px_rgba(41,26,57,0.06)] border border-gray-100 group-hover:border-accent/20 group-hover:shadow-[0_20px_50px_rgba(200,158,98,0.12)] transition-all duration-400 group-hover:-translate-y-2 w-full">
+              <div className="glass-card-light rounded-[1.5rem] p-6 shadow-[0_10px_40px_rgba(41,26,57,0.06)] group-hover:shadow-[0_20px_50px_rgba(200,158,98,0.15)] transition-all duration-500 group-hover:-translate-y-2 w-full relative overflow-hidden">
+                {/* Top accent gradient line */}
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent/0 to-transparent group-hover:via-accent/50 transition-all duration-500" />
+                
                 <p className="text-[10px] font-bold tracking-[2px] text-accent uppercase mb-2">
                   STEP {step.number}
                 </p>

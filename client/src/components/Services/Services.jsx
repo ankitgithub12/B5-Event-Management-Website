@@ -88,8 +88,19 @@ const Services = () => {
   }
 
   return (
-    <section id="services" className="py-24 bg-white relative">
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+    <section id="services" className="py-24 bg-white relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-20 left-[5%] text-accent/8 text-6xl select-none sparkle-float">✦</div>
+      <div className="absolute bottom-20 right-[8%] text-accent/8 text-5xl select-none sparkle-float-delayed">✦</div>
+      <div className="absolute top-1/2 left-[90%] text-primary/5 text-8xl select-none sparkle-float-slow">✦</div>
+      
+      {/* Subtle dot pattern background */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+        backgroundImage: 'radial-gradient(circle, #3B1E54 1px, transparent 1px)',
+        backgroundSize: '30px 30px'
+      }} />
+
+      <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
 
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -97,11 +108,11 @@ const Services = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex items-center justify-center gap-2 text-accent font-semibold text-sm tracking-[2px] uppercase mb-4"
+            className="section-label"
           >
-            <span className="w-8 h-px bg-accent"></span>
+            <span className="section-label-line"></span>
             WHAT WE DO
-            <span className="w-8 h-px bg-accent"></span>
+            <span className="section-label-line"></span>
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
@@ -128,23 +139,28 @@ const Services = () => {
               <motion.div
                 key={service._id || index}
                 variants={cardVariants}
-                whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                className="bg-white rounded-3xl p-8 text-center shadow-[0_10px_40px_rgba(41,26,57,0.06)] border border-gray-100 hover:shadow-[0_20px_50px_rgba(200,158,98,0.15)] transition-all duration-300 group flex flex-col items-center cursor-default"
+                whileHover={{ y: -10, transition: { duration: 0.3 } }}
+                className="bg-white rounded-3xl p-8 text-center shadow-[0_10px_40px_rgba(41,26,57,0.06)] border border-gray-100 hover:shadow-[0_25px_60px_rgba(200,158,98,0.18)] hover:border-accent/20 transition-all duration-500 group flex flex-col items-center cursor-default relative overflow-hidden"
               >
-                <div className="w-16 h-16 mx-auto bg-primary/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-accent transition-colors duration-300">
-                  <Icon size={28} className="text-primary group-hover:text-primary-dark transition-colors duration-300" />
-                </div>
-                <h3 className="text-xl text-primary mb-3 font-heading font-semibold line-clamp-1">{service.title}</h3>
-                <p className="text-gray-600 mb-6 leading-relaxed text-sm line-clamp-3">
-                  {service.description}
-                </p>
-                <div className="mt-auto">
-                  <Link 
-                    to={`/contact?eventType=${encodeURIComponent(service.title)}&message=I want to enquire about the ${encodeURIComponent(service.title)} service.`} 
-                    className="inline-flex items-center gap-2 text-xs font-bold text-accent tracking-widest uppercase group-hover:text-primary transition-colors duration-300"
-                  >
-                    Enquire Now <ArrowRight size={14} />
-                  </Link>
+                {/* Hover gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-accent/0 via-accent/0 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
+                
+                <div className="relative z-10 flex flex-col items-center w-full">
+                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-gradient-to-br group-hover:from-accent group-hover:to-accent-hover group-hover:shadow-[0_8px_25px_rgba(200,158,98,0.3)] transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
+                    <Icon size={28} className="text-primary group-hover:text-white transition-colors duration-500" />
+                  </div>
+                  <h3 className="text-xl text-primary mb-3 font-heading font-semibold line-clamp-1">{service.title}</h3>
+                  <p className="text-gray-600 mb-6 leading-relaxed text-sm line-clamp-3">
+                    {service.description}
+                  </p>
+                  <div className="mt-auto">
+                    <Link 
+                      to={`/contact?eventType=${encodeURIComponent(service.title)}&message=I want to enquire about the ${encodeURIComponent(service.title)} service.`} 
+                      className="inline-flex items-center gap-2 text-xs font-bold text-accent tracking-widest uppercase group-hover:text-primary transition-colors duration-300 group/link"
+                    >
+                      Enquire Now <ArrowRight size={14} className="group-hover/link:translate-x-1 transition-transform duration-300" />
+                    </Link>
+                  </div>
                 </div>
               </motion.div>
             );

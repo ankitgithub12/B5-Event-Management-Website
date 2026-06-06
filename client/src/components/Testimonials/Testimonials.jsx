@@ -59,7 +59,10 @@ const Testimonials = () => {
   };
 
   return (
-    <section id="testimonials" className="py-24 bg-white overflow-hidden">
+    <section id="testimonials" className="py-24 bg-white overflow-hidden relative">
+      {/* Subtle background accent */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/10 to-transparent" />
+      
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
 
         {/* Section Header */}
@@ -68,11 +71,11 @@ const Testimonials = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex items-center justify-center gap-2 text-accent font-semibold text-sm tracking-[2px] uppercase mb-4"
+            className="section-label"
           >
-            <span className="w-8 h-px bg-accent"></span>
+            <span className="section-label-line"></span>
             LOVE NOTES
-            <span className="w-8 h-px bg-accent"></span>
+            <span className="section-label-line"></span>
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -89,8 +92,8 @@ const Testimonials = () => {
       {/* Marquee Section */}
       <div className="relative mt-8">
         {/* Fading Gradients */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none hidden md:block"></div>
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none hidden md:block"></div>
+        <div className="absolute left-0 top-0 bottom-0 w-40 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none hidden md:block"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none hidden md:block"></div>
 
         <div className="flex overflow-hidden">
           <div
@@ -112,9 +115,13 @@ const Testimonials = () => {
                   transition={{
                     y: { type: "spring", stiffness: 300, damping: 20 }
                   }}
-                  className="bg-white h-full rounded-3xl p-10 shadow-[0_10px_40px_rgba(41,26,57,0.06)] border border-gray-50 relative group hover:border-accent/30 transition-all duration-300 flex flex-col cursor-default"
+                  className="bg-white h-full rounded-3xl p-10 shadow-[0_10px_40px_rgba(41,26,57,0.06)] border border-gray-50 relative group hover:border-accent/25 hover:shadow-[0_25px_60px_rgba(200,158,98,0.12)] transition-all duration-500 flex flex-col cursor-default"
                 >
-                  <div className="text-6xl text-accent/10 font-heading leading-none absolute top-6 left-6 group-hover:text-accent/20 transition-colors">"</div>
+                  {/* Gold accent line at top */}
+                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent/0 to-transparent group-hover:via-accent/40 transition-all duration-500 rounded-t-3xl" />
+
+                  {/* Large decorative quote mark */}
+                  <div className="text-6xl text-gradient-gold leading-none absolute top-6 left-6 opacity-20 group-hover:opacity-40 transition-opacity duration-500 font-heading">"</div>
 
                   <motion.div
                     variants={containerVariants}
@@ -146,12 +153,16 @@ const Testimonials = () => {
                   </p>
 
                   <div className="flex items-center gap-4 mt-auto">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      className="w-12 h-12 rounded-full object-cover border-2 border-accent/20"
-                      loading="lazy"
-                    />
+                    <div className="relative">
+                      <img
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        className="w-12 h-12 rounded-full object-cover border-2 border-accent/25 group-hover:border-accent/50 transition-all duration-500"
+                        loading="lazy"
+                      />
+                      {/* Golden ring glow */}
+                      <div className="absolute -inset-0.5 rounded-full bg-accent/0 group-hover:bg-accent/10 blur-sm transition-all duration-500 -z-10" />
+                    </div>
                     <div>
                       <h4 className="font-bold text-primary text-sm">{testimonial.name}</h4>
                       <p className="text-xs text-gray-500 font-medium">{testimonial.role}</p>
@@ -168,4 +179,3 @@ const Testimonials = () => {
 };
 
 export default Testimonials;
-

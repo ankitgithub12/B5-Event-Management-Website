@@ -37,7 +37,10 @@ const AwardsSection = () => {
   const marqueePublications = [...publications, ...publications, ...publications, ...publications];
 
   return (
-    <section className="py-20 bg-white overflow-hidden">
+    <section className="py-20 bg-white overflow-hidden relative">
+      {/* Subtle background decoration */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/15 to-transparent" />
+
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
         
         {/* As Seen In Strip - Infinite Marquee */}
@@ -46,10 +49,10 @@ const AwardsSection = () => {
           
           <div className="relative w-full overflow-hidden py-4">
             {/* Gradients on the side for depth */}
-            <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none hidden md:block"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none hidden md:block"></div>
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none hidden md:block"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none hidden md:block"></div>
             
-            <div className="flex w-max opacity-45 hover:opacity-75 grayscale hover:grayscale-0 transition-all duration-500">
+            <div className="flex w-max opacity-40 hover:opacity-70 grayscale hover:grayscale-0 transition-all duration-700">
               <div className="flex gap-16 md:gap-24 animate-marquee whitespace-nowrap">
                 {marqueePublications.map((pub, i) => (
                   <span key={i} className="text-2xl md:text-3xl font-heading font-extrabold text-primary italic tracking-wide select-none">
@@ -71,12 +74,17 @@ const AwardsSection = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.5, ease: 'easeOut' }}
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              className="bg-gray-50 rounded-3xl p-8 text-center border border-gray-100 hover:border-accent/30 hover:bg-white hover:shadow-xl transition-all duration-300 group cursor-default"
+              className="bg-gray-50 rounded-3xl p-8 text-center border border-gray-100 hover:border-accent/30 hover:bg-white hover:shadow-[0_20px_50px_rgba(200,158,98,0.12)] transition-all duration-500 group cursor-default relative overflow-hidden"
             >
-              <div className="flex justify-center mb-5 text-accent group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
-                <award.icon className="w-10 h-10 stroke-[1.5]" />
+              {/* Top gold accent line on hover */}
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent/0 to-transparent group-hover:via-accent/60 transition-all duration-500" />
+
+              <div className="flex justify-center mb-5 text-accent group-hover:scale-110 transition-all duration-500 relative">
+                <award.icon className="w-10 h-10 stroke-[1.5] relative z-10" />
+                {/* Gold glow behind icon */}
+                <div className="absolute inset-0 w-10 h-10 mx-auto bg-accent/0 group-hover:bg-accent/15 rounded-full blur-xl transition-all duration-500" />
               </div>
-              <div className="text-accent font-bold text-xs tracking-wider mb-2">
+              <div className="inline-block bg-gradient-to-r from-accent/10 to-accent/5 text-accent font-bold text-xs tracking-wider mb-3 px-3 py-1 rounded-full border border-accent/15">
                 {award.year}
               </div>
               <h3 className="text-lg font-heading text-primary mb-2 leading-tight">

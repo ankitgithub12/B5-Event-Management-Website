@@ -40,10 +40,10 @@ const TeamSection = () => {
 
   return (
     <section className="py-24 bg-white relative overflow-hidden">
-      {/* Background accent sparkles */}
-      <div className="absolute top-10 left-[5%] text-accent/10 text-5xl select-none">✦</div>
-      <div className="absolute bottom-10 right-[5%] text-accent/10 text-5xl select-none">✦</div>
-      <div className="absolute top-1/2 right-[15%] text-accent/5 text-7xl select-none">✦</div>
+      {/* Background floating sparkles */}
+      <div className="absolute top-10 left-[5%] text-accent/8 text-5xl select-none sparkle-float">✦</div>
+      <div className="absolute bottom-10 right-[5%] text-accent/8 text-5xl select-none sparkle-float-delayed">✦</div>
+      <div className="absolute top-1/2 right-[15%] text-accent/5 text-7xl select-none sparkle-float-slow">✦</div>
 
       <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
 
@@ -53,11 +53,11 @@ const TeamSection = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex items-center justify-center gap-2 text-accent font-semibold text-sm tracking-[2px] uppercase mb-4"
+            className="section-label"
           >
-            <span className="w-8 h-px bg-accent" />
+            <span className="section-label-line" />
             THE TEAM
-            <span className="w-8 h-px bg-accent" />
+            <span className="section-label-line" />
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -101,29 +101,30 @@ const TeamSection = () => {
               <motion.div
                 key={member._id}
                 variants={cardVariants}
-                className="group relative bg-white rounded-[2rem] overflow-hidden shadow-[0_10px_40px_rgba(41,26,57,0.07)] border border-gray-100 hover:border-accent/30 hover:shadow-[0_20px_50px_rgba(200,158,98,0.15)] transition-all duration-500 hover:-translate-y-2 flex flex-col"
+                whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                className="group relative bg-white rounded-[2rem] overflow-hidden shadow-[0_10px_40px_rgba(41,26,57,0.07)] border border-gray-100 hover:border-accent/25 hover:shadow-[0_25px_60px_rgba(200,158,98,0.18)] transition-all duration-500 flex flex-col"
               >
                 {/* Image */}
                 <div className="relative aspect-[4/5] sm:aspect-auto sm:h-64 lg:h-72 overflow-hidden">
                   <img
                     src={member.imageUrl || member.image}
                     alt={member.name}
-                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-110 group-hover:brightness-105"
                     loading="lazy"
                   />
                   {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                  {/* Social icons on hover */}
-                  <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-3 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-400">
+                  {/* Social icons on hover — brand colors */}
+                  <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-3 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
                     {member.instagramUrl && (
                       <a 
                         href={member.instagramUrl} 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-accent hover:border-accent transition-colors duration-300 cursor-pointer"
+                        className="w-10 h-10 rounded-full bg-white/15 backdrop-blur-xl border border-white/25 flex items-center justify-center text-white hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#e6683c] hover:to-[#bc1888] hover:border-transparent transition-all duration-300 cursor-pointer hover:scale-110"
                       >
-                        <FaInstagram size={15} />
+                        <FaInstagram size={16} />
                       </a>
                     )}
                     {member.linkedinUrl && (
@@ -131,18 +132,21 @@ const TeamSection = () => {
                         href={member.linkedinUrl} 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-accent hover:border-accent transition-colors duration-300 cursor-pointer"
+                        className="w-10 h-10 rounded-full bg-white/15 backdrop-blur-xl border border-white/25 flex items-center justify-center text-white hover:bg-[#0077b5] hover:border-transparent transition-all duration-300 cursor-pointer hover:scale-110"
                       >
-                        <FaLinkedin size={15} />
+                        <FaLinkedin size={16} />
                       </a>
                     )}
                   </div>
                 </div>
 
                 {/* Content */}
-                <div className="p-6 flex flex-col flex-grow">
+                <div className="p-6 flex flex-col flex-grow relative">
+                  {/* Gold accent line under image */}
+                  <div className="absolute top-0 left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-accent/30 to-transparent group-hover:via-accent/60 transition-all duration-500" />
+
                   {member.specialty && (
-                    <span className="inline-block bg-accent/10 text-accent text-[10px] font-bold tracking-[1.5px] uppercase px-3 py-1 rounded-full mb-3 w-fit">
+                    <span className="inline-block bg-gradient-to-r from-accent/12 to-accent/6 text-accent text-[10px] font-bold tracking-[1.5px] uppercase px-3 py-1.5 rounded-full mb-3 w-fit border border-accent/15 shimmer-sweep">
                       {member.specialty}
                     </span>
                   )}
@@ -152,7 +156,7 @@ const TeamSection = () => {
 
                   {member.events && (
                     <div className="mt-4 pt-4 border-t border-gray-100 flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-accent" />
+                      <span className="w-2 h-2 rounded-full bg-accent glow-pulse" />
                       <span className="text-xs font-bold text-primary">{member.events}</span>
                     </div>
                   )}
@@ -172,10 +176,13 @@ const TeamSection = () => {
         >
           <Link 
             to="/hospitality" 
-            className="inline-flex items-center gap-2 bg-primary text-white px-8 py-4 rounded-full font-bold hover:bg-accent hover:text-primary transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 group"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-primary-light text-white px-8 py-4 rounded-full font-bold hover:from-accent hover:to-[#d4ad6e] hover:text-primary-dark transition-all duration-500 shadow-lg hover:shadow-[0_12px_35px_rgba(200,158,98,0.35)] hover:-translate-y-1 group relative overflow-hidden"
           >
-            Meet Our Event Crews
-            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            <span className="relative z-10 flex items-center gap-2">
+              Meet Our Event Crews
+              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            </span>
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
           </Link>
         </motion.div>
 

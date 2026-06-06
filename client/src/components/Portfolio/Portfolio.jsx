@@ -68,7 +68,11 @@ const Portfolio = () => {
   }
 
   return (
-    <section id="portfolio" className="py-24 bg-gray-50 overflow-hidden">
+    <section id="portfolio" className="py-24 bg-gray-50 overflow-hidden relative">
+      {/* Decorative elements */}
+      <div className="absolute top-16 right-[8%] text-accent/6 text-7xl select-none sparkle-float">✦</div>
+      <div className="absolute bottom-16 left-[5%] text-primary/5 text-8xl select-none sparkle-float-slow">✦</div>
+
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
 
         {/* Section Header */}
@@ -77,11 +81,11 @@ const Portfolio = () => {
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="flex items-center justify-center gap-2 text-accent font-semibold text-sm tracking-[2px] uppercase mb-4"
+            className="section-label"
           >
-            <span className="w-8 h-px bg-accent"></span>
+            <span className="section-label-line"></span>
             OUR WORK
-            <span className="w-8 h-px bg-accent"></span>
+            <span className="section-label-line"></span>
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, x: -50 }}
@@ -107,7 +111,7 @@ const Portfolio = () => {
               key={project._id || index}
               variants={itemVariants}
               whileHover={{ scale: 0.98 }}
-              className="group relative rounded-3xl overflow-hidden aspect-[4/5] cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
+              className="group relative rounded-3xl overflow-hidden aspect-[4/5] cursor-pointer shadow-lg hover:shadow-[0_25px_60px_rgba(59,30,84,0.2)] transition-all duration-700"
             >
               <img
                 src={project.imageUrl}
@@ -115,8 +119,13 @@ const Portfolio = () => {
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
-                <span className="text-accent text-xs font-bold tracking-widest uppercase mb-2 -translate-x-8 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
+              {/* Gradient overlay with glass info */}
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
+                {/* Decorative corner accents */}
+                <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-accent/40 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200" />
+                <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-accent/40 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200" />
+
+                <span className="inline-block w-fit bg-accent/20 backdrop-blur-md text-accent text-xs font-bold tracking-widest uppercase mb-3 px-3 py-1 rounded-full border border-accent/20 -translate-x-8 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
                   {project.category}
                 </span>
                 <h3 className="text-white text-2xl font-heading font-bold -translate-x-8 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 delay-75">

@@ -1,12 +1,39 @@
 import { Link } from 'react-router-dom';
-import { MessageCircle, Phone, Mail, MapPin } from 'lucide-react';
+import { MessageCircle, Phone, Mail, MapPin, ArrowUp } from 'lucide-react';
 import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
 import logo from '../../assets/B5_logo.png';
 
 const Footer = () => {
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 600);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <footer className="bg-primary-dark text-gray-200 pt-20">
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-12">
+    <footer className="relative text-gray-200 pt-20" style={{
+      background: 'linear-gradient(180deg, #1a0e2e 0%, #241235 100%)'
+    }}>
+      {/* Decorative Wave SVG Separator */}
+      <div className="absolute -top-[1px] left-0 right-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 60" className="w-full h-auto block" preserveAspectRatio="none">
+          <path fill="#241235" d="M0,30 C240,55 480,5 720,30 C960,55 1200,5 1440,30 L1440,60 L0,60 Z" />
+        </svg>
+      </div>
+
+      {/* Animated gold gradient top line */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent/40 to-transparent animate-gradient-shift" style={{ backgroundSize: '200% 100%' }} />
+
+      <div className="container mx-auto px-4 md:px-8 max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-12 relative z-10">
 
         {/* Brand & Socials */}
         <div className="lg:col-span-5">
@@ -14,27 +41,27 @@ const Footer = () => {
             <img
               src={logo}
               alt="B5 Eventory Logo"
-              className="h-16 w-16 md:h-20 md:w-20 object-contain rounded-2xl shadow-2xl border-2 border-white bg-white p-1"
+              className="h-16 w-16 md:h-20 md:w-20 object-contain rounded-2xl shadow-2xl border-2 border-white bg-white p-1 group-hover:shadow-[0_0_25px_rgba(200,158,98,0.3)] transition-all duration-500"
               width={80}
               height={80}
               loading="lazy"
             />
             <div>
-              <span className="block text-white font-bold text-2xl tracking-tighter font-body group-hover:text-accent transition-colors">B5 EVENTORY</span>
+              <span className="block text-white font-bold text-2xl tracking-tighter font-body group-hover:text-accent transition-colors duration-300">B5 EVENTORY</span>
               <p className="text-[0.6rem] tracking-[2px] text-accent uppercase m-0 mt-1 font-semibold">WHERE EVERY EVENT BECOMES A STORY</p>
             </div>
           </Link>
           <div className="flex gap-4">
-            <a href="https://www.facebook.com/profile.php?id=61590305528572" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-accent hover:border-accent hover:-translate-y-1 transition-all duration-300">
+            <a href="https://www.facebook.com/profile.php?id=61590305528572" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-[#1877F2] hover:border-[#1877F2] hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(24,119,242,0.3)] transition-all duration-300">
               <FaFacebook size={20} />
             </a>
-            <a href="https://www.instagram.com/bfive_eventory/" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-accent hover:border-accent hover:-translate-y-1 transition-all duration-300">
+            <a href="https://www.instagram.com/bfive_eventory/" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#e6683c] hover:to-[#bc1888] hover:border-transparent hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(225,48,108,0.3)] transition-all duration-300">
               <FaInstagram size={20} />
             </a>
-            <a href="movi062026@gmail.com" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-accent hover:border-accent hover:-translate-y-1 transition-all duration-300">
+            <a href="mailto:movi062026@gmail.com" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-accent hover:border-accent hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(200,158,98,0.3)] transition-all duration-300">
               <MessageCircle size={20} />
             </a>
-            <a href="https://www.youtube.com/@B5EVENTORY" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-accent hover:border-accent hover:-translate-y-1 transition-all duration-300">
+            <a href="https://www.youtube.com/@B5EVENTORY" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-[#FF0000] hover:border-[#FF0000] hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(255,0,0,0.3)] transition-all duration-300">
               <FaYoutube size={20} />
             </a>
           </div>
@@ -54,9 +81,9 @@ const Footer = () => {
               { name: 'Contact', path: '/contact' }
             ].map((link, i) => (
               <li key={i}>
-                <Link to={link.path} className="text-sm text-white/70 hover:text-accent relative group inline-block">
+                <Link to={link.path} className="text-sm text-white/60 hover:text-accent relative group inline-block transition-colors duration-300">
                   {link.name}
-                  <span className="absolute bottom-0 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-accent to-accent/50 transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
             ))}
@@ -76,9 +103,9 @@ const Footer = () => {
               { name: 'Exhibitions', path: '/gallery?filter=exhibition' }
             ].map((service, i) => (
               <li key={i}>
-                <Link to={service.path} className="text-sm text-white/70 hover:text-accent relative group inline-block">
+                <Link to={service.path} className="text-sm text-white/60 hover:text-accent relative group inline-block transition-colors duration-300">
                   {service.name}
-                  <span className="absolute bottom-0 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-accent to-accent/50 transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
             ))}
@@ -89,17 +116,17 @@ const Footer = () => {
         <div className="lg:col-span-3">
           <h3 className="font-body text-sm font-semibold tracking-[1px] text-white mb-6 uppercase">CONTACT US</h3>
           <ul className="flex flex-col gap-4">
-            <li className="flex items-start gap-3 text-sm text-white/70">
-              <Phone size={18} className="text-accent shrink-0 mt-0.5" />
-              <span>+91 9414644988</span>
+            <li className="flex items-start gap-3 text-sm text-white/60 group">
+              <Phone size={18} className="text-accent shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-300" />
+              <span className="group-hover:text-white/80 transition-colors duration-300">+91 9414644988</span>
             </li>
-            <li className="flex items-start gap-3 text-sm text-white/70">
-              <Mail size={18} className="text-accent shrink-0 mt-0.5" />
-              <span>B5eventory@gmail.com</span>
+            <li className="flex items-start gap-3 text-sm text-white/60 group">
+              <Mail size={18} className="text-accent shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-300" />
+              <span className="group-hover:text-white/80 transition-colors duration-300">B5eventory@gmail.com</span>
             </li>
-            <li className="flex items-start gap-3 text-sm text-white/70">
-              <MapPin size={18} className="text-accent shrink-0 mt-0.5" />
-              <span>Jaipur, Rajasthan</span>
+            <li className="flex items-start gap-3 text-sm text-white/60 group">
+              <MapPin size={18} className="text-accent shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-300" />
+              <span className="group-hover:text-white/80 transition-colors duration-300">Jaipur, Rajasthan</span>
             </li>
           </ul>
         </div>
@@ -107,11 +134,22 @@ const Footer = () => {
       </div>
 
       {/* Bottom Footer */}
-      <div className="border-t border-white/10 py-6 px-4 text-center text-sm text-white/50">
+      <div className="border-t border-white/8 py-6 px-4 text-center text-sm text-white/40 relative z-10">
         <p className="mb-3 md:mb-0 inline md:inline">&copy; {new Date().getFullYear()} B5 Eventory. All Rights Reserved.</p>
         <span className="hidden md:inline mx-4">|</span>
         <Link to="/admin/login" className="hover:text-accent transition-colors inline md:inline">Admin Login</Link>
       </div>
+
+      {/* Back to Top Button */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-24 lg:bottom-8 right-6 z-40 w-12 h-12 rounded-full bg-gradient-to-br from-accent to-[#d4ad6e] text-white flex items-center justify-center shadow-[0_8px_25px_rgba(200,158,98,0.35)] hover:shadow-[0_12px_35px_rgba(200,158,98,0.5)] hover:-translate-y-1 transition-all duration-500 ${
+          showBackToTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+        }`}
+        aria-label="Back to top"
+      >
+        <ArrowUp size={20} />
+      </button>
     </footer>
   );
 };

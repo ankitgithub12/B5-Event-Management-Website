@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 
 const CountUpNumber = ({ value }) => {
   const [count, setCount] = useState(0);
@@ -80,23 +81,31 @@ const StatsRibbon = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-50px" }}
-        className="bg-white rounded-2xl shadow-[0_20px_50px_rgba(41,26,57,0.12)] p-8 md:p-12 border border-gray-100"
+        className="glass-card-light rounded-3xl shadow-[0_20px_60px_rgba(41,26,57,0.12)] p-8 md:p-12 glow-accent relative overflow-hidden"
       >
+        {/* Decorative gradient accent line at top */}
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
+
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat, index) => (
             <motion.div 
               key={index} 
               variants={itemVariants}
-              className="text-center group relative"
+              className="text-center group relative cursor-default"
             >
-              <div className="text-3xl md:text-4xl font-heading font-bold text-primary mb-2 group-hover:text-accent transition-colors duration-300">
+              {/* Tiny sparkle icon */}
+              <div className="flex justify-center mb-2">
+                <Sparkles size={14} className="text-accent/40 group-hover:text-accent transition-colors duration-300" />
+              </div>
+              <div className="text-3xl md:text-4xl font-heading font-bold text-gradient-gold mb-2 group-hover:scale-105 transition-transform duration-300">
                 <CountUpNumber value={stat.number} />
               </div>
               <div className="text-sm md:text-base text-gray-500 font-medium uppercase tracking-wider">
                 {stat.label}
               </div>
+              {/* Animated gold divider line between stats */}
               {index !== stats.length - 1 && (
-                <div className="hidden lg:block absolute right-0 top-1/4 bottom-1/4 w-px bg-gray-100"></div>
+                <div className="hidden lg:block absolute right-0 top-1/4 bottom-1/4 w-px bg-gradient-to-b from-transparent via-accent/25 to-transparent"></div>
               )}
             </motion.div>
           ))}
