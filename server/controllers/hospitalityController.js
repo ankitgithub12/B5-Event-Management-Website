@@ -1,4 +1,5 @@
 import HospitalityService from '../models/HospitalityService.js';
+import { cloudinary } from '../config/cloudinaryConfig.js';
 
 // ─── GET /api/hospitality — public ─────────────────────────────────────────
 export const getHospitalityServices = async (req, res) => {
@@ -15,6 +16,13 @@ export const getHospitalityServices = async (req, res) => {
 export const createHospitalityService = async (req, res) => {
   try {
     const { title, description, responsibilities, staff, icon, order, isActive } = req.body;
+    let imageUrl = '';
+    let cloudinaryId = '';
+
+    if (req.file) {
+      imageUrl = req.file.path;
+      cloudinaryId = req.file.filename;
+    }
 
     const service = new HospitalityService({
       title,
@@ -24,6 +32,8 @@ export const createHospitalityService = async (req, res) => {
       icon: icon || 'Users',
       order: order ?? (await HospitalityService.countDocuments()),
       isActive: isActive !== undefined ? isActive : true,
+      image: imageUrl,
+      cloudinaryId,
     });
 
     const created = await service.save();
@@ -49,6 +59,15 @@ export const updateHospitalityService = async (req, res) => {
     if (order !== undefined) service.order = order;
     if (isActive !== undefined) service.isActive = isActive;
 
+    if (req.file) {
+      // Remove old image from Cloudinary
+      if (service.cloudinaryId) {
+        await cloudinary.uploader.destroy(service.cloudinaryId);
+      }
+      service.image = req.file.path;
+      service.cloudinaryId = req.file.filename;
+    }
+
     const updated = await service.save();
     res.json(updated);
   } catch (error) {
@@ -61,6 +80,12 @@ export const deleteHospitalityService = async (req, res) => {
   try {
     const service = await HospitalityService.findById(req.params.id);
     if (!service) return res.status(404).json({ message: 'Service not found' });
+    
+    // Remove image from Cloudinary if exists
+    if (service.cloudinaryId) {
+      await cloudinary.uploader.destroy(service.cloudinaryId);
+    }
+    
     await service.deleteOne();
     res.json({ message: 'Service deleted' });
   } catch (error) {

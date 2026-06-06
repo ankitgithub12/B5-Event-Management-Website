@@ -31,6 +31,14 @@ const hospitalityServiceSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  image: {
+    type: String,
+    default: '',
+  },
+  cloudinaryId: {
+    type: String,
+    default: '',
+  },
 }, {
   timestamps: true,
 });

@@ -118,14 +118,25 @@ const HospitalityPage = () => {
                     key={role._id}
                     className={`flex flex-col ${index % 2 !== 0 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-10 items-center bg-white rounded-[3rem] p-6 shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-500`}
                   >
-                    {/* Icon Panel */}
+                    {/* Icon/Image Panel */}
                     <div className="w-full lg:w-1/2 h-64 lg:h-[360px] rounded-[2rem] overflow-hidden relative bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center group">
-                      <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-500" />
+                      {role.image ? (
+                        <>
+                          <img
+                            src={role.image}
+                            alt={role.title}
+                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-primary-dark/30 group-hover:bg-primary-dark/20 transition-colors duration-500" />
+                        </>
+                      ) : (
+                        <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-500" />
+                      )}
                       <div className="relative z-10 flex flex-col items-center gap-4 text-white/90">
-                        <div className="w-24 h-24 rounded-2xl bg-accent/20 border border-accent/30 flex items-center justify-center">
+                        <div className="w-24 h-24 rounded-2xl bg-accent/20 border border-accent/30 backdrop-blur-sm flex items-center justify-center">
                           <IconComponent size={48} className="text-accent" />
                         </div>
-                        <span className="text-accent font-bold text-lg tracking-wider uppercase font-body">
+                        <span className="text-accent font-bold text-lg tracking-wider uppercase font-body bg-primary-dark/40 px-4 py-1.5 rounded-full border border-white/10 backdrop-blur-sm">
                           {String(index + 1).padStart(2, '0')}
                         </span>
                       </div>

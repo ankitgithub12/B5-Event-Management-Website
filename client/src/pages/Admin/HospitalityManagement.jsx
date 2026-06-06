@@ -23,6 +23,9 @@ const HospitalityManagement = () => {
   const [formError, setFormError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
 
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
+
   const emptyForm = {
     title: '',
     description: '',
@@ -55,6 +58,8 @@ const HospitalityManagement = () => {
     setIsEditing(false);
     setEditingId(null);
     setFormData({ ...emptyForm, order: services.length });
+    setImageFile(null);
+    setImagePreview('');
     setFormError('');
     setShowModal(true);
   };
@@ -71,8 +76,27 @@ const HospitalityManagement = () => {
       order: svc.order ?? 0,
       isActive: svc.isActive,
     });
+    setImageFile(null);
+    setImagePreview(svc.image || '');
     setFormError('');
     setShowModal(true);
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        setFormError('Only image files are supported.');
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        setFormError('File size exceeds the 5MB limit.');
+        return;
+      }
+      setFormError('');
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
   };
 
   // ── Submit ─────────────────────────────────────────────────────────────────
@@ -81,15 +105,27 @@ const HospitalityManagement = () => {
     setFormLoading(true);
     setFormError('');
     try {
-      const payload = {
-        ...formData,
-        responsibilities: formData.responsibilities,
-        staff: formData.staff,
-      };
+      const uploadData = new FormData();
+      uploadData.append('title', formData.title);
+      uploadData.append('description', formData.description);
+      uploadData.append('responsibilities', formData.responsibilities);
+      uploadData.append('staff', formData.staff);
+      uploadData.append('icon', formData.icon);
+      uploadData.append('order', formData.order);
+      uploadData.append('isActive', formData.isActive);
+
+      if (imageFile) {
+        uploadData.append('image', imageFile);
+      }
+
       if (isEditing) {
-        await api.put(`/hospitality/${editingId}`, payload);
+        await api.put(`/hospitality/${editingId}`, uploadData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
       } else {
-        await api.post('/hospitality', payload);
+        await api.post('/hospitality', uploadData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
       }
       setShowModal(false);
       setSuccessMsg(isEditing ? 'Service updated successfully!' : 'Service added successfully!');
@@ -204,6 +240,7 @@ const HospitalityManagement = () => {
               <tr>
                 <th className="py-3 px-5 text-xs font-bold text-gray-500 uppercase tracking-wider w-16">Order</th>
                 <th className="py-3 px-5 text-xs font-bold text-gray-500 uppercase tracking-wider">Icon</th>
+                <th className="py-3 px-5 text-xs font-bold text-gray-500 uppercase tracking-wider">Image</th>
                 <th className="py-3 px-5 text-xs font-bold text-gray-500 uppercase tracking-wider">Title</th>
                 <th className="py-3 px-5 text-xs font-bold text-gray-500 uppercase tracking-wider hidden md:table-cell">Responsibilities</th>
                 <th className="py-3 px-5 text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
@@ -239,6 +276,19 @@ const HospitalityManagement = () => {
                     <span className="inline-block bg-accent/10 text-accent text-xs font-bold px-2.5 py-1 rounded-lg">
                       {svc.icon || 'Users'}
                     </span>
+                  </td>
+
+                  {/* Image */}
+                  <td className="py-3 px-5">
+                    {svc.image ? (
+                      <img
+                        src={svc.image}
+                        alt={svc.title}
+                        className="w-12 h-8 rounded object-cover border border-gray-100"
+                      />
+                    ) : (
+                      <span className="text-xs text-gray-400 italic">No image</span>
+                    )}
                   </td>
 
                   {/* Title */}
@@ -415,6 +465,29 @@ const HospitalityManagement = () => {
                     <option value="false">Hidden (Draft)</option>
                   </select>
                 </div>
+              </div>
+
+              {/* Image upload */}
+              <div>
+                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Hospitality Image (Optional)</label>
+                <div className="flex items-center gap-4 mt-1">
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="w-16 h-10 rounded object-cover border border-accent/25"
+                    />
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-white hover:file:bg-primary-light cursor-pointer"
+                  />
+                </div>
+                <p className="text-[10px] text-gray-400 mt-1 ml-1">
+                  Supports JPG, PNG, WEBP. If not uploaded, the card will display a solid gradient.
+                </p>
               </div>
 
               <button
