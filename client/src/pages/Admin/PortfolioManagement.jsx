@@ -122,7 +122,8 @@ const PortfolioManagement = () => {
     { value: 'corporate', label: 'Corporate' },
     { value: 'college', label: 'College' },
     { value: 'party', label: 'Parties' },
-    { value: 'product', label: 'Product Launches' }
+    { value: 'product', label: 'Product Launches' },
+    { value: 'exhibition', label: 'Exhibitions' }
   ];
 
   const filteredItems = projects.filter((item) => {

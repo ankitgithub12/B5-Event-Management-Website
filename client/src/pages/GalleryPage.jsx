@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { io } from 'socket.io-client';
+import { useSearchParams } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar';
 import SEO from '../components/SEO';
 import Footer from '../components/Footer/Footer';
@@ -19,13 +20,22 @@ const spanClasses = [
   'col-span-1 md:col-span-3 row-span-2',
 ];
 
-
-
 const GalleryPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const filter = searchParams.get('filter') || 'all';
+
+  const setFilter = (newFilter) => {
+    if (newFilter === 'all') {
+      searchParams.delete('filter');
+    } else {
+      searchParams.set('filter', newFilter);
+    }
+    setSearchParams(searchParams);
+  };
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('all');
   const [toast, setToast] = useState('');
 
   const showToast = (msg) => {

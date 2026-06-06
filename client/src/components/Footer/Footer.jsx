@@ -54,17 +54,10 @@ const Footer = () => {
               { name: 'Contact', path: '/contact' }
             ].map((link, i) => (
               <li key={i}>
-                {link.path.includes('#') ? (
-                  <a href={link.path} className="text-sm text-white/70 hover:text-accent relative group inline-block">
-                    {link.name}
-                    <span className="absolute bottom-0 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full"></span>
-                  </a>
-                ) : (
-                  <Link to={link.path} className="text-sm text-white/70 hover:text-accent relative group inline-block">
-                    {link.name}
-                    <span className="absolute bottom-0 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full"></span>
-                  </Link>
-                )}
+                <Link to={link.path} className="text-sm text-white/70 hover:text-accent relative group inline-block">
+                  {link.name}
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full"></span>
+                </Link>
               </li>
             ))}
           </ul>
@@ -74,12 +67,19 @@ const Footer = () => {
         <div className="lg:col-span-2">
           <h3 className="font-body text-sm font-semibold tracking-[1px] text-white mb-6 uppercase">OUR SERVICES</h3>
           <ul className="flex flex-col gap-3">
-            {['College Events', 'Corporate Events', 'Private Parties', 'Weddings', 'Product Launches', 'Exhibitions'].map((service, i) => (
+            {[
+              { name: 'College Events', path: '/portfolio?filter=college' },
+              { name: 'Corporate Events', path: '/portfolio?filter=corporate' },
+              { name: 'Private Parties', path: '/portfolio?filter=party' },
+              { name: 'Weddings', path: '/portfolio?filter=wedding' },
+              { name: 'Product Launches', path: '/portfolio?filter=product' },
+              { name: 'Exhibitions', path: '/gallery?filter=exhibition' }
+            ].map((service, i) => (
               <li key={i}>
-                <a href="/#services" className="text-sm text-white/70 hover:text-accent relative group inline-block">
-                  {service}
+                <Link to={service.path} className="text-sm text-white/70 hover:text-accent relative group inline-block">
+                  {service.name}
                   <span className="absolute bottom-0 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

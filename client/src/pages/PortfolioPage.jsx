@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar';
 import SEO from '../components/SEO';
 import Footer from '../components/Footer/Footer';
@@ -10,7 +10,18 @@ import api from '../utils/api';
 import { io } from 'socket.io-client';
 
 const PortfolioPage = () => {
-  const [filter, setFilter] = useState('all');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const filter = searchParams.get('filter') || 'all';
+
+  const setFilter = (newFilter) => {
+    if (newFilter === 'all') {
+      searchParams.delete('filter');
+    } else {
+      searchParams.set('filter', newFilter);
+    }
+    setSearchParams(searchParams);
+  };
+
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -44,6 +55,7 @@ const PortfolioPage = () => {
     { id: 'college', name: 'College' },
     { id: 'party', name: 'Parties' },
     { id: 'product', name: 'Product Launches' },
+    { id: 'exhibition', name: 'Exhibitions' },
   ];
 
   const filteredProjects = filter === 'all' 
