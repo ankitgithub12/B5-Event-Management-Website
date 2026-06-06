@@ -22,7 +22,6 @@ const ServicesManagement = () => {
     isActive: true,
     includes: '',
     popularAddOn: '',
-    pastEvent: '',
   });
   const [imageFile, setImageFile] = useState(null);
   
@@ -56,7 +55,6 @@ const ServicesManagement = () => {
       isActive: true,
       includes: '',
       popularAddOn: '',
-      pastEvent: ''
     });
     setImageFile(null);
     setFormError('');
@@ -73,7 +71,6 @@ const ServicesManagement = () => {
       isActive: service.isActive,
       includes: service.includes ? service.includes.join(', ') : '',
       popularAddOn: service.popularAddOn || '',
-      pastEvent: service.pastEvent || '',
     });
     setImageFile(null);
     setFormError('');
@@ -93,7 +90,6 @@ const ServicesManagement = () => {
     uploadData.append('isActive', formData.isActive);
     uploadData.append('includes', formData.includes);
     uploadData.append('popularAddOn', formData.popularAddOn);
-    uploadData.append('pastEvent', formData.pastEvent);
     if (imageFile) {
       uploadData.append('image', imageFile);
     }
@@ -365,16 +361,7 @@ const ServicesManagement = () => {
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Past Event Example</label>
-                <input 
-                  type="text" 
-                  placeholder="e.g. Anjali & Rohit – Udaipur Wedding (Premium)"
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
-                  value={formData.pastEvent}
-                  onChange={(e) => setFormData({...formData, pastEvent: e.target.value})}
-                />
-              </div>
+
 
               <div>
                 <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Cover Image</label>

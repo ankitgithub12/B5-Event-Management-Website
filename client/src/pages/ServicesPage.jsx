@@ -197,17 +197,7 @@ const ServicesPage = () => {
                         </div>
                       )}
 
-                      {service.pastEvent && (
-                        <div className="border-t border-gray-100 pt-4">
-                          <h4 className="text-xs uppercase tracking-wider text-gray-400 font-bold mb-2 flex items-center gap-2">
-                            <Star size={14} className="text-yellow-500 fill-yellow-500" />
-                            Past Event Example
-                          </h4>
-                          <p className="text-xs text-gray-600 italic font-medium border-l-2 border-accent pl-2 py-1">
-                            "{service.pastEvent}"
-                          </p>
-                        </div>
-                      )}
+
                     </div>
 
                     <Link to="/packages" className="w-full bg-primary text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 group-hover:bg-accent transition-colors duration-300 cursor-pointer">

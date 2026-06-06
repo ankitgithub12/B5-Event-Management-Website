@@ -222,7 +222,6 @@ const connectDB = async () => {
           cloudinaryId: 'seeded_service_wedding',
           includes: ['Venue booking', 'Catering', 'Decor', 'Makeup', 'Entertainment', 'Transport'],
           popularAddOn: 'Drone cinematography',
-          pastEvent: 'Anjali & Rohit – Udaipur Wedding (Premium Package)',
           isActive: true
         },
         {
@@ -233,7 +232,6 @@ const connectDB = async () => {
           cloudinaryId: 'seeded_service_prewedding',
           includes: ['Photographer', 'HD photos', 'Drone (optional)', 'Album design'],
           popularAddOn: 'Behind-the-scenes reel',
-          pastEvent: 'Neha & Vikram – Jaipur Pre-Wedding (Drone included)',
           isActive: true
         },
         {
@@ -244,7 +242,6 @@ const connectDB = async () => {
           cloudinaryId: 'seeded_service_engagement',
           includes: ['Venue', 'Photography', 'Catering', 'Decor', 'Return gifts'],
           popularAddOn: 'Surprise proposal coordination',
-          pastEvent: 'Priya & Karan – Surprise Rooftop Proposal',
           isActive: true
         },
         {
@@ -255,7 +252,6 @@ const connectDB = async () => {
           cloudinaryId: 'seeded_service_corporate',
           includes: ['AV setup', 'Stage design', 'Catering', 'Guest management', 'Branding'],
           popularAddOn: 'Celebrity speaker booking',
-          pastEvent: 'TechCorp Annual Gala – 800 guests',
           isActive: true
         },
         {
@@ -266,7 +262,6 @@ const connectDB = async () => {
           cloudinaryId: 'seeded_service_small',
           includes: ['Theme decor', 'Cake', 'Photography', 'Return gifts', 'Entertainment'],
           popularAddOn: 'Themed Photo Booth',
-          pastEvent: "Rohan's 1st Birthday – Jungle Theme (45 guests, ₹3.2L)",
           isActive: true
         }
       ];

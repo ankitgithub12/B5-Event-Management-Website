@@ -29,9 +29,6 @@ const serviceSchema = new mongoose.Schema({
   popularAddOn: {
     type: String,
   },
-  pastEvent: {
-    type: String,
-  },
 }, {
   timestamps: true,
 });

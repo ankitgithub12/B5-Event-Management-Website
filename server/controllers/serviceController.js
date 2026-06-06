@@ -12,7 +12,7 @@ export const getServices = async (req, res) => {
 
 export const createService = async (req, res) => {
   try {
-    const { title, description, priceRange, isActive, includes, popularAddOn, pastEvent } = req.body;
+    const { title, description, priceRange, isActive, includes, popularAddOn } = req.body;
     let imageUrl = '';
     let cloudinaryId = '';
 
@@ -43,7 +43,6 @@ export const createService = async (req, res) => {
       cloudinaryId,
       includes: parsedIncludes,
       popularAddOn,
-      pastEvent,
     });
 
     const createdService = await service.save();
@@ -62,7 +61,7 @@ export const createService = async (req, res) => {
 
 export const updateService = async (req, res) => {
   try {
-    const { title, description, priceRange, isActive, includes, popularAddOn, pastEvent } = req.body;
+    const { title, description, priceRange, isActive, includes, popularAddOn } = req.body;
     const service = await Service.findById(req.params.id);
 
     if (service) {
@@ -70,7 +69,6 @@ export const updateService = async (req, res) => {
       service.description = description || service.description;
       service.priceRange = priceRange !== undefined ? priceRange : service.priceRange;
       service.popularAddOn = popularAddOn !== undefined ? popularAddOn : service.popularAddOn;
-      service.pastEvent = pastEvent !== undefined ? pastEvent : service.pastEvent;
       
       if (isActive !== undefined) {
         service.isActive = isActive === 'true' || isActive === true;
