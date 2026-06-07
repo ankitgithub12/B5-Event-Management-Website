@@ -20,7 +20,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative text-gray-200 pt-20" style={{
+    <footer className="relative text-gray-200 pt-12 md:pt-20" style={{
       background: 'linear-gradient(180deg, #1a0e2e 0%, #241235 100%)'
     }}>
       {/* Decorative Wave SVG Separator */}
@@ -33,25 +33,25 @@ const Footer = () => {
       {/* Animated gold gradient top line */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent/40 to-transparent animate-gradient-shift" style={{ backgroundSize: '200% 100%' }} />
 
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-12 relative z-10">
+      <div className="container mx-auto px-4 md:px-8 max-w-7xl grid grid-cols-2 md:grid-cols-2 lg:grid-cols-12 gap-6 md:gap-12 mb-8 md:mb-12 relative z-10">
 
         {/* Brand & Socials */}
-        <div className="lg:col-span-5">
-          <Link to="/" className="flex items-center gap-4 mb-6 group">
+        <div className="col-span-2 lg:col-span-5">
+          <Link to="/" className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6 group">
             <img
               src={logo}
               alt="B5 Eventory Logo"
-              className="h-16 w-16 md:h-20 md:w-20 object-contain rounded-2xl shadow-2xl border-2 border-white bg-white p-1 group-hover:shadow-[0_0_25px_rgba(200,158,98,0.3)] transition-all duration-500"
+              className="h-12 w-12 md:h-20 md:w-20 object-contain rounded-2xl shadow-2xl border-2 border-white bg-white p-1 group-hover:shadow-[0_0_25px_rgba(200,158,98,0.3)] transition-all duration-500"
               width={80}
               height={80}
               loading="lazy"
             />
             <div>
-              <span className="block text-white font-bold text-2xl tracking-tighter font-body group-hover:text-accent transition-colors duration-300">B5 EVENTORY</span>
-              <p className="text-[0.6rem] tracking-[2px] text-accent uppercase m-0 mt-1 font-semibold">WHERE EVERY EVENT BECOMES A STORY</p>
+              <span className="block text-white font-bold text-lg md:text-2xl tracking-tighter font-body group-hover:text-accent transition-colors duration-300">B5 EVENTORY</span>
+              <p className="text-[0.5rem] md:text-[0.6rem] tracking-[1.5px] md:tracking-[2px] text-accent uppercase m-0 mt-1 font-semibold">WHERE EVERY EVENT BECOMES A STORY</p>
             </div>
           </Link>
-          <div className="flex gap-4">
+          <div className="flex gap-3 md:gap-4">
             <a href="https://www.facebook.com/profile.php?id=61590305528572" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-[#1877F2] hover:border-[#1877F2] hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(24,119,242,0.3)] transition-all duration-300">
               <FaFacebook size={20} />
             </a>
@@ -68,9 +68,9 @@ const Footer = () => {
         </div>
 
         {/* Quick Links */}
-        <div className="lg:col-span-2">
-          <h3 className="font-body text-sm font-semibold tracking-[1px] text-white mb-6 uppercase">QUICK LINKS</h3>
-          <ul className="flex flex-col gap-3">
+        <div className="col-span-1 lg:col-span-2">
+          <h3 className="font-body text-sm font-semibold tracking-[1px] text-white mb-3 md:mb-6 uppercase">QUICK LINKS</h3>
+          <ul className="flex flex-col gap-2 md:gap-3">
             {[
               { name: 'Home', path: '/' },
               { name: 'Services', path: '/services' },
@@ -91,9 +91,9 @@ const Footer = () => {
         </div>
 
         {/* Our Services */}
-        <div className="lg:col-span-2">
-          <h3 className="font-body text-sm font-semibold tracking-[1px] text-white mb-6 uppercase">OUR SERVICES</h3>
-          <ul className="flex flex-col gap-3">
+        <div className="col-span-1 lg:col-span-2">
+          <h3 className="font-body text-sm font-semibold tracking-[1px] text-white mb-3 md:mb-6 uppercase">OUR SERVICES</h3>
+          <ul className="flex flex-col gap-2 md:gap-3">
             {[
               { name: 'College Events', path: '/portfolio?filter=college' },
               { name: 'Corporate Events', path: '/portfolio?filter=corporate' },
@@ -113,9 +113,9 @@ const Footer = () => {
         </div>
 
         {/* Contact Us */}
-        <div className="lg:col-span-3">
-          <h3 className="font-body text-sm font-semibold tracking-[1px] text-white mb-6 uppercase">CONTACT US</h3>
-          <ul className="flex flex-col gap-4">
+        <div className="col-span-2 lg:col-span-3">
+          <h3 className="font-body text-sm font-semibold tracking-[1px] text-white mb-3 md:mb-6 uppercase">CONTACT US</h3>
+          <ul className="flex flex-col gap-3 md:gap-4">
             <li className="flex items-start gap-3 text-sm text-white/60 group">
               <Phone size={18} className="text-accent shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-300" />
               <span className="group-hover:text-white/80 transition-colors duration-300">+91 9414644988</span>
@@ -134,7 +134,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Footer */}
-      <div className="border-t border-white/8 py-6 px-4 text-center text-sm text-white/40 relative z-10">
+      <div className="border-t border-white/8 py-4 md:py-6 px-4 text-center text-xs md:text-sm text-white/40 relative z-10">
         <p className="mb-3 md:mb-0 inline md:inline">&copy; {new Date().getFullYear()} B5 Eventory. All Rights Reserved.</p>
         <span className="hidden md:inline mx-4">|</span>
         <Link to="/admin/login" className="hover:text-accent transition-colors inline md:inline">Admin Login</Link>

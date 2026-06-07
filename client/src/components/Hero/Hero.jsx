@@ -37,7 +37,7 @@ const Hero = () => {
         _id: 'default-lcp-slide',
       }
     ],
-    badgeText: '✨ WE DESIGN. YOU CELEBRATE.',
+    badgeText: ' WE DESIGN. YOU CELEBRATE.',
     title: 'Where Every <br />Event Becomes a <span class="text-accent italic font-serif">Story</span>',
     subtitle: 'Weddings • Engagements • Birthdays • Anniversaries • Corporate Events',
     ctaPrimaryText: 'Start Planning',

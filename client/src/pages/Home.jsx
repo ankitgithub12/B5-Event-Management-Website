@@ -12,7 +12,7 @@ import TeamSection from '../components/TeamSection/TeamSection';
 import Testimonials from '../components/Testimonials/Testimonials';
 import FaqSection from '../components/FaqSection/FaqSection';
 
-import ContactForm from '../components/ContactForm/ContactForm';
+import EventCTA from '../components/EventCTA/EventCTA';
 import Footer from '../components/Footer/Footer';
 
 const Home = () => {
@@ -53,7 +53,7 @@ const Home = () => {
         <Testimonials />
         <FaqSection />
 
-        <ContactForm />
+        <EventCTA />
       </main>
       <Footer />
     </div>
