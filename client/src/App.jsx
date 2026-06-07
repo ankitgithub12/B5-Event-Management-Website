@@ -15,6 +15,7 @@ const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
 const GalleryPage = lazy(() => import('./pages/GalleryPage'));
 const HospitalityPage = lazy(() => import('./pages/HospitalityPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
+const BrochurePage = lazy(() => import('./pages/BrochurePage'));
 const AdminLogin = lazy(() => import('./pages/Admin/AdminLogin'));
 
 // Lazy load admin pages
@@ -58,6 +59,7 @@ function App() {
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/hospitality" element={<HospitalityPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/brochure" element={<BrochurePage />} />
           <Route path="/admin/login" element={<AdminLogin />} />
 
           {/* Admin Routes wrapped in ProtectedRoute */}

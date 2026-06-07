@@ -85,15 +85,15 @@ const HospitalityPage = () => {
       />
       <Navbar />
 
-      <main className="flex-grow pt-32 pb-20">
+      <main className="flex-grow pt-24 md:pt-32 pb-16 md:pb-20">
         {/* Page Header */}
-        <div className="container mx-auto px-4 max-w-7xl mb-20 text-center">
+        <div className="container mx-auto px-4 max-w-7xl mb-10 md:mb-20 text-center">
           <div className="flex items-center justify-center gap-2 text-accent font-semibold text-sm tracking-[2px] uppercase mb-4">
             <span className="w-8 h-px bg-accent"></span>
             HOSPITALITY & CREW
             <span className="w-8 h-px bg-accent"></span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-heading text-primary mb-6">Core Hospitality Services</h1>
+          <h1 className="text-3xl md:text-6xl font-heading text-primary mb-6">Core Hospitality Services</h1>
           <p className="text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed">
             Behind every extraordinary event is an army of dedicated professionals. Discover the specialized teams that work tirelessly to make your vision a reality.
           </p>
@@ -116,10 +116,10 @@ const HospitalityPage = () => {
                 return (
                   <div
                     key={role._id}
-                    className={`flex flex-col ${index % 2 !== 0 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-10 items-center bg-white rounded-[3rem] p-6 shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-500`}
+                    className={`flex flex-col ${index % 2 !== 0 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-6 md:gap-10 items-center bg-white rounded-2xl md:rounded-[3rem] p-6 shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-500`}
                   >
                     {/* Icon/Image Panel */}
-                    <div className="w-full lg:w-1/2 h-64 lg:h-[360px] rounded-[2rem] overflow-hidden relative bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center group">
+                    <div className="w-full lg:w-1/2 h-64 lg:h-[360px] rounded-2xl md:rounded-[2rem] overflow-hidden relative bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center group">
                       {role.image ? (
                         <>
                           <img
@@ -187,13 +187,13 @@ const HospitalityPage = () => {
         </div>
 
         {/* Additional Services */}
-        <div className="bg-primary py-24 mb-24 relative overflow-hidden">
+        <div className="bg-primary py-12 md:py-24 mb-12 md:mb-24 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 
           <div className="container mx-auto px-4 max-w-7xl relative z-10">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-heading text-white mb-6">Additional Hospitality Services</h2>
+              <h2 className="text-3xl md:text-5xl font-heading text-white mb-6">Additional Hospitality Services</h2>
               <p className="text-white/70 max-w-2xl mx-auto text-lg">
                 Going above and beyond to provide exceptional experiences and flawless execution.
               </p>
@@ -201,7 +201,7 @@ const HospitalityPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {additionalServices.map((service, index) => (
-                <div key={index} className="bg-white/5 border border-white/10 rounded-[2rem] p-8 backdrop-blur-sm hover:bg-white/10 transition-colors duration-300">
+                <div key={index} className="bg-white/5 border border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 backdrop-blur-sm hover:bg-white/10 transition-colors duration-300">
                   {service.icon}
                   <h3 className="text-2xl font-heading text-white mb-3">{service.title}</h3>
                   <p className="text-white/70 mb-6">{service.desc}</p>
@@ -221,9 +221,9 @@ const HospitalityPage = () => {
 
         {/* Departments & Structure */}
         <div className="container mx-auto px-4 max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="bg-white rounded-[3rem] p-8 md:p-12 shadow-xl border border-gray-100">
-              <h3 className="text-3xl font-heading text-primary mb-8">Departments Usually Found in Large Events</h3>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
+            <div className="bg-white rounded-2xl md:rounded-[3rem] p-6 md:p-12 shadow-xl border border-gray-100">
+              <h3 className="text-2xl md:text-3xl font-heading text-primary mb-6">Departments Usually Found in Large Events</h3>
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
@@ -246,7 +246,7 @@ const HospitalityPage = () => {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-primary to-primary/90 rounded-[3rem] p-8 md:p-12 shadow-xl text-white relative overflow-hidden">
+            <div className="bg-gradient-to-br from-primary to-primary/90 rounded-2xl md:rounded-[3rem] p-6 md:p-12 shadow-xl text-white relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3"></div>
               <div className="relative z-10">
                 <div className="flex items-center gap-4 mb-8">
@@ -274,8 +274,8 @@ const HospitalityPage = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="container mx-auto px-4 max-w-7xl mt-24">
-          <div className="bg-primary rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
+        <div className="container mx-auto px-4 max-w-7xl mt-12 md:mt-24">
+          <div className="bg-primary rounded-2xl md:rounded-[3rem] p-6 md:p-20 text-center relative overflow-hidden">
             <div className="absolute top-0 left-0 w-64 h-64 bg-accent/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/5 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl"></div>
             <h2 className="text-3xl md:text-5xl font-heading text-white mb-6 relative z-10">Want Our Team for Your Next Event?</h2>

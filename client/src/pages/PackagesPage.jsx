@@ -169,7 +169,7 @@ const PackagesPage = () => {
               PRICING PLANS
               <span className="w-8 h-px bg-[#C5A06B]"></span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-serif text-primary mb-6">Curated Event Packages</h1>
+            <h1 className="text-3xl md:text-5xl font-serif text-primary mb-6">Curated Event Packages</h1>
             <p className="text-gray-600 max-w-2xl mx-auto italic text-lg">
               Transparent pricing with clearly defined inclusions. Select a package that fits your vision.
             </p>
@@ -192,7 +192,7 @@ const PackagesPage = () => {
                 return (
                   <div 
                     key={pkg._id} 
-                    className={`rounded-[2rem] p-10 border-2 flex flex-col transition-all duration-500 hover:-translate-y-2 relative ${styles.color}`}
+                    className={`rounded-[2rem] p-6 md:p-10 border-2 flex flex-col transition-all duration-500 hover:-translate-y-2 relative ${styles.color}`}
                   >
                     {pkg.popular && (
                       <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#C5A06B] text-white px-6 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase shadow-lg">
@@ -237,7 +237,7 @@ const PackagesPage = () => {
           )}
 
           {/* Comparison Table Section */}
-          <div className="mt-32">
+          <div className="mt-16 md:mt-32">
             <div 
               className="flex items-center justify-between bg-white p-8 rounded-3xl shadow-sm border border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors"
               onClick={() => setIsTableExpanded(!isTableExpanded)}
@@ -282,9 +282,9 @@ const PackagesPage = () => {
           </div>
 
           {/* Ala-Carte Add-ons - UNIQUE SECTION */}
-          <div className="mt-32">
+          <div className="mt-16 md:mt-32">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-serif text-primary mb-4">Elevate Your Event</h2>
+              <h2 className="text-3xl md:text-4xl font-serif text-primary mb-4">Elevate Your Event</h2>
               <p className="text-gray-500 italic">Personalize your package with these signature add-on services.</p>
             </div>
             
@@ -317,9 +317,9 @@ const PackagesPage = () => {
           </div>
 
           {/* FAQ Section */}
-          <div className="mt-32">
+          <div className="mt-16 md:mt-32">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-serif text-primary mb-4">Frequently Asked Questions</h2>
+              <h2 className="text-3xl md:text-4xl font-serif text-primary mb-4">Frequently Asked Questions</h2>
               <p className="text-gray-500 italic">Common queries about our booking process and services.</p>
             </div>
             
@@ -355,21 +355,23 @@ const PackagesPage = () => {
             </div>
           </div>
 
-          <div className="mt-20 text-center bg-primary rounded-[3rem] p-12 md:p-20 relative overflow-hidden">
+          <div className="mt-12 md:mt-20 text-center bg-primary rounded-[2rem] md:rounded-[3rem] p-6 md:p-20 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A06B]/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
-            <h2 className="text-4xl font-serif text-white mb-6 relative z-10">Still Unsure?</h2>
+            <h2 className="text-3xl md:text-4xl font-serif text-white mb-6 relative z-10">Still Unsure?</h2>
             <p className="text-white/70 mb-10 max-w-xl mx-auto text-lg relative z-10">
               Our event experts are here to help you choose the perfect plan. Or try our custom planner to build a package from scratch.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
-              <a href="/contact" className="bg-[#C5A06B] text-white px-10 py-4 rounded-full font-bold text-base hover:bg-white hover:text-primary transition-colors shadow-lg flex items-center justify-center">Talk to an Expert</a>
-              <button 
-                onClick={handleDownloadBrochure}
-                className="border-2 border-white/30 text-white hover:bg-white/10 px-10 py-4 rounded-full font-bold text-base transition-colors flex items-center justify-center gap-2 cursor-pointer bg-transparent"
+              <a href="/contact" className="bg-[#C5A06B] text-white px-10 py-4 rounded-full font-bold text-base hover:bg-white hover:text-primary transition-colors shadow-lg flex items-center justify-center text-center">Talk to an Expert</a>
+              <a 
+                href="/brochure"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border-2 border-white/30 text-white hover:bg-white/10 px-10 py-4 rounded-full font-bold text-base transition-colors flex items-center justify-center gap-2 cursor-pointer bg-transparent text-center"
               >
                 <FileText size={18} /> Download Pricing Brochure
-              </button>
-              <a href="/planner" className="border-2 border-white/30 text-white hover:bg-white/10 px-10 py-4 rounded-full font-bold text-base transition-colors flex items-center justify-center">Use Custom Planner</a>
+              </a>
+              <a href="/planner" className="border-2 border-white/30 text-white hover:bg-white/10 px-10 py-4 rounded-full font-bold text-base transition-colors flex items-center justify-center text-center">Use Custom Planner</a>
             </div>
           </div>
 

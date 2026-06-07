@@ -84,11 +84,11 @@ const CustomPlanner = () => {
       />
       <Navbar />
 
-      <main className="flex-grow pt-32 pb-20">
+      <main className="flex-grow pt-24 md:pt-32 pb-16 md:pb-20">
         <div className="container mx-auto px-4 max-w-7xl">
 
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-heading text-primary mb-4">Custom Event Planner</h1>
+          <div className="text-center mb-10 md:mb-16">
+            <h1 className="text-3xl md:text-5xl font-heading text-primary mb-4">Custom Event Planner</h1>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Select your requirements below to get an instant cost estimation and package suggestion for your event.
             </p>
@@ -97,7 +97,7 @@ const CustomPlanner = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
             {/* Form Section */}
-            <div className="lg:col-span-8 bg-white rounded-3xl p-8 shadow-[0_10px_40px_rgba(41,26,57,0.05)] border border-gray-100">
+            <div className="lg:col-span-8 bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-[0_10px_40px_rgba(41,26,57,0.05)] border border-gray-100">
               <form onSubmit={calculateEstimate}>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -172,7 +172,7 @@ const CustomPlanner = () => {
 
             {/* Results Section */}
             <div className="lg:col-span-4">
-              <div className="bg-primary-dark text-white rounded-3xl p-8 sticky top-32 shadow-2xl">
+              <div className="bg-primary-dark text-white rounded-2xl md:rounded-3xl p-6 md:p-8 sticky top-32 shadow-2xl">
                 <h3 className="text-xl font-heading mb-6 border-b border-white/10 pb-4">Estimation Dashboard</h3>
 
                 {estimate ? (

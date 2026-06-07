@@ -110,16 +110,16 @@ const ServicesPage = () => {
       />
       <Navbar />
       
-      <main className="flex-grow pt-32 pb-20">
+      <main className="flex-grow pt-24 md:pt-32 pb-16 md:pb-20">
         
         {/* Page Header */}
-        <div className="container mx-auto px-4 max-w-7xl mb-20 text-center">
+        <div className="container mx-auto px-4 max-w-7xl mb-10 md:mb-20 text-center">
           <div className="flex items-center justify-center gap-2 text-accent font-semibold text-sm tracking-[2px] uppercase mb-4">
             <span className="w-8 h-px bg-accent"></span>
             OUR SERVICES
             <span className="w-8 h-px bg-accent"></span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-heading text-primary mb-6">Our Services</h1>
+          <h1 className="text-3xl md:text-6xl font-heading text-primary mb-6">Our Services</h1>
           <p className="text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed">
             From intimate gatherings to massive corporate galas, we provide complete event planning solutions tailored to your unique vision and budget.
           </p>
@@ -212,9 +212,9 @@ const ServicesPage = () => {
         </div>
 
         {/* Custom Service Selector */}
-        <div className="container mx-auto px-4 max-w-7xl mt-32">
-          <div className="bg-white rounded-[3rem] p-12 md:p-20 shadow-2xl border border-gray-100">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="container mx-auto px-4 max-w-7xl mt-16 md:mt-32">
+          <div className="bg-white rounded-[2rem] md:rounded-[3rem] p-6 md:p-20 shadow-2xl border border-gray-100">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
               <div>
                 <span className="text-accent font-bold text-xs tracking-[3px] uppercase mb-4 block">FLEXIBLE SOLUTIONS</span>
                 <h2 className="text-4xl md:text-5xl font-heading text-primary mb-6">Build Your Perfect Event</h2>
@@ -284,8 +284,8 @@ const ServicesPage = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="container mx-auto px-4 max-w-7xl mt-24">
-          <div className="bg-primary rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
+        <div className="container mx-auto px-4 max-w-7xl mt-12 md:mt-24">
+          <div className="bg-primary rounded-[2rem] md:rounded-[3rem] p-6 md:p-20 text-center relative overflow-hidden">
             <div className="absolute top-0 left-0 w-64 h-64 bg-accent/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/5 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl"></div>
             
@@ -294,8 +294,8 @@ const ServicesPage = () => {
               Every event is unique. If you don't see what you're looking for, our expert planners will design a bespoke package just for you.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
-              <Link to="/contact" className="bg-accent text-primary px-10 py-4 rounded-full font-bold text-lg hover:bg-white transition-colors cursor-pointer">Book Free Consultation</Link>
-              <button className="border-2 border-white/30 text-white hover:bg-white/10 px-10 py-4 rounded-full font-bold text-lg transition-colors cursor-pointer">Download Brochure</button>
+              <Link to="/contact" className="bg-accent text-primary px-10 py-4 rounded-full font-bold text-lg hover:bg-white transition-colors cursor-pointer text-center">Book Free Consultation</Link>
+              <a href="/brochure" target="_blank" rel="noopener noreferrer" className="border-2 border-white/30 text-white hover:bg-white/10 px-10 py-4 rounded-full font-bold text-lg transition-colors cursor-pointer inline-block text-center">Download Brochure</a>
             </div>
           </div>
         </div>

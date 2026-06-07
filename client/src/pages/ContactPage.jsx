@@ -150,7 +150,7 @@ const ContactPage = () => {
         {/* Hero */}
         <div className="text-center px-4 mb-16">
           <p className="text-accent font-semibold text-sm tracking-[3px] uppercase mb-4">GET IN TOUCH</p>
-          <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl text-primary mb-6">
+          <h1 className="font-heading text-3xl md:text-5xl lg:text-6xl text-primary mb-6">
             Let's Plan Something Beautiful
           </h1>
           <p className="text-gray-500 max-w-xl mx-auto text-base leading-relaxed">
@@ -320,8 +320,8 @@ const ContactPage = () => {
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="flex flex-col md:flex-row md:items-end gap-4 justify-between mb-8">
             <div>
-              <p className="text-accent font-semibold text-xs tracking-[3px] uppercase mb-2">PLANNER AVAILABILITY</p>
-              <h2 className="text-3xl md:text-4xl font-heading text-primary">Season Calendar {today.getFullYear()}</h2>
+              <p className="text-accent font-semibold text-[10px] md:text-xs tracking-[3px] uppercase mb-2">PLANNER AVAILABILITY</p>
+              <h2 className="text-2xl md:text-4xl font-heading text-primary">Season Calendar {today.getFullYear()}</h2>
             </div>
             <div className="flex items-center gap-6 text-sm font-medium">
               <span className="flex items-center gap-2">
@@ -394,10 +394,10 @@ const ContactPage = () => {
         </div>
 
         {/* Meet the Leads */}
-        <div className="container mx-auto px-4 max-w-6xl mt-32">
-          <div className="text-center mb-16">
+        <div className="container mx-auto px-4 max-w-6xl mt-16 md:mt-32">
+          <div className="text-center mb-10 md:mb-16">
             <span className="text-accent font-bold text-xs tracking-[3px] uppercase mb-4 block">THE PEOPLE BEHIND THE MAGIC</span>
-            <h2 className="text-4xl font-heading text-primary">Meet Our Lead Planners</h2>
+            <h2 className="text-3xl md:text-4xl font-heading text-primary">Meet Our Lead Planners</h2>
           </div>
 
           {loadingPlanners ? (
@@ -410,7 +410,7 @@ const ContactPage = () => {
               <p className="text-gray-400">No lead planners registered yet.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-12">
               {leadPlanners.map((lead) => (
                 <div key={lead._id} className="group">
                   <div className="aspect-[3/4] rounded-3xl overflow-hidden mb-6 relative">
@@ -432,8 +432,8 @@ const ContactPage = () => {
         </div>
 
         {/* CTA Banner */}
-        <div className="container mx-auto px-4 max-w-6xl mt-32">
-          <div className="bg-primary p-12 md:p-20 rounded-[4rem] text-center relative overflow-hidden">
+        <div className="container mx-auto px-4 max-w-6xl mt-16 md:mt-32">
+          <div className="bg-primary p-6 md:p-20 rounded-2xl md:rounded-[4rem] text-center relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
             <h2 className="text-3xl md:text-5xl font-heading text-white mb-6 relative z-10">Prefer a Direct Call?</h2>
             <p className="text-white/60 mb-10 max-w-xl mx-auto text-lg relative z-10">Skip the form and talk directly to our concierge team for immediate assistance.</p>

@@ -46,11 +46,11 @@ const Navbar = () => {
               <img
                 src={logo}
                 alt="B5 Logo"
-                className="h-12 w-12 md:h-16 md:w-16 object-contain rounded-xl shadow-xl border-2 border-white bg-white transition-transform duration-500 group-hover:scale-105"
+                className="h-12 w-12 md:h-16 md:w-16 object-contain rounded-xl border-2 border-white bg-white transition-transform duration-500 group-hover:scale-105"
                 width={64}
                 height={64}
               />
-              <div className="absolute inset-0 rounded-xl shadow-[0_0_15px_rgba(255,255,255,0.3)] group-hover:shadow-[0_0_25px_rgba(200,158,98,0.5)] transition-all duration-500"></div>
+              <div className="absolute inset-0 rounded-xl group-hover:shadow-[0_0_25px_rgba(200,158,98,0.5)] transition-all duration-500"></div>
               {/* Gold glow ring on hover */}
               <div className="absolute -inset-1 rounded-xl bg-gradient-to-tr from-accent/0 via-accent/20 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10"></div>
             </div>
@@ -86,7 +86,7 @@ const Navbar = () => {
           <div className="hidden lg:block">
             <Link
               to="/contact"
-              className="relative overflow-hidden bg-gradient-to-r from-accent to-[#d4ad6e] text-white px-8 py-2.5 text-sm font-bold rounded-full shadow-[0_8px_25px_rgba(200,158,98,0.35)] hover:shadow-[0_12px_35px_rgba(200,158,98,0.5)] hover:-translate-y-0.5 transition-all duration-400 group"
+              className="relative inline-block overflow-hidden bg-gradient-to-r from-accent to-[#d4ad6e] text-white px-8 py-2.5 text-sm font-bold rounded-full hover:-translate-y-0.5 transition-all duration-400 group"
             >
               <span className="relative z-10">BOOK CONSULTATION</span>
               {/* Shimmer sweep on hover */}

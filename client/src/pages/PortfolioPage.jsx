@@ -81,7 +81,7 @@ const PortfolioPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <h1 className="text-5xl md:text-7xl font-heading text-primary mb-6">Our Portfolio</h1>
+              <h1 className="text-3xl md:text-7xl font-heading text-primary mb-6">Our Portfolio</h1>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 A showcase of unforgettable experiences we've crafted for our clients. 
                 From intimate gatherings to large-scale productions.
@@ -156,7 +156,7 @@ const PortfolioPage = () => {
           )}
 
           {/* Signature Style - UNIQUE SECTION */}
-          <div className="mt-32 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div className="mt-16 md:mt-32 grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-20 items-center">
             <div>
               <span className="text-accent font-bold text-xs tracking-[3px] uppercase mb-4 block">OUR PHILOSOPHY</span>
               <h2 className="text-4xl md:text-5xl font-heading text-primary mb-8">The <span className="font-body">B5</span> Signature</h2>
@@ -190,10 +190,10 @@ const PortfolioPage = () => {
           </div>
 
           {/* Event Spotlight (Case Study) - UNIQUE SECTION */}
-          <div className="mt-40">
-            <div className="bg-gray-900 rounded-[4rem] overflow-hidden shadow-2xl">
+          <div className="mt-16 md:mt-40">
+            <div className="bg-gray-900 rounded-2xl md:rounded-[4rem] overflow-hidden shadow-2xl">
               <div className="grid grid-cols-1 lg:grid-cols-2">
-                <div className="p-12 md:p-20 flex flex-col justify-center">
+                <div className="p-6 md:p-20 flex flex-col justify-center">
                   <span className="bg-accent/20 text-accent px-4 py-1 rounded-full text-[10px] font-black tracking-widest uppercase self-start mb-6">EVENT SPOTLIGHT</span>
                   <h2 className="text-4xl md:text-5xl font-heading text-white mb-8">The Udaipur Heritage Gala</h2>
                   
@@ -227,7 +227,7 @@ const PortfolioPage = () => {
           </div>
 
           {/* CTA Link */}
-          <div className="mt-32 text-center bg-accent/5 rounded-[3rem] p-12 border border-accent/20">
+          <div className="mt-16 md:mt-32 text-center bg-accent/5 rounded-2xl md:rounded-[3rem] p-6 md:p-12 border border-accent/20">
             <h2 className="text-3xl font-heading text-primary mb-6">Inspired by our work?</h2>
             <p className="text-gray-600 mb-10 max-w-xl mx-auto">Let's collaborate to create your next unforgettable experience. Our team is ready to bring your vision to life.</p>
             <a href="/contact" className="bg-primary text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-accent transition-colors shadow-lg">Start Your Project</a>
