@@ -5,7 +5,6 @@ import StatsRibbon from '../components/Hero/StatsRibbon';
 import Services from '../components/Services/Services';
 import OurProcess from '../components/OurProcess/OurProcess';
 import PackagesPreview from '../components/Packages/PackagesPreview';
-import AwardsSection from '../components/AwardsSection/AwardsSection';
 import Portfolio from '../components/Portfolio/Portfolio';
 import WhyChooseUs from '../components/WhyChooseUs/WhyChooseUs';
 import TeamSection from '../components/TeamSection/TeamSection';
@@ -46,7 +45,6 @@ const Home = () => {
         <Services />
         <OurProcess />
         <PackagesPreview />
-        <AwardsSection />
         <Portfolio />
         <WhyChooseUs />
         <TeamSection />
