@@ -12,7 +12,7 @@ export const getServices = async (req, res) => {
 
 export const createService = async (req, res) => {
   try {
-    const { title, description, priceRange, isActive, includes, popularAddOn } = req.body;
+    const { title, description, priceRange, isActive, includes, popularAddOn, images } = req.body;
     let imageUrl = '';
     let cloudinaryId = '';
 
@@ -34,6 +34,19 @@ export const createService = async (req, res) => {
       }
     }
 
+    let parsedImages = [];
+    if (images) {
+      if (typeof images === 'string') {
+        try {
+          parsedImages = JSON.parse(images);
+        } catch (e) {
+          parsedImages = images.split(',').map(item => item.trim()).filter(Boolean);
+        }
+      } else if (Array.isArray(images)) {
+        parsedImages = images;
+      }
+    }
+
     const service = new Service({
       title,
       description,
@@ -43,6 +56,7 @@ export const createService = async (req, res) => {
       cloudinaryId,
       includes: parsedIncludes,
       popularAddOn,
+      images: parsedImages,
     });
 
     const createdService = await service.save();
@@ -61,7 +75,7 @@ export const createService = async (req, res) => {
 
 export const updateService = async (req, res) => {
   try {
-    const { title, description, priceRange, isActive, includes, popularAddOn } = req.body;
+    const { title, description, priceRange, isActive, includes, popularAddOn, images } = req.body;
     const service = await Service.findById(req.params.id);
 
     if (service) {
@@ -72,6 +86,20 @@ export const updateService = async (req, res) => {
       
       if (isActive !== undefined) {
         service.isActive = isActive === 'true' || isActive === true;
+      }
+
+      if (images !== undefined) {
+        let parsedImages = [];
+        if (typeof images === 'string') {
+          try {
+            parsedImages = JSON.parse(images);
+          } catch (e) {
+            parsedImages = images.split(',').map(item => item.trim()).filter(Boolean);
+          }
+        } else if (Array.isArray(images)) {
+          parsedImages = images;
+        }
+        service.images = parsedImages;
       }
 
       if (includes !== undefined) {
@@ -137,3 +165,17 @@ export const deleteService = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const getServiceById = async (req, res) => {
+  try {
+    const service = await Service.findById(req.params.id);
+    if (service) {
+      res.json(service);
+    } else {
+      res.status(404).json({ message: 'Service not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+

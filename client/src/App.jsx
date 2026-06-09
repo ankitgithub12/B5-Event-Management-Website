@@ -9,6 +9,7 @@ import Home from './pages/Home';
 
 // Lazy load user pages
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
+const ServiceDetailPage = lazy(() => import('./pages/ServiceDetailPage'));
 const PackagesPage = lazy(() => import('./pages/PackagesPage'));
 const CustomPlanner = lazy(() => import('./pages/CustomPlanner'));
 const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
@@ -53,6 +54,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<ServicesPage />} />
+          <Route path="/services/:id" element={<ServiceDetailPage />} />
           <Route path="/packages" element={<PackagesPage />} />
           <Route path="/planner" element={<CustomPlanner />} />
           <Route path="/portfolio" element={<PortfolioPage />} />

@@ -29,6 +29,10 @@ const serviceSchema = new mongoose.Schema({
   popularAddOn: {
     type: String,
   },
+  images: {
+    type: [String],
+    default: [],
+  },
 }, {
   timestamps: true,
 });

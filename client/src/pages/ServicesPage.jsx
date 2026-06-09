@@ -200,7 +200,7 @@ const ServicesPage = () => {
 
                     </div>
 
-                    <Link to="/packages" className="w-full bg-primary text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 group-hover:bg-accent transition-colors duration-300 cursor-pointer">
+                    <Link to={`/services/${service._id}`} className="w-full bg-primary text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 group-hover:bg-accent transition-colors duration-300 cursor-pointer">
                       Explore {service.title}
                       <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                     </Link>

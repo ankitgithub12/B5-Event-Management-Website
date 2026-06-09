@@ -222,7 +222,12 @@ const connectDB = async () => {
           cloudinaryId: 'seeded_service_wedding',
           includes: ['Venue booking', 'Catering', 'Decor', 'Makeup', 'Entertainment', 'Transport'],
           popularAddOn: 'Drone cinematography',
-          isActive: true
+          isActive: true,
+          images: [
+            'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=800&q=80'
+          ]
         },
         {
           title: 'Pre-Wedding Shoot',
@@ -232,7 +237,12 @@ const connectDB = async () => {
           cloudinaryId: 'seeded_service_prewedding',
           includes: ['Photographer', 'HD photos', 'Drone (optional)', 'Album design'],
           popularAddOn: 'Behind-the-scenes reel',
-          isActive: true
+          isActive: true,
+          images: [
+            'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1475890190920-2d1f3d3c8588?auto=format&fit=crop&w=800&q=80'
+          ]
         },
         {
           title: 'Engagement Ceremony',
@@ -242,7 +252,12 @@ const connectDB = async () => {
           cloudinaryId: 'seeded_service_engagement',
           includes: ['Venue', 'Photography', 'Catering', 'Decor', 'Return gifts'],
           popularAddOn: 'Surprise proposal coordination',
-          isActive: true
+          isActive: true,
+          images: [
+            'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=800&q=80'
+          ]
         },
         {
           title: 'Corporate Events',
@@ -252,7 +267,12 @@ const connectDB = async () => {
           cloudinaryId: 'seeded_service_corporate',
           includes: ['AV setup', 'Stage design', 'Catering', 'Guest management', 'Branding'],
           popularAddOn: 'Celebrity speaker booking',
-          isActive: true
+          isActive: true,
+          images: [
+            'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80'
+          ]
         },
         {
           title: 'Small Functions',
@@ -262,11 +282,64 @@ const connectDB = async () => {
           cloudinaryId: 'seeded_service_small',
           includes: ['Theme decor', 'Cake', 'Photography', 'Return gifts', 'Entertainment'],
           popularAddOn: 'Themed Photo Booth',
-          isActive: true
+          isActive: true,
+          images: [
+            'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80'
+          ]
         }
       ];
       await Service.insertMany(seedServices);
       console.log('Default services auto-seeded successfully.');
+    } else {
+      // Migrate existing services in database if they don't have images
+      const existingServices = await Service.find({});
+      for (const service of existingServices) {
+        if (!service.images || service.images.length === 0) {
+          let slideshowImages = [];
+          if (service.title === 'Wedding Planning') {
+            slideshowImages = [
+              'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+              'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=800&q=80',
+              'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=800&q=80'
+            ];
+          } else if (service.title === 'Pre-Wedding Shoot') {
+            slideshowImages = [
+              'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80',
+              'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80',
+              'https://images.unsplash.com/photo-1475890190920-2d1f3d3c8588?auto=format&fit=crop&w=800&q=80'
+            ];
+          } else if (service.title === 'Engagement Ceremony') {
+            slideshowImages = [
+              'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80',
+              'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80',
+              'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=800&q=80'
+            ];
+          } else if (service.title === 'Corporate Events') {
+            slideshowImages = [
+              'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800&q=80',
+              'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=800&q=80',
+              'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80'
+            ];
+          } else if (service.title === 'Small Functions') {
+            slideshowImages = [
+              'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80',
+              'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80',
+              'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80'
+            ];
+          } else {
+            slideshowImages = [
+              'https://images.unsplash.com/photo-1472653431158-6364773b2a56?auto=format&fit=crop&w=800&q=80',
+              'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=800&q=80',
+              'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?auto=format&fit=crop&w=800&q=80'
+            ];
+          }
+          service.images = slideshowImages;
+          await service.save();
+        }
+      }
+      console.log('Verified and migrated existing services with slideshow images.');
     }
 
     // Auto-seed portfolio items if none exists
