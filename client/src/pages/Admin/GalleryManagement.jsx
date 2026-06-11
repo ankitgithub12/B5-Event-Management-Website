@@ -365,82 +365,93 @@ const GalleryManagement = () => {
       {/* Add Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fadeIn">
-          <div className="bg-white rounded-3xl w-full max-w-md p-6 relative shadow-2xl border border-gray-100">
+          <div className="bg-white rounded-3xl w-full max-w-md p-6 relative shadow-2xl border border-gray-100 flex flex-col max-h-[90vh]">
             <button 
               onClick={() => setShowAddModal(false)}
-              className="absolute right-4 top-4 p-1 text-gray-400 hover:text-gray-700 transition-colors cursor-pointer"
+              className="absolute right-4 top-4 p-1 text-gray-400 hover:text-gray-700 transition-colors cursor-pointer z-10"
             >
               <X size={20} />
             </button>
 
-            <h3 className="text-xl font-heading font-bold text-primary mb-6">Upload Showcase Photo</h3>
+            <h3 className="text-xl font-heading font-bold text-primary mb-4 shrink-0">Upload Showcase Photo</h3>
 
-            <form onSubmit={handleAddSubmit} className="space-y-4">
+            <form onSubmit={handleAddSubmit} className="flex flex-col flex-1 min-h-0">
               {addError && (
-                <div className="bg-red-50 border border-red-200 text-red-600 p-3 rounded-xl text-sm text-center">
+                <div className="bg-red-50 border border-red-200 text-red-600 p-3 rounded-xl text-sm text-center mb-4 shrink-0">
                   {addError}
                 </div>
               )}
 
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Photo Description Title</label>
-                <input 
-                  type="text" 
-                  required
-                  placeholder="e.g. Wedding Hall Flower Setup"
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
-                  value={formData.title}
-                  onChange={(e) => setFormData({...formData, title: e.target.value})}
-                />
+              {/* Scrollable Fields Container */}
+              <div className="space-y-4 overflow-y-auto flex-1 pr-1 pb-4 min-h-0">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Photo Description Title</label>
+                  <input 
+                    type="text" 
+                    required
+                    placeholder="e.g. Wedding Hall Flower Setup"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
+                    value={formData.title}
+                    onChange={(e) => setFormData({...formData, title: e.target.value})}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Portfolio Category</label>
+                  <select 
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
+                    value={formData.category}
+                    onChange={(e) => setFormData({...formData, category: e.target.value})}
+                  >
+                    {categories.map((cat) => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Grid Layout Style</label>
+                  <select 
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
+                    value={formData.span}
+                    onChange={(e) => setFormData({...formData, span: e.target.value})}
+                  >
+                    <option value="col-span-1 row-span-1">Standard (Square 1x1)</option>
+                    <option value="col-span-1 md:col-span-2 row-span-2">Featured Left (Large 2x2)</option>
+                    <option value="col-span-1 md:col-span-2 row-span-1">Wide Landscape (2x1)</option>
+                    <option value="col-span-1 row-span-2">Tall Portrait (1x2)</option>
+                    <option value="col-span-1 md:col-span-3 row-span-2">Full Width (3x2)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Select Image File</label>
+                  <input 
+                    type="file" 
+                    required
+                    accept="image/*"
+                    onChange={handleAddFileChange}
+                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-white hover:file:bg-primary-light cursor-pointer"
+                  />
+                  {imageFile && (
+                    <p className="text-xs text-green-600 font-semibold mt-1.5 ml-1">
+                      ✓ Selected: {imageFile.name} ({(imageFile.size / (1024 * 1024)).toFixed(2)} MB / 5.00 MB used)
+                    </p>
+                  )}
+                  <p className="text-[10px] text-gray-400 mt-1 ml-1">Max file size: 5MB. Recommended JPG, PNG, or WEBP.</p>
+                </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Portfolio Category</label>
-                <select 
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
-                  value={formData.category}
-                  onChange={(e) => setFormData({...formData, category: e.target.value})}
+              {/* Fixed Action Button Container */}
+              <div className="pt-4 border-t border-gray-100 shrink-0">
+                <button 
+                  type="submit" 
+                  disabled={addLoading}
+                  className="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3.5 rounded-xl shadow-md transition-all active:scale-[0.98] flex items-center justify-center cursor-pointer"
                 >
-                  {categories.map((cat) => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                </select>
+                  {addLoading ? <Loader className="animate-spin" size={20} /> : 'Upload To Gallery'}
+                </button>
               </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Grid Layout Style</label>
-                <select 
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
-                  value={formData.span}
-                  onChange={(e) => setFormData({...formData, span: e.target.value})}
-                >
-                  <option value="col-span-1 row-span-1">Standard (Square 1x1)</option>
-                  <option value="col-span-1 md:col-span-2 row-span-2">Featured Left (Large 2x2)</option>
-                  <option value="col-span-1 md:col-span-2 row-span-1">Wide Landscape (2x1)</option>
-                  <option value="col-span-1 row-span-2">Tall Portrait (1x2)</option>
-                  <option value="col-span-1 md:col-span-3 row-span-2">Full Width (3x2)</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Select Image File</label>
-                <input 
-                  type="file" 
-                  required
-                  accept="image/*"
-                  onChange={handleAddFileChange}
-                  className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-white hover:file:bg-primary-light cursor-pointer"
-                />
-                <p className="text-[10px] text-gray-400 mt-1 ml-1">Max file size: 5MB. Recommended JPG, PNG, or WEBP.</p>
-              </div>
-
-              <button 
-                type="submit" 
-                disabled={addLoading}
-                className="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3.5 rounded-xl shadow-md transition-all active:scale-[0.98] mt-6 flex items-center justify-center"
-              >
-                {addLoading ? <Loader className="animate-spin" size={20} /> : 'Upload To Gallery'}
-              </button>
             </form>
           </div>
         </div>
@@ -449,84 +460,95 @@ const GalleryManagement = () => {
       {/* Edit Modal */}
       {showEditModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fadeIn">
-          <div className="bg-white rounded-3xl w-full max-w-md p-6 relative shadow-2xl border border-gray-100">
+          <div className="bg-white rounded-3xl w-full max-w-md p-6 relative shadow-2xl border border-gray-100 flex flex-col max-h-[90vh]">
             <button 
               onClick={() => {
                 setShowEditModal(false);
                 setEditItem(null);
               }}
-              className="absolute right-4 top-4 p-1 text-gray-400 hover:text-gray-700 transition-colors cursor-pointer"
+              className="absolute right-4 top-4 p-1 text-gray-400 hover:text-gray-700 transition-colors cursor-pointer z-10"
             >
               <X size={20} />
             </button>
 
-            <h3 className="text-xl font-heading font-bold text-primary mb-6">Edit Gallery Photo</h3>
+            <h3 className="text-xl font-heading font-bold text-primary mb-4 shrink-0">Edit Gallery Photo</h3>
 
-            <form onSubmit={handleEditSubmit} className="space-y-4">
+            <form onSubmit={handleEditSubmit} className="flex flex-col flex-1 min-h-0">
               {editError && (
-                <div className="bg-red-50 border border-red-200 text-red-600 p-3 rounded-xl text-sm text-center">
+                <div className="bg-red-50 border border-red-200 text-red-600 p-3 rounded-xl text-sm text-center mb-4 shrink-0">
                   {editError}
                 </div>
               )}
 
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Photo Description Title</label>
-                <input 
-                  type="text" 
-                  required
-                  placeholder="e.g. Wedding Hall Flower Setup"
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
-                  value={editFormData.title}
-                  onChange={(e) => setEditFormData({...editFormData, title: e.target.value})}
-                />
+              {/* Scrollable Fields Container */}
+              <div className="space-y-4 overflow-y-auto flex-1 pr-1 pb-4 min-h-0">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Photo Description Title</label>
+                  <input 
+                    type="text" 
+                    required
+                    placeholder="e.g. Wedding Hall Flower Setup"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
+                    value={editFormData.title}
+                    onChange={(e) => setEditFormData({...editFormData, title: e.target.value})}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Portfolio Category</label>
+                  <select 
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
+                    value={editFormData.category}
+                    onChange={(e) => setEditFormData({...editFormData, category: e.target.value})}
+                  >
+                    {categories.map((cat) => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Grid Layout Style</label>
+                  <select 
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
+                    value={editFormData.span}
+                    onChange={(e) => setEditFormData({...editFormData, span: e.target.value})}
+                  >
+                    <option value="col-span-1 row-span-1">Standard (Square 1x1)</option>
+                    <option value="col-span-1 md:col-span-2 row-span-2">Featured Left (Large 2x2)</option>
+                    <option value="col-span-1 md:col-span-2 row-span-1">Wide Landscape (2x1)</option>
+                    <option value="col-span-1 row-span-2">Tall Portrait (1x2)</option>
+                    <option value="col-span-1 md:col-span-3 row-span-2">Full Width (3x2)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Change Image (Optional)</label>
+                  <input 
+                    type="file" 
+                    accept="image/*"
+                    onChange={handleEditFileChange}
+                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-white hover:file:bg-primary-light cursor-pointer"
+                  />
+                  {editImageFile && (
+                    <p className="text-xs text-green-600 font-semibold mt-1.5 ml-1">
+                      ✓ Selected: {editImageFile.name} ({(editImageFile.size / (1024 * 1024)).toFixed(2)} MB / 5.00 MB used)
+                    </p>
+                  )}
+                  <p className="text-[10px] text-gray-400 mt-1 ml-1">Leave blank to keep the current photo. Max size: 5MB.</p>
+                </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Portfolio Category</label>
-                <select 
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
-                  value={editFormData.category}
-                  onChange={(e) => setEditFormData({...editFormData, category: e.target.value})}
+              {/* Fixed Action Button Container */}
+              <div className="pt-4 border-t border-gray-100 shrink-0">
+                <button 
+                  type="submit" 
+                  disabled={editLoading}
+                  className="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3.5 rounded-xl shadow-md transition-all active:scale-[0.98] flex items-center justify-center cursor-pointer"
                 >
-                  {categories.map((cat) => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                </select>
+                  {editLoading ? <Loader className="animate-spin" size={20} /> : 'Save Changes'}
+                </button>
               </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Grid Layout Style</label>
-                <select 
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
-                  value={editFormData.span}
-                  onChange={(e) => setEditFormData({...editFormData, span: e.target.value})}
-                >
-                  <option value="col-span-1 row-span-1">Standard (Square 1x1)</option>
-                  <option value="col-span-1 md:col-span-2 row-span-2">Featured Left (Large 2x2)</option>
-                  <option value="col-span-1 md:col-span-2 row-span-1">Wide Landscape (2x1)</option>
-                  <option value="col-span-1 row-span-2">Tall Portrait (1x2)</option>
-                  <option value="col-span-1 md:col-span-3 row-span-2">Full Width (3x2)</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Change Image (Optional)</label>
-                <input 
-                  type="file" 
-                  accept="image/*"
-                  onChange={handleEditFileChange}
-                  className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-white hover:file:bg-primary-light cursor-pointer"
-                />
-                <p className="text-[10px] text-gray-400 mt-1 ml-1">Leave blank to keep the current photo. Max size: 5MB.</p>
-              </div>
-
-              <button 
-                type="submit" 
-                disabled={editLoading}
-                className="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3.5 rounded-xl shadow-md transition-all active:scale-[0.98] mt-6 flex items-center justify-center"
-              >
-                {editLoading ? <Loader className="animate-spin" size={20} /> : 'Save Changes'}
-              </button>
             </form>
           </div>
         </div>

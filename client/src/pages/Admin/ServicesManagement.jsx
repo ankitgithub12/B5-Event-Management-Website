@@ -77,6 +77,26 @@ const ServicesManagement = () => {
     setShowFormModal(true);
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        setFormError('Only image files (JPEG, JPG, PNG, WEBP) are supported.');
+        setImageFile(null);
+        e.target.value = '';
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        setFormError('File size exceeds the 5MB limit. Please upload a smaller image.');
+        setImageFile(null);
+        e.target.value = '';
+        return;
+      }
+      setFormError('');
+      setImageFile(file);
+    }
+  };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setFormLoading(true);
@@ -368,10 +388,15 @@ const ServicesManagement = () => {
                 <input 
                   type="file" 
                   accept="image/*"
-                  onChange={(e) => setImageFile(e.target.files[0])}
+                  onChange={handleFileChange}
                   className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-white hover:file:bg-primary-light cursor-pointer"
                 />
-                <p className="text-[10px] text-gray-400 mt-1 ml-1">Upload JPEG, WebP, or PNG. Direct upload integration with Cloudinary.</p>
+                {imageFile && (
+                  <p className="text-xs text-green-600 font-semibold mt-1.5 ml-1">
+                    ✓ Selected: {imageFile.name} ({(imageFile.size / (1024 * 1024)).toFixed(2)} MB / 5.00 MB used)
+                  </p>
+                )}
+                <p className="text-[10px] text-gray-400 mt-1 ml-1">Upload JPEG, WebP, or PNG. Direct upload integration with Cloudinary. Max size: 5MB.</p>
               </div>
 
               <button 

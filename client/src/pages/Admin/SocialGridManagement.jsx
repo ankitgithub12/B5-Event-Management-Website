@@ -358,6 +358,11 @@ const SocialGridManagement = () => {
                   onChange={handleFileChange}
                   className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-white hover:file:bg-primary-light cursor-pointer"
                 />
+                {imageFile && (
+                  <p className="text-xs text-green-600 font-semibold mt-1.5 ml-1">
+                    ✓ Selected: {imageFile.name} ({(imageFile.size / (1024 * 1024)).toFixed(2)} MB / 5.00 MB used)
+                  </p>
+                )}
                 <p className="text-[10px] text-gray-400 mt-1 ml-1">Max file size: 5MB. Supported types: JPG, PNG, WEBP.</p>
               </div>
 

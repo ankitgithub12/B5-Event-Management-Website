@@ -63,6 +63,21 @@ const PortfolioManagement = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (!file.type.startsWith('image/')) {
+        setFormError('Only image files (JPEG, JPG, PNG, WEBP) are supported.');
+        setImageFile(null);
+        setImagePreview('');
+        e.target.value = '';
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        setFormError('File size exceeds the 5MB limit. Please upload a smaller image.');
+        setImageFile(null);
+        setImagePreview('');
+        e.target.value = '';
+        return;
+      }
+      setFormError('');
       setImageFile(file);
       setImagePreview(URL.createObjectURL(file));
     }
@@ -232,79 +247,90 @@ const PortfolioManagement = () => {
       {/* Add / Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fadeIn">
-          <div className="bg-white rounded-3xl w-full max-w-md p-6 relative shadow-2xl border border-gray-100">
+          <div className="bg-white rounded-3xl w-full max-w-md p-6 relative shadow-2xl border border-gray-100 flex flex-col max-h-[90vh]">
             <button 
               onClick={() => setShowModal(false)}
-              className="absolute right-4 top-4 p-1 text-gray-400 hover:text-gray-700 transition-colors cursor-pointer"
+              className="absolute right-4 top-4 p-1 text-gray-400 hover:text-gray-700 transition-colors cursor-pointer z-10"
             >
               <X size={20} />
             </button>
 
-            <h3 className="text-xl font-heading font-bold text-primary mb-6">
+            <h3 className="text-xl font-heading font-bold text-primary mb-4 shrink-0">
               {isEditing ? 'Edit Portfolio Item' : 'Add Portfolio Item'}
             </h3>
 
-            <form onSubmit={handleFormSubmit} className="space-y-4">
+            <form onSubmit={handleFormSubmit} className="flex flex-col flex-1 min-h-0">
               {formError && (
-                <div className="bg-red-50 border border-red-200 text-red-600 p-3 rounded-xl text-sm text-center">
+                <div className="bg-red-50 border border-red-200 text-red-600 p-3 rounded-xl text-sm text-center mb-4 shrink-0">
                   {formError}
                 </div>
               )}
 
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Project Title</label>
-                <input 
-                  type="text" 
-                  required
-                  placeholder="e.g. Grand Udaipur Palace Wedding"
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
-                  value={formData.title}
-                  onChange={(e) => setFormData({...formData, title: e.target.value})}
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Category</label>
-                <select 
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
-                  value={formData.category}
-                  onChange={(e) => setFormData({...formData, category: e.target.value})}
-                >
-                  {categories.map((cat) => (
-                    <option key={cat.value} value={cat.value}>{cat.label}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Image File</label>
-                <input 
-                  type="file" 
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-white hover:file:bg-primary-light cursor-pointer"
-                />
-                <p className="text-[10px] text-gray-400 mt-1 ml-1">
-                  {isEditing ? 'Leave empty to keep existing image.' : 'Required. Image will be uploaded to Cloudinary.'}
-                </p>
-              </div>
-
-              {imagePreview && (
-                <div className="mt-4">
-                  <span className="block text-xs font-semibold text-gray-400 uppercase mb-1 ml-1">Image Preview:</span>
-                  <div className="aspect-[4/3] rounded-2xl overflow-hidden border bg-gray-50">
-                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
-                  </div>
+              {/* Scrollable Fields Container */}
+              <div className="space-y-4 overflow-y-auto flex-1 pr-1 pb-4 min-h-0">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Project Title</label>
+                  <input 
+                    type="text" 
+                    required
+                    placeholder="e.g. Grand Udaipur Palace Wedding"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
+                    value={formData.title}
+                    onChange={(e) => setFormData({...formData, title: e.target.value})}
+                  />
                 </div>
-              )}
 
-              <button 
-                type="submit" 
-                disabled={formLoading}
-                className="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3.5 rounded-xl shadow-md transition-all active:scale-[0.98] mt-6 flex items-center justify-center"
-              >
-                {formLoading ? <Loader className="animate-spin" size={20} /> : isEditing ? 'Save Changes' : 'Upload Showcase'}
-              </button>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Category</label>
+                  <select 
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accent"
+                    value={formData.category}
+                    onChange={(e) => setFormData({...formData, category: e.target.value})}
+                  >
+                    {categories.map((cat) => (
+                      <option key={cat.value} value={cat.value}>{cat.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase mb-1 ml-1">Image File</label>
+                  <input 
+                    type="file" 
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-white hover:file:bg-primary-light cursor-pointer"
+                  />
+                  {imageFile && (
+                    <p className="text-xs text-green-600 font-semibold mt-1.5 ml-1">
+                      ✓ Selected: {imageFile.name} ({(imageFile.size / (1024 * 1024)).toFixed(2)} MB / 5.00 MB used)
+                    </p>
+                  )}
+                  <p className="text-[10px] text-gray-400 mt-1 ml-1">
+                    {isEditing ? 'Leave empty to keep existing image. Max size: 5MB.' : 'Required. Image will be uploaded to Cloudinary. Max size: 5MB.'}
+                  </p>
+                </div>
+
+                {imagePreview && (
+                  <div className="mt-4">
+                    <span className="block text-xs font-semibold text-gray-400 uppercase mb-1 ml-1">Image Preview:</span>
+                    <div className="aspect-[4/3] rounded-2xl overflow-hidden border bg-gray-50">
+                      <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Fixed Action Button Container */}
+              <div className="pt-4 border-t border-gray-100 shrink-0">
+                <button 
+                  type="submit" 
+                  disabled={formLoading}
+                  className="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3.5 rounded-xl shadow-md transition-all active:scale-[0.98] flex items-center justify-center cursor-pointer"
+                >
+                  {formLoading ? <Loader className="animate-spin" size={20} /> : isEditing ? 'Save Changes' : 'Upload Showcase'}
+                </button>
+              </div>
             </form>
           </div>
         </div>

@@ -58,6 +58,22 @@ const HeroManagement = () => {
   // ── Handle new images selected ───────────────────────────────────────────────
   const handleNewImages = (e) => {
     const files = Array.from(e.target.files);
+    
+    // Check format & size
+    const invalidFormat = files.find(f => !f.type.startsWith('image/'));
+    if (invalidFormat) {
+      setError('Only image files (JPEG, JPG, PNG, WEBP) are supported.');
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+    
+    const oversized = files.find(f => f.size > 5 * 1024 * 1024);
+    if (oversized) {
+      setError('Some files exceed the 5MB limit. Please upload smaller images.');
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+
     const remaining = MAX_SLIDES - slides.length - newImageFiles.length;
     const allowed = files.slice(0, remaining);
 
@@ -290,21 +306,24 @@ const HeroManagement = () => {
                 ))}
 
                 {/* New image previews (not yet uploaded) */}
-                {newImagePreviews.map((src, idx) => (
-                  <div key={`new-${idx}`} className="relative group rounded-2xl overflow-hidden border-2 border-dashed border-accent/50 aspect-video bg-gray-50">
-                    <img src={src} alt={`New ${idx + 1}`} className="w-full h-full object-cover opacity-80" />
-                    <div className="absolute top-2 left-2 bg-accent text-white text-[10px] font-bold px-2 py-0.5 rounded-md">
-                      NEW
+                {newImagePreviews.map((src, idx) => {
+                  const sizeMB = newImageFiles[idx] ? (newImageFiles[idx].size / (1024 * 1024)).toFixed(2) : '0.00';
+                  return (
+                    <div key={`new-${idx}`} className="relative group rounded-2xl overflow-hidden border-2 border-dashed border-accent/50 aspect-video bg-gray-50">
+                      <img src={src} alt={`New ${idx + 1}`} className="w-full h-full object-cover opacity-80" />
+                      <div className="absolute top-2 left-2 bg-accent text-white text-[10px] font-bold px-2 py-0.5 rounded-md">
+                        NEW ({sizeMB} MB)
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeNewPreview(idx)}
+                        className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-red-600"
+                      >
+                        <Trash2 size={12} />
+                      </button>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => removeNewPreview(idx)}
-                      className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-red-600"
-                    >
-                      <Trash2 size={12} />
-                    </button>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
 

@@ -40,8 +40,12 @@ const ProfileSettings = () => {
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) {
       setErrorMessage('Photo must be under 5MB.');
+      setPhotoFile(null);
+      setPhotoPreview('');
+      if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }
+    setErrorMessage('');
     setPhotoFile(file);
     setPhotoPreview(URL.createObjectURL(file));
   };
@@ -183,16 +187,21 @@ const ProfileSettings = () => {
 
             {/* Show remove/change controls when a new file is staged */}
             {photoFile && (
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-xs text-gray-500 truncate max-w-[100px]">{photoFile.name}</span>
-                <button
-                  type="button"
-                  onClick={handleRemovePhoto}
-                  className="text-red-400 hover:text-red-600 transition-colors cursor-pointer"
-                  title="Remove staged photo"
-                >
-                  <Trash2 size={14} />
-                </button>
+              <div className="flex flex-col items-center gap-1 mb-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-500 truncate max-w-[120px]">{photoFile.name}</span>
+                  <button
+                    type="button"
+                    onClick={handleRemovePhoto}
+                    className="text-red-400 hover:text-red-600 transition-colors cursor-pointer"
+                    title="Remove staged photo"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+                <span className="text-[10px] text-green-600 font-semibold font-mono">
+                  ✓ ({(photoFile.size / (1024 * 1024)).toFixed(2)} MB / 5.00 MB)
+                </span>
               </div>
             )}
 
@@ -258,8 +267,13 @@ const ProfileSettings = () => {
                   </div>
                   <div className="flex-1">
                     <p className="text-sm font-semibold text-gray-700 mb-1">
-                      {photoFile ? photoFile.name : (profilePhotoUrl ? 'Photo uploaded ✓' : 'No photo uploaded')}
+                      {photoFile ? `${photoFile.name} (${(photoFile.size / (1024 * 1024)).toFixed(2)} MB)` : (profilePhotoUrl ? 'Photo uploaded ✓' : 'No photo uploaded')}
                     </p>
+                    {photoFile && (
+                      <p className="text-xs text-green-600 font-semibold mb-2 font-mono">
+                        ✓ Selected: {(photoFile.size / (1024 * 1024)).toFixed(2)} MB / 5.00 MB used
+                      </p>
+                    )}
                     <p className="text-xs text-gray-400 mb-3">JPG, PNG or WebP · Max 5MB</p>
                     <div className="flex items-center gap-3">
                       <button

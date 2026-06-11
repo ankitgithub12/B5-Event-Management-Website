@@ -83,10 +83,16 @@ const TestimonialsManagement = () => {
     if (file) {
       if (!file.type.startsWith('image/')) {
         setFormError('Only image files are supported.');
+        setImageFile(null);
+        setImagePreview('');
+        e.target.value = '';
         return;
       }
       if (file.size > 5 * 1024 * 1024) {
-        setFormError('File size exceeds the 5MB limit.');
+        setFormError('File size exceeds the 5MB limit. Please upload a smaller image.');
+        setImageFile(null);
+        setImagePreview('');
+        e.target.value = '';
         return;
       }
       setFormError('');
@@ -390,6 +396,11 @@ const TestimonialsManagement = () => {
                     className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-white hover:file:bg-primary-light cursor-pointer"
                   />
                 </div>
+                {imageFile && (
+                  <p className="text-xs text-green-600 font-semibold mt-1.5 ml-1">
+                    ✓ Selected: {imageFile.name} ({(imageFile.size / (1024 * 1024)).toFixed(2)} MB / 5.00 MB used)
+                  </p>
+                )}
                 <p className="text-[10px] text-gray-400 mt-1 ml-1">
                   Leave empty to automatically generate a custom avatar based on their name. Supports JPG, PNG, WEBP.
                 </p>
