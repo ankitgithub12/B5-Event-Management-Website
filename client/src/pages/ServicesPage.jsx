@@ -35,7 +35,7 @@ const getIcon = (title) => {
 const ServicesPage = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   const [selectedServices, setSelectedServices] = useState({
     'Exotic Floral & Decor': false,
     'Gourmet Catering & Bar': false,
@@ -78,14 +78,14 @@ const ServicesPage = () => {
   const getCustomizingLink = () => {
     const active = Object.keys(selectedServices).filter(key => selectedServices[key]);
     if (active.length === 0) return '/contact';
-    
+
     const servicesStr = active.join(', ');
     const message = `I would like to customize my event with: ${servicesStr}.`;
-    
+
     const params = new URLSearchParams();
     params.append('eventType', 'Custom Event');
     params.append('message', message);
-    
+
     return `/contact?${params.toString()}`;
   };
 
@@ -102,16 +102,16 @@ const ServicesPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <SEO 
+      <SEO
         title="Our Services - Event Planning"
         description="Explore our comprehensive event management services including wedding planning, corporate events, photography, catering, and logistics."
         canonicalUrl="/services"
         schema={serviceSchema}
       />
       <Navbar />
-      
+
       <main className="flex-grow pt-24 md:pt-32 pb-16 md:pb-20">
-        
+
         {/* Page Header */}
         <div className="container mx-auto px-4 max-w-7xl mb-10 md:mb-20 text-center">
           <div className="flex items-center justify-center gap-2 text-accent font-semibold text-sm tracking-[2px] uppercase mb-4">
@@ -144,9 +144,9 @@ const ServicesPage = () => {
                   {/* Image Section */}
                   {service.imageUrl && (
                     <div className="h-64 overflow-hidden relative">
-                      <img 
-                        src={service.imageUrl} 
-                        alt={service.title} 
+                      <img
+                        src={service.imageUrl}
+                        alt={service.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
@@ -167,7 +167,7 @@ const ServicesPage = () => {
                     <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg absolute -top-8 left-8 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
                       {getIcon(service.title)}
                     </div>
-                    
+
                     <h3 className="text-2xl font-heading text-primary mb-3 mt-6">{service.title}</h3>
                     <p className="text-gray-600 leading-relaxed mb-6 text-sm">
                       {service.description}
@@ -219,7 +219,7 @@ const ServicesPage = () => {
                 <span className="text-accent font-bold text-xs tracking-[3px] uppercase mb-4 block">FLEXIBLE SOLUTIONS</span>
                 <h2 className="text-4xl md:text-5xl font-heading text-primary mb-6">Build Your Perfect Event</h2>
                 <p className="text-gray-600 text-lg mb-10">Select the priorities that matter most to you, and we'll show you how we can tailor our expertise to match.</p>
-                
+
                 <div className="space-y-4">
                   {[
                     { label: 'Exotic Floral & Decor', icon: <Sparkles size={20} /> },
@@ -230,23 +230,21 @@ const ServicesPage = () => {
                   ].map((item, idx) => {
                     const isChecked = selectedServices[item.label];
                     return (
-                      <label 
-                        key={idx} 
-                        className={`flex items-center gap-4 p-4 rounded-2xl border transition-all cursor-pointer group ${
-                          isChecked 
-                            ? 'border-accent bg-accent/5 shadow-md shadow-accent/5' 
+                      <label
+                        key={idx}
+                        className={`flex items-center gap-4 p-4 rounded-2xl border transition-all cursor-pointer group ${isChecked
+                            ? 'border-accent bg-accent/5 shadow-md shadow-accent/5'
                             : 'border-gray-100 hover:border-accent hover:bg-accent/5'
-                        }`}
+                          }`}
                       >
-                        <input 
-                          type="checkbox" 
+                        <input
+                          type="checkbox"
                           checked={isChecked}
                           onChange={() => handleServiceToggle(item.label)}
-                          className="w-5 h-5 accent-accent" 
+                          className="w-5 h-5 accent-accent"
                         />
-                        <span className={`font-bold flex items-center gap-2 transition-colors ${
-                          isChecked ? 'text-accent' : 'text-primary group-hover:text-accent'
-                        }`}>
+                        <span className={`font-bold flex items-center gap-2 transition-colors ${isChecked ? 'text-accent' : 'text-primary group-hover:text-accent'
+                          }`}>
                           {item.icon} {item.label}
                         </span>
                       </label>
@@ -288,7 +286,7 @@ const ServicesPage = () => {
           <div className="bg-primary rounded-[2rem] md:rounded-[3rem] p-6 md:p-20 text-center relative overflow-hidden">
             <div className="absolute top-0 left-0 w-64 h-64 bg-accent/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/5 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl"></div>
-            
+
             <h2 className="text-3xl md:text-5xl font-heading text-white mb-6 relative z-10">Need a Custom Solution?</h2>
             <p className="text-white/70 max-w-2xl mx-auto mb-10 text-lg relative z-10">
               Every event is unique. If you don't see what you're looking for, our expert planners will design a bespoke package just for you.
@@ -301,7 +299,7 @@ const ServicesPage = () => {
         </div>
 
       </main>
-      
+
       <Footer />
     </div>
   );

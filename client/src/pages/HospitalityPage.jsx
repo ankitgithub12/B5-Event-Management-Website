@@ -132,14 +132,16 @@ const HospitalityPage = () => {
                       ) : (
                         <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-500" />
                       )}
-                      <div className="relative z-10 flex flex-col items-center gap-4 text-white/90">
-                        <div className="w-24 h-24 rounded-2xl bg-accent/20 border border-accent/30 backdrop-blur-sm flex items-center justify-center">
-                          <IconComponent size={48} className="text-accent" />
+                      {!role.image && (
+                        <div className="relative z-10 flex flex-col items-center gap-4 text-white/90">
+                          <div className="w-24 h-24 rounded-2xl bg-accent/20 border border-accent/30 backdrop-blur-sm flex items-center justify-center">
+                            <IconComponent size={48} className="text-accent" />
+                          </div>
+                          <span className="text-accent font-bold text-lg tracking-wider uppercase font-body bg-primary-dark/40 px-4 py-1.5 rounded-full border border-white/10 backdrop-blur-sm">
+                            {String(index + 1).padStart(2, '0')}
+                          </span>
                         </div>
-                        <span className="text-accent font-bold text-lg tracking-wider uppercase font-body bg-primary-dark/40 px-4 py-1.5 rounded-full border border-white/10 backdrop-blur-sm">
-                          {String(index + 1).padStart(2, '0')}
-                        </span>
-                      </div>
+                      )}
                     </div>
 
                     {/* Content */}

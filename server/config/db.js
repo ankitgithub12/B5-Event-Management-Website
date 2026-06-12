@@ -370,7 +370,7 @@ const connectDB = async () => {
         leftImageCloudinaryId: 'seeded_hero_left',
         rightImageUrl: 'https://www.bfivewarriors.com/assets/images/gallery/image16.png',
         rightImageCloudinaryId: 'seeded_hero_right',
-        badgeText: '✨ WE DESIGN. YOU CELEBRATE.',
+        badgeText: 'WE DESIGN. YOU CELEBRATE.',
         title: 'Where Every Event Becomes a Story',
         subtitle: 'Weddings • Engagements • Birthdays • Anniversaries • Corporate Events',
         ctaPrimaryText: 'Start Planning',
