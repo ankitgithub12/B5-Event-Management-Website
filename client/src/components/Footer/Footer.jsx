@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { MessageCircle, Phone, Mail, MapPin, ArrowUp } from 'lucide-react';
-import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaYoutube, FaLinkedinIn } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import logo from '../../assets/B5_logo.png';
 
@@ -63,6 +63,9 @@ const Footer = () => {
             </a>
             <a href="https://www.youtube.com/@B5EVENTORY" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-[#FF0000] hover:border-[#FF0000] hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(255,0,0,0.3)] transition-all duration-300">
               <FaYoutube size={20} />
+            </a>
+            <a href="https://www.linkedin.com/company/b5eventory/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-[#0A66C2] hover:border-[#0A66C2] hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(10,102,194,0.3)] transition-all duration-300">
+              <FaLinkedinIn size={20} />
             </a>
           </div>
         </div>
@@ -135,9 +138,7 @@ const Footer = () => {
 
       {/* Bottom Footer */}
       <div className="border-t border-white/8 py-4 md:py-6 px-4 text-center text-xs md:text-sm text-white/40 relative z-10">
-        <p className="mb-3 md:mb-0 inline md:inline">&copy; {new Date().getFullYear()} B5 Eventory. All Rights Reserved.</p>
-        <span className="hidden md:inline mx-4">|</span>
-        <Link to="/admin/login" className="hover:text-accent transition-colors inline md:inline">Admin Login</Link>
+        <p className="mb-0 inline">&copy; {new Date().getFullYear()} B5 Eventory. All Rights Reserved.</p>
       </div>
 
       {/* Back to Top Button */}
