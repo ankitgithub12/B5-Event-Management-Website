@@ -13,6 +13,14 @@ export const getServices = async (req, res) => {
 export const createService = async (req, res) => {
   try {
     const { title, description, priceRange, isActive, includes, popularAddOn, images } = req.body;
+
+    // Duplicate check: case-insensitive title match
+    const existingService = await Service.findOne({
+      title: { $regex: new RegExp(`^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+    });
+    if (existingService) {
+      return res.status(409).json({ message: 'A service with this title already exists.' });
+    }
     let imageUrl = '';
     let cloudinaryId = '';
 
@@ -77,6 +85,17 @@ export const updateService = async (req, res) => {
   try {
     const { title, description, priceRange, isActive, includes, popularAddOn, images } = req.body;
     const service = await Service.findById(req.params.id);
+
+    // Duplicate check on update: ensure new title doesn't conflict with another service
+    if (title && service && title.toLowerCase() !== service.title.toLowerCase()) {
+      const existingService = await Service.findOne({
+        title: { $regex: new RegExp(`^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+        _id: { $ne: service._id },
+      });
+      if (existingService) {
+        return res.status(409).json({ message: 'A service with this title already exists.' });
+      }
+    }
 
     if (service) {
       service.title = title || service.title;

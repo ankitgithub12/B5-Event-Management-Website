@@ -23,6 +23,14 @@ export const getPackages = async (req, res) => {
 export const createPackage = async (req, res) => {
   try {
     const { name, description, price, features, popular, isActive } = req.body;
+
+    // Duplicate check: case-insensitive name match
+    const existingPackage = await EventPackage.findOne({
+      name: { $regex: new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+    });
+    if (existingPackage) {
+      return res.status(409).json({ message: 'A package with this name already exists.' });
+    }
     
     const eventPackage = new EventPackage({
       name,
@@ -47,6 +55,17 @@ export const updatePackage = async (req, res) => {
   try {
     const { name, description, price, features, popular, isActive } = req.body;
     const eventPackage = await EventPackage.findById(req.params.id);
+
+    // Duplicate check on update: ensure new name doesn't conflict with another package
+    if (name && eventPackage && name.toLowerCase() !== eventPackage.name.toLowerCase()) {
+      const existingPackage = await EventPackage.findOne({
+        name: { $regex: new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+        _id: { $ne: eventPackage._id },
+      });
+      if (existingPackage) {
+        return res.status(409).json({ message: 'A package with this name already exists.' });
+      }
+    }
 
     if (eventPackage) {
       eventPackage.name = name || eventPackage.name;
@@ -113,6 +132,14 @@ export const createAddon = async (req, res) => {
   try {
     const { name, price, description, isActive } = req.body;
 
+    // Duplicate check: case-insensitive name match
+    const existingAddon = await PackageAddon.findOne({
+      name: { $regex: new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+    });
+    if (existingAddon) {
+      return res.status(409).json({ message: 'An add-on with this name already exists.' });
+    }
+
     const addon = new PackageAddon({
       name,
       price,
@@ -134,6 +161,17 @@ export const updateAddon = async (req, res) => {
   try {
     const { name, price, description, isActive } = req.body;
     const addon = await PackageAddon.findById(req.params.id);
+
+    // Duplicate check on update: ensure new name doesn't conflict with another addon
+    if (name && addon && name.toLowerCase() !== addon.name.toLowerCase()) {
+      const existingAddon = await PackageAddon.findOne({
+        name: { $regex: new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+        _id: { $ne: addon._id },
+      });
+      if (existingAddon) {
+        return res.status(409).json({ message: 'An add-on with this name already exists.' });
+      }
+    }
 
     if (addon) {
       addon.name = name || addon.name;

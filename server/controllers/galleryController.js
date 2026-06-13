@@ -15,6 +15,14 @@ export const getGallery = async (req, res) => {
 export const uploadGalleryImage = async (req, res) => {
   try {
     const { title, category, span } = req.body;
+
+    // Duplicate check: case-insensitive title match
+    const existingItem = await Gallery.findOne({
+      title: { $regex: new RegExp(`^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+    });
+    if (existingItem) {
+      return res.status(409).json({ message: 'A gallery item with this title already exists.' });
+    }
     let imageUrl = '';
     let cloudinaryId = '';
 
@@ -56,6 +64,17 @@ export const updateGalleryImage = async (req, res) => {
   try {
     const { title, category, order, span } = req.body;
     const galleryItem = await Gallery.findById(req.params.id);
+
+    // Duplicate check on update: ensure new title doesn't conflict with another gallery item
+    if (title && galleryItem && title.toLowerCase() !== galleryItem.title.toLowerCase()) {
+      const existingItem = await Gallery.findOne({
+        title: { $regex: new RegExp(`^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+        _id: { $ne: galleryItem._id },
+      });
+      if (existingItem) {
+        return res.status(409).json({ message: 'A gallery item with this title already exists.' });
+      }
+    }
 
     if (galleryItem) {
       galleryItem.title = title || galleryItem.title;

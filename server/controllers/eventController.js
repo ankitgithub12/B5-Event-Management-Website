@@ -19,6 +19,15 @@ export const getEvents = async (req, res) => {
 export const createEvent = async (req, res) => {
   try {
     const { title, description, date, location, status } = req.body;
+
+    // Duplicate check: case-insensitive title match
+    const existingEvent = await Event.findOne({
+      title: { $regex: new RegExp(`^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+    });
+    if (existingEvent) {
+      return res.status(409).json({ message: 'An event with this title already exists.' });
+    }
+
     let imageUrl = '';
     let cloudinaryId = '';
 
@@ -63,6 +72,17 @@ export const updateEvent = async (req, res) => {
   try {
     const { title, description, date, location, status } = req.body;
     const event = await Event.findById(req.params.id);
+
+    // Duplicate check on update: ensure new title doesn't conflict with another event
+    if (title && event && title.toLowerCase() !== event.title.toLowerCase()) {
+      const existingEvent = await Event.findOne({
+        title: { $regex: new RegExp(`^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+        _id: { $ne: event._id },
+      });
+      if (existingEvent) {
+        return res.status(409).json({ message: 'An event with this title already exists.' });
+      }
+    }
 
     if (event) {
       event.title = title || event.title;

@@ -16,6 +16,14 @@ export const getHospitalityServices = async (req, res) => {
 export const createHospitalityService = async (req, res) => {
   try {
     const { title, description, responsibilities, staff, icon, order, isActive } = req.body;
+
+    // Duplicate check: case-insensitive title match
+    const existingService = await HospitalityService.findOne({
+      title: { $regex: new RegExp(`^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+    });
+    if (existingService) {
+      return res.status(409).json({ message: 'A hospitality service with this title already exists.' });
+    }
     let imageUrl = '';
     let cloudinaryId = '';
 
@@ -50,6 +58,17 @@ export const updateHospitalityService = async (req, res) => {
 
     const service = await HospitalityService.findById(req.params.id);
     if (!service) return res.status(404).json({ message: 'Service not found' });
+
+    // Duplicate check on update: ensure new title doesn't conflict with another hospitality service
+    if (title !== undefined && title.toLowerCase() !== service.title.toLowerCase()) {
+      const existingService = await HospitalityService.findOne({
+        title: { $regex: new RegExp(`^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+        _id: { $ne: service._id },
+      });
+      if (existingService) {
+        return res.status(409).json({ message: 'A hospitality service with this title already exists.' });
+      }
+    }
 
     if (title !== undefined) service.title = title;
     if (description !== undefined) service.description = description;

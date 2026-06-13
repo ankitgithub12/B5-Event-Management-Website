@@ -19,6 +19,15 @@ export const getTestimonials = async (req, res) => {
 export const createTestimonial = async (req, res) => {
   try {
     const { name, role, text, rating } = req.body;
+
+    // Duplicate check: case-insensitive name + role combination
+    const existingTestimonial = await Testimonial.findOne({
+      name: { $regex: new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+      role: { $regex: new RegExp(`^${role.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+    });
+    if (existingTestimonial) {
+      return res.status(409).json({ message: 'A testimonial from this person with the same role already exists.' });
+    }
     let image = '';
     let cloudinaryId = '';
 
@@ -64,6 +73,22 @@ export const updateTestimonial = async (req, res) => {
   try {
     const { name, role, text, rating, order } = req.body;
     const testimonial = await Testimonial.findById(req.params.id);
+
+    // Duplicate check on update: ensure new name+role doesn't conflict with another testimonial
+    if (testimonial && name && role) {
+      const nameChanged = name.toLowerCase() !== testimonial.name.toLowerCase();
+      const roleChanged = role.toLowerCase() !== testimonial.role.toLowerCase();
+      if (nameChanged || roleChanged) {
+        const existingTestimonial = await Testimonial.findOne({
+          name: { $regex: new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+          role: { $regex: new RegExp(`^${role.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+          _id: { $ne: testimonial._id },
+        });
+        if (existingTestimonial) {
+          return res.status(409).json({ message: 'A testimonial from this person with the same role already exists.' });
+        }
+      }
+    }
 
     if (testimonial) {
       testimonial.name = name || testimonial.name;

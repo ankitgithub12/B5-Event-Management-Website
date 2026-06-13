@@ -13,6 +13,14 @@ export const getPortfolios = async (req, res) => {
 export const createPortfolio = async (req, res) => {
   try {
     const { title, category } = req.body;
+
+    // Duplicate check: case-insensitive title match
+    const existingPortfolio = await Portfolio.findOne({
+      title: { $regex: new RegExp(`^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+    });
+    if (existingPortfolio) {
+      return res.status(409).json({ message: 'A portfolio item with this title already exists.' });
+    }
     let imageUrl = '';
     let cloudinaryId = '';
 
@@ -48,6 +56,17 @@ export const updatePortfolio = async (req, res) => {
   try {
     const { title, category } = req.body;
     const portfolio = await Portfolio.findById(req.params.id);
+
+    // Duplicate check on update: ensure new title doesn't conflict with another portfolio item
+    if (title && portfolio && title.toLowerCase() !== portfolio.title.toLowerCase()) {
+      const existingPortfolio = await Portfolio.findOne({
+        title: { $regex: new RegExp(`^${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+        _id: { $ne: portfolio._id },
+      });
+      if (existingPortfolio) {
+        return res.status(409).json({ message: 'A portfolio item with this title already exists.' });
+      }
+    }
 
     if (portfolio) {
       portfolio.title = title || portfolio.title;

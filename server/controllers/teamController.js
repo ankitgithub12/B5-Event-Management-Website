@@ -19,6 +19,15 @@ export const getTeamMembers = async (req, res) => {
 export const createTeamMember = async (req, res) => {
   try {
     const { name, role, bio, type, specialty, events, instagramUrl, linkedinUrl, isActive, order } = req.body;
+
+    // Duplicate check: case-insensitive name + role combination
+    const existingMember = await TeamMember.findOne({
+      name: { $regex: new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+      role: { $regex: new RegExp(`^${role.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+    });
+    if (existingMember) {
+      return res.status(409).json({ message: 'A team member with this name and role already exists.' });
+    }
     let imageUrl = '';
     let cloudinaryId = '';
 
@@ -56,6 +65,22 @@ export const updateTeamMember = async (req, res) => {
   try {
     const { name, role, bio, type, specialty, events, instagramUrl, linkedinUrl, isActive, order } = req.body;
     const teamMember = await TeamMember.findById(req.params.id);
+
+    // Duplicate check on update: ensure new name+role doesn't conflict with another team member
+    if (teamMember && name && role) {
+      const nameChanged = name.toLowerCase() !== teamMember.name.toLowerCase();
+      const roleChanged = role.toLowerCase() !== teamMember.role.toLowerCase();
+      if (nameChanged || roleChanged) {
+        const existingMember = await TeamMember.findOne({
+          name: { $regex: new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+          role: { $regex: new RegExp(`^${role.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') },
+          _id: { $ne: teamMember._id },
+        });
+        if (existingMember) {
+          return res.status(409).json({ message: 'A team member with this name and role already exists.' });
+        }
+      }
+    }
 
     if (teamMember) {
       teamMember.name = name || teamMember.name;
