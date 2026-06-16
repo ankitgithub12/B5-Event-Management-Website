@@ -179,7 +179,7 @@ const TeamSection = () => {
             className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-primary-light text-white px-8 py-4 rounded-full font-bold hover:from-accent hover:to-[#d4ad6e] hover:text-primary-dark transition-all duration-500 shadow-lg hover:shadow-[0_12px_35px_rgba(200,158,98,0.35)] hover:-translate-y-1 group relative overflow-hidden"
           >
             <span className="relative z-10 flex items-center gap-2">
-              Meet Our Event Crews
+              Hospitality Service
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </span>
             <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
