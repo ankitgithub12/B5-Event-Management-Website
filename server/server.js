@@ -30,11 +30,21 @@ dotenv.config();
 // Connect to database
 connectDB();
 
+const allowedOrigins = [
+  "https://b5eventory.com",
+  "https://www.b5eventory.com",
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:3000",
+  "http://127.0.0.1:5173"
+];
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*',
+    origin: allowedOrigins,
+    credentials: true,
   },
 });
 
@@ -52,7 +62,12 @@ app.set('io', io);
 if (process.env.TRUST_PROXY === 'true') {
   app.set('trust proxy', 1);
 }
-app.use(cors());
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use('/api', globalLimiter);
 
