@@ -18,23 +18,26 @@ const Home = () => {
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "EventPlanning",
-    "name": "B5 EVENTORY",
+    "name": "B5 Eventory",
     "url": "https://b5eventory.com",
-    "description": "Premier event management company for weddings, corporate events, and parties.",
+    "description": "B5 Eventory is a Jaipur-based professional event management and wedding planning company specializing in weddings, corporate events, birthday parties, destination weddings, and luxury celebrations across Jaipur and Rajasthan. We provide complete event planning, decoration, coordination, and management services to make every event unforgettable.",
     "telephone": "+1234567890", // Placeholder, user will update later
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "City",
-      "addressRegion": "State",
-      "addressCountry": "Country"
+      "streetAddress": "Ac-209, Gyan Vihar Marg, Central Spine, Jagatpura",
+      "addressLocality": "Jaipur",
+      "addressRegion": "Rajasthan",
+      "postalCode": "302017",
+      "addressCountry": "IN"
     }
   };
 
   return (
     <div className="flex flex-col min-h-screen">
       <SEO 
-        title="Home"
-        description="B5 EVENTORY is a premium event management company offering wedding planning, corporate event organization, and party services."
+        title="B5 Eventory | Best Event Management Company in Jaipur | Corporate & Social Events"
+        description="B5 Eventory is a leading event management company in Jaipur offering corporate events, exhibitions, conferences, brand activations, weddings, and complete event planning solutions."
+        keywords="Event organizer in Jaipur Rajasthan, Destination wedding planner Jaipur, Affordable event planner Jaipur, Premium event planning services Jaipur, Event decoration and management Jaipur, Jaipur party planner services, Event Planner, Event Management Company, Corporate Event Planner, Exhibition Organizer, Conference Organizer, Wedding Planner, Brand Activation Agency, Event Services Jaipur"
         canonicalUrl="/"
         schema={localBusinessSchema}
       />

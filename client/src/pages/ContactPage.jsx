@@ -140,7 +140,7 @@ const ContactPage = () => {
     <div className="flex flex-col min-h-screen" style={{ backgroundColor: '#F8F6F2' }}>
       <SEO 
         title="Contact Us - Let's Plan Your Event"
-        description="Get in touch with B5 EVENTORY for your next event. Fill out our inquiry form or reach out directly to our team in Udaipur."
+        description="Get in touch with B5 Eventory for your next event. Fill out our inquiry form or reach out directly to our team in Jaipur, Rajasthan."
         canonicalUrl="/contact"
       />
       <Navbar />

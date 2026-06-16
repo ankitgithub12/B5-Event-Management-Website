@@ -9,12 +9,14 @@ const SEO = ({
   ogImage, 
   schema 
 }) => {
-  const siteTitle = 'B5 EVENTORY | Premium Event Management';
-  const defaultDescription = 'B5 EVENTORY is your premier event management company for weddings, corporate events, and parties. We deliver unforgettable experiences with professional event planning.';
-  const defaultKeywords = 'Event Management Company, Wedding Planner, Corporate Event Organizer, Birthday Event Planner, Event Services, B5 EVENTORY';
+  const siteTitle = 'B5 Eventory | Best Event Management Company in Jaipur | Corporate & Social Events';
+  const defaultDescription = 'B5 Eventory is a leading event management company in Jaipur offering corporate events, exhibitions, conferences, brand activations, weddings, and complete event planning solutions.';
+  const defaultKeywords = 'Event organizer in Jaipur Rajasthan, Destination wedding planner Jaipur, Affordable event planner Jaipur, Premium event planning services Jaipur, Event decoration and management Jaipur, Jaipur party planner services, Event Planner, Event Management Company, Corporate Event Planner, Exhibition Organizer, Conference Organizer, Wedding Planner, Brand Activation Agency, Event Services Jaipur';
   const siteUrl = 'https://b5eventory.com';
   
-  const currentTitle = title ? `${title} | B5 EVENTORY` : siteTitle;
+  const currentTitle = title 
+    ? (title.toLowerCase().includes('b5 eventory') ? title : `${title} | B5 Eventory`) 
+    : siteTitle;
   const currentDescription = description || defaultDescription;
   const currentUrl = canonicalUrl ? `${siteUrl}${canonicalUrl}` : siteUrl;
   const currentKeywords = keywords || defaultKeywords;
