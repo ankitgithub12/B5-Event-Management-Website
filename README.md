@@ -6,7 +6,8 @@ B5 Eventory is a modern, high-end event management platform designed to provide 
 
 ## 🌐 Deployed Links
 
-*   **Client Application**: [https://b5-event-management-website.onrender.com/](https://b5-event-management-website.onrender.com/)
+*   **Live Application**: [https://b5eventory.com/](https://b5eventory.com/)
+*   **Client Application (Render)**: [https://b5-event-management-website.onrender.com/](https://b5-event-management-website.onrender.com/)
 *   **Server API**: [https://b5-event-management-website-server.onrender.com/](https://b5-event-management-website-server.onrender.com/)
 
 ---
