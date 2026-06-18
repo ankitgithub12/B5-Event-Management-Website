@@ -3,9 +3,9 @@
   "name": "B5 EVENTORY - Event Management",
   "icons": [
     {
-      "src": "favicon.png",
+      "src": "favicon.jpeg",
       "sizes": "192x192 512x512",
-      "type": "image/png"
+      "type": "image/jpeg"
     }
   ],
   "start_url": ".",
